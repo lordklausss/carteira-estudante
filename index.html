@@ -28,13 +28,9 @@ body {
 
 /* MENU */
 .menu-btn{
-  position:fixed;
-  top:100px;
-  left:50px;
-  font-size:50px;
-  color:#4db8ff;
-  cursor:pointer;
-  z-index:3000;
+    position: absolute;
+    top: 20px;
+    left: 20px;
 }
 .sidebar{
     position:absolute;
@@ -60,9 +56,8 @@ body {
 
 /* CONTAINER */
 .container{
-    width:100%;
-    max-width:520px;
-    margin: 120px auto 0 auto; /* desce a moldura */
+    position: relative;
+    padding-top: 80px; /* espaço interno para o menu */
 }
 .menu-btn{
     position: absolute;
@@ -402,6 +397,7 @@ if ("serviceWorker" in navigator) {
 </script>
 </body>
 </html>
+
 
 
 
