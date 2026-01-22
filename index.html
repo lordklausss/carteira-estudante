@@ -221,6 +221,33 @@ button{
     background: linear-gradient(135deg,#0f2a44,#1f4d7a);
     z-index: -1;
 }
+    /* ===== FIX DEFINITIVO iOS 26 SAFARI ===== */
+html, body {
+    width: 100%;
+    min-height: 100%;
+    overflow-x: hidden;
+    overscroll-behavior: none;
+}
+/* fundo real que não "rasga" */
+body::before {
+    content: "";
+    position: fixed;
+    top: -50vh;        /* TRUQUE iOS 26 */
+    left: -50vw;
+    width: 200vw;
+    height: 200vh;
+    background: linear-gradient(135deg,#0f2a44,#1f4d7a);
+    z-index: -1;
+}
+
+/* evita o branco ao puxar */
+body {
+    font-family:'Segoe UI', sans-serif;
+    margin: 0;
+    padding: 0 10px;
+    background: transparent;
+    -webkit-overflow-scrolling: touch;
+}
 </style>
 </head>
 
@@ -409,6 +436,7 @@ if ("serviceWorker" in navigator) {
 </script>
 </body>
 </html>
+
 
 
 
