@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Carteira De Identificação do Estudante</title>
+<meta name="theme-color" content="#0f2a44">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Carteira Estudante">
+
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="manifest" href="manifest.json">
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family:'Segoe UI',sans-serif;
+    background:linear-gradient(135deg,#0f2a44,#1f4d7a);
+    min-height:100vh;
+    padding:0 10px;
+}
+
+/* MENU */
+.menu-btn{
+    position: absolute;
+    top: 190px;        /* ⬇️ desce o botão (antes estava menor) */
+    left: 30px;
+    font-size: 100px;  /* 🔍 aumenta o tamanho */
+    color:#4db8ff;
+    cursor:pointer;
+    z-index:3000;
+}
+.sidebar{
+    position:fixed;
+    top:0;
+    left:-80%;
+    width:80%;
+    max-width:260px;
+    height:100%;
+    background:#fff;
+    padding:20px;
+    transition:.3s;
+    z-index:3100;
+}
+.sidebar.active{left:0}
+.sidebar h2{text-align:center;color:#0f2a44;margin-bottom:20px}
+.sidebar li{
+    list-style:none;
+    padding:12px;
+    border-radius:8px;
+    cursor:pointer;
+}
+.sidebar li:hover{background:#eaf1f8;color:#0f2a44}
+
+/* CONTAINER */
+.container{
+    position: relative; /* importante */
+    width:100%;
+    max-width:520px;
+    margin: 40px auto 0 auto;
+}
+.header{
+    background:#fff;
+    padding:22px;
+    border-radius:16px 16px 0 0;
+    text-align:center;
+    border-bottom:4px solid #1f4d7a;
+}
+.content{
+    background:#fff;
+    padding:22px;
+    border-radius:0 0 16px 16px;
+}
+
+/* TITULO MENU */
+.title{
+    display:flex;
+    justify-content: center;
+    align-items:center;
+    gap:8px;
+    font-size:20px;
+    font-weight:700;
+    color:#0f2a44;
+    margin-bottom:15px;
+}
+
+/* TELAS */
+.screen{display:none}
+.screen.active{display:block}
+
+/* CARD */
+.card{
+    background:#f4f7fb;
+    padding:15px;
+    border-radius:12px;
+    margin-bottom:12px;
+    word-wrap: break-word;
+}
+.card strong{color:#0f2a44}
+
+/* STATUS */
+.status{
+    padding:4px 10px;
+    border-radius:20px;
+    font-size:12px;
+    font-weight:600;
+}
+.aprovado{background:#d4f5e2;color:#1e7f4f}
+.cursando{background:#e3ebff;color:#2c4dcc}
+.analise{background:#fff3cd;color:#8a6d1d}
+
+/* PROTOCOLOS */
+.protocol{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap: wrap;
+}
+.actions{display:flex;gap:10px;flex-wrap: wrap}
+.icon-btn{cursor:pointer;color:#1f4d7a;font-weight:600}
+
+/* FINANCEIRO */
+.pago{border-left:6px solid #2e7d32}
+.aberto{border-left:6px solid #c62828}
+.pago span{color:#2e7d32;font-weight:600}
+.aberto span{color:#c62828;font-weight:600}
+
+/* FOTO CARTEIRINHA */
+.photo {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    border-radius: 12px;
+    object-fit: cover;
+    border: 5px solid #1f4d7a;
+    margin: 20px auto;
+    display: block;
+    cursor: pointer;
+}
+
+/* VISUALIZAÇÃO IMAGEM */
+#viewImage{
+    position:fixed;
+    top:0;left:0;
+    width:100%;height:100%;
+    background:rgba(0,0,0,.7);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:5000;
+}
+#viewImage.active{display:flex}
+#viewImage img{
+    max-width:90%;
+    max-height:70%;
+    border-radius:12px;
+    border:4px solid #fff;
+}
+
+/* VISUALIZAÇÃO DOCUMENTO SIMULADO */
+#viewDoc{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.7);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:5000;
+}
+#viewDocContent{
+    background:#fff;
+    padding:20px;
+    border-radius:12px;
+    max-width:90%;
+    max-height:80%;
+    overflow:auto;
+    font-family:'Segoe UI',sans-serif;
+    font-size:16px;
+    color:#0f2a44;
+    box-shadow:0 4px 20px rgba(0,0,0,0.3);
+}
+
+/* BOTÃO */
+button{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:10px;
+    font-weight:600;
+    cursor:pointer;
+    background:#1f4d7a;
+    color:#fff;
+    margin-top:8px;
+}
+
+/* RESPONSIVIDADE */
+@media (max-width: 400px){
+    .menu-btn{
+        font-size: 90px;  /* ainda grande no celular */
+        top: 140px;
+        left: 20px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="menu-btn" onclick="toggleMenu()">☰</div>
+
+<div class="sidebar" id="menu">
+    <h2>Menu</h2>
+    <ul>
+        <li onclick="openScreen('perfil')">Perfil</li>
+        <li onclick="openScreen('academico')">Acadêmico</li>
+        <li onclick="openScreen('financeiro')">Financeiro</li>
+        <li onclick="openScreen('protocolos')">Protocolos</li>
+        <li onclick="openScreen('disciplinas')">Disciplinas</li>
+    </ul>
+</div>
+
+<div class="container">
+    <div class="header"><h1>Cruzeiro Virtual App</h1></div>
+
+    <div class="content">
+
+        <!-- PERFIL -->
+        <div class="screen active" id="perfil">
+            <div class="title">Carteira de Identificação do Estudante</div>
+
+            <img id="photo" class="photo" src="" alt="Carteira do Estudante">
+
+            <button onclick="openImage()">Visualizar Carteira</button>
+            <button onclick="newCardInput.click()">Solicitar Nova Carteira</button>
+
+            <input type="file" id="photoInput" accept="image/*" hidden>
+            <input type="file" id="newCardInput" accept="image/*" hidden>
+
+            <div class="card">
+                <strong>Nome:</strong> Claudio Filho Rodrigues dos Santos<br>
+                <strong>Curso:</strong> Análise de Sistemas<br>
+                <strong>Matrícula:</strong> 202312345<br>
+                <strong>Turno:</strong> Noturno<br>
+                <strong>Validade:</strong> De: Jan/2026 até Dez/2026
+            </div>
+        </div>
+
+        <!-- ACADÊMICO -->
+        <div class="screen" id="academico">
+            <div class="title">Acadêmico</div>
+            <div class="card"><strong>Curso:</strong> Analise de Sistemas</div>
+            <div class="card"><strong>Período:</strong> 2º</div>
+            <div class="card"><strong>Situação:</strong> Cursando</div>
+            <div class="card"><strong>Turno:</strong> Noturno</div>
+        </div>
+
+        <!-- FINANCEIRO -->
+        <div class="screen" id="financeiro">
+            <div class="title">Financeiro</div>
+            <div class="card pago"><strong>Janeiro</strong><br>05/01/2026<br><span>Pago</span></div>
+            <div class="card pago"><strong>Fevereiro</strong><br>05/02/2026<br><span>Pago</span></div>
+            <div class="card aberto"><strong>Março</strong><br>05/03/2026<br><span>Em aberto</span></div>
+            <div class="card aberto"><strong>Abril</strong><br>05/04/2026<br><span>Em aberto</span></div>
+          <div class="card aberto"><strong>Maio</strong><br>05/05/2026<br><span>Em aberto</span></div>
+          <div class="card aberto"><strong>Junho</strong><br>05/06/2026<br><span>Em aberto</span></div>
+          <div class="card aberto"><strong>Julho</strong><br>05/07/2026<br><span>Em aberto</span></div>
+          <div class="card aberto"><strong>Agosto</strong><br>05/08/2026<br><span>Em aberto</span></div>
+          <div class="card aberto"><strong>Setembro</strong><br>05/09/2026<br><span>Em aberto</span></div>
+          <div class="card aberto"><strong>Outubro</strong><br>05/10/2026<br><span>Em aberto</span></div>
+          <div class="card aberto"><strong>Novembro</strong><br>05/11/2026<br><span>Em aberto</span></div>
+         <div class="card aberto"><strong>Dezembro</strong><br>05/12/2026<br><span>Em aberto</span></div>
+
+        </div>
+
+        <!-- PROTOCOLOS -->
+        <div class="screen" id="protocolos">
+            <div class="title">Protocolos</div>
+
+            <div class="card protocol">
+                Declaração de Matrícula
+                <div class="actions">
+                    <span class="icon-btn" onclick="pdfInput.click()">Aprovado</span>
+                    <span class="icon-btn" onclick="openPDF()">👁️</span>
+                </div>
+            </div>
+
+            <div class="card protocol">Histórico Escolar
+                <div class="actions"><span class="icon-btn">Em Análise</span></div>
+            </div>
+            <div class="card protocol">Comprovante de Pagamento
+                <div class="actions"><span class="icon-btn">Em Análise</span></div>
+            </div>
+        </div>
+
+        <!-- DISCIPLINAS -->
+        <div class="screen" id="disciplinas">
+            <div class="title">Disciplinas do Semestre</div>
+            <div class="card protocol">Estrutura de Dados <span class="status aprovado">Aprovado</span></div>
+            <div class="card protocol">Programação II <span class="status aprovado">Aprovado</span></div>
+            <div class="card protocol">Banco de Dados I <span class="status cursando">Cursando</span></div>
+            <div class="card protocol">Engenharia de Softwares <span class="status cursando">Cursando</span></div>
+            <div class="card protocol">Arquitetura de Computadores <span class="status cursando">Cursando</span></div>
+            <div class="card protocol">Redes de Computadores <span class="status cursando">Cursando</span></div>
+            <div class="card protocol">Desenvolvimento Web <span class="status cursando">Cursando</span></div>
+            <div class="card protocol">Análise de Sistemas <span class="status cursando">Cursando</span></div>
+        </div>
+    </div>
+</div>
+
+<div id="viewImage" onclick="closeImage()">
+    <img id="fullImage" alt="" src="">
+</div>
+
+<div id="viewDoc" onclick="closeDoc()">
+<div id="viewDocContent">
+    <h2 style="text-align:center;">COMPROVANTE DE MATRÍCULA</h2>
+    <p style="text-align:center;font-weight:bold;">CRUZEIRO DO SUL VIRTUAL – EDUCAÇÃO A DISTÂNCIA<br>Instituição de Ensino Superior – EAD</p>
+
+    <br><p>Declaramos, para os devidos fins, que o(a) aluno(a):</p>
+    <p><strong>Nome:</strong> Claudio Filho Rodrigues dos Santos<br>
+    <strong>CPF:</strong> 701.915.551-00<br>
+    <strong>Telefone:</strong> (62) 98529-8782</p>
+    <p>Encontra-se regularmente matriculado(a) nesta Instituição de Ensino Superior, CRUZEIRO DO SUL VIRTUAL, na modalidade Educação a Distância (EAD), no curso de: <strong>Análise de Sistemas</strong></p>
+    <p>O referido aluno está matriculado no ano letivo de <strong>2026</strong>, encontrando-se em situação acadêmica regular, conforme registros institucionais vigentes nesta data.</p>
+    <p>Este comprovante é emitido a pedido do interessado para fins de comprovação junto a quem possa interessar.</p>
+    <p style="text-align:right;">Goiânia, 05 de Janeiro de 2026</p>
+</div>
+</div>
+
+<script>
+const pdfInput = document.getElementById('pdfInput');
+const photo = document.getElementById('photo');
+const photoInput = document.getElementById('photoInput');
+const newCardInput = document.getElementById('newCardInput');
+const menu = document.getElementById('menu');
+const viewImage = document.getElementById('viewImage');
+const fullImage = document.getElementById('fullImage');
+const viewDoc = document.getElementById('viewDoc');
+
+function toggleMenu(){menu.classList.toggle('active')}
+function openScreen(id){
+    document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    menu.classList.remove('active');
+}
+
+/* FOTO */
+photoInput.onchange=e=>{
+    let r=new FileReader();
+    r.onload=ev=>{
+        localStorage.setItem('photo',ev.target.result);
+        photo.src=ev.target.result;
+    };
+    r.readAsDataURL(e.target.files[0]);
+};
+newCardInput.onchange=e=>{
+    let r=new FileReader();
+    r.onload=ev=>{
+        localStorage.setItem('photo',ev.target.result);
+        photo.src=ev.target.result;
+        alert('Nova carteira solicitada');
+    };
+    r.readAsDataURL(e.target.files[0]);
+};
+let savedPhoto=localStorage.getItem('photo');
+if(savedPhoto) photo.src=savedPhoto;
+
+function openImage(){
+    if(!photo.src) return;
+    fullImage.src=photo.src;
+    viewImage.classList.add('active');
+}
+function closeImage(){
+    viewImage.classList.remove('active');
+}
+
+/* DOCUMENTO SIMULADO */
+function openPDF(){
+    viewDoc.style.display = 'flex';
+}
+function closeDoc(){
+    viewDoc.style.display = 'none';
+}
+</script>
+<script>
+if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("sw.js");
+}
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
