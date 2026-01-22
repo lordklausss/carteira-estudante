@@ -37,7 +37,7 @@ body {
   z-index:3000;
 }
 .sidebar{
-    position:fixed;
+    position:absolute;
     top:0;
     left:-80%;
     width:80%;
@@ -59,13 +59,15 @@ body {
 .sidebar li:hover{background:#eaf1f8;color:#0f2a44}
 
 /* CONTAINER */
-/* CONTAINER */
 .container{
-    width:100%;
-    max-width:520px;
-    margin: 50px auto 0 auto; /* empurra a moldura para baixo */
+    position: relative;
 }
 
+.menu-btn{
+    position: absolute;
+    top:20px;
+    left:20px;
+}
 .header{
     background:#fff;
     padding:22px;
@@ -399,6 +401,7 @@ if ("serviceWorker" in navigator) {
 </script>
 </body>
 </html>
+
 
 
 
