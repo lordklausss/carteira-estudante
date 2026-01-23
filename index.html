@@ -54,130 +54,10 @@ body {
     font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
     background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
     min-height: 100vh;
-    padding: 0 10px;
     color: var(--text-dark);
     -webkit-tap-highlight-color: transparent;
     transition: var(--transition);
-}
-
-/* NOTIFICAÇÃO */
-.notification-badge {
-    position: absolute;
-    top: -5px;
-    right: -5px;
-    background: var(--danger-color);
-    color: white;
-    border-radius: 50%;
-    width: 20px;
-    height: 20px;
-    font-size: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    animation: pulse 2s infinite;
-}
-@keyframes pulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.1); }
-}
-
-/* MENU */
-.menu-btn{
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 24px;
-    color: var(--accent-color);
-    cursor: pointer;
-    padding: 10px 14px;
-    border-radius: 10px;
-    background: rgba(255, 255, 255, 0.1);
-    margin-right: 12px;
-    transition: var(--transition);
-    min-width: 44px;
-    min-height: 44px;
-}
-.menu-btn:hover, .menu-btn:active {
-    background: rgba(255, 255, 255, 0.2);
-    transform: translateY(-2px);
-}
-
-.sidebar{
-    position: fixed;
-    top: 0;
-    left: -100%;
-    width: 85%;
-    max-width: 280px;
-    height: 100%;
-    background: var(--bg-light);
-    padding-top: 20px;
-    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    z-index: 3100;
-    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.3);
-    overflow-y: auto;
-    will-change: transform;
-}
-.sidebar.active{ 
-    transform: translateX(100%);
-    left: 0;
-}
-.sidebar h2{
-    text-align: center;
-    color: var(--primary-color);
-    margin-bottom: 20px;
-    padding-bottom: 15px;
-    border-bottom: 2px solid var(--bg-hover);
-    font-size: 1.4rem;
-}
-
-.sidebar ul {
-    list-style: none;
-    padding: 0 15px;
-}
-.sidebar li{
-    padding: 16px;
-    border-radius: 12px;
-    cursor: pointer;
-    margin-bottom: 10px;
-    font-weight: 500;
-    color: var(--text-dark);
-    transition: var(--transition);
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    font-size: 1rem;
-}
-.sidebar li:hover{
-    background: var(--bg-hover);
-    color: var(--primary-color);
-    transform: translateX(8px);
-    box-shadow: var(--shadow);
-}
-.sidebar li:active {
-    transform: translateX(8px) scale(0.98);
-}
-.sidebar li i {
-    font-size: 1.2rem;
-    width: 24px;
-    text-align: center;
-}
-
-.menu-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.7);
-    z-index: 3050;
-    display: none;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-.menu-overlay.active {
-    display: block;
-    opacity: 1;
+    padding: 0 10px 80px; /* ADICIONADO PADDING INFERIOR PARA O MENU */
 }
 
 /* HEADER */
@@ -194,15 +74,13 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-wrap: wrap;
-    gap: 15px;
 }
 .header h1 {
     color: var(--primary-color);
     font-size: 1.5rem;
     font-weight: 700;
     text-align: center;
-    flex: 1;
+    width: 100%;
 }
 
 /* CONTAINER */
@@ -228,6 +106,7 @@ body {
     padding: 25px;
     border-radius: 0 0 20px 20px;
     box-shadow: var(--shadow);
+    margin-bottom: 20px; /* ESPAÇO PARA O MENU INFERIOR */
 }
 
 /* TITULO */
@@ -497,10 +376,10 @@ button:active, .btn:active {
     border-radius: 20px 20px 0 0;
     position: fixed;
     bottom: 0;
-    left: 0;
-    right: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 20px);
     max-width: 520px;
-    margin: 0 auto;
     box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
     z-index: 1000;
     border-top: 3px solid var(--secondary-color);
@@ -598,7 +477,7 @@ button:active, .btn:active {
 /* TOAST NOTIFICATION */
 .toast {
     position: fixed;
-    bottom: 80px;
+    bottom: 100px; /* AJUSTADO PARA FICAR ACIMA DO MENU */
     left: 50%;
     transform: translateX(-50%) translateY(100px);
     background: var(--bg-light);
@@ -623,24 +502,26 @@ button:active, .btn:active {
 
 /* RESPONSIVIDADE */
 @media (max-width: 480px) {
+    body {
+        padding: 0 10px 70px; /* AJUSTE DO PADDING INFERIOR */
+    }
+    
     .header {
         padding: 18px 15px;
     }
     .header h1 {
         font-size: 1.3rem;
     }
-    .menu-btn {
-        font-size: 20px;
-        padding: 8px 12px;
-    }
     .content {
         padding: 20px;
+        margin-bottom: 15px;
     }
     .title {
         font-size: 1.2rem;
     }
     .quick-access {
         padding: 12px 8px;
+        width: calc(100% - 20px);
     }
     .quick-item {
         padding: 6px 8px;
@@ -652,15 +533,14 @@ button:active, .btn:active {
     .quick-label {
         font-size: 0.7rem;
     }
+    .toast {
+        bottom: 90px; /* AJUSTADO PARA MOBILE */
+    }
 }
 
 @media (max-width: 360px) {
     .header h1 {
         font-size: 1.1rem;
-    }
-    .menu-btn {
-        margin-right: 8px;
-        padding: 6px 10px;
     }
     .title {
         font-size: 1.1rem;
@@ -668,14 +548,14 @@ button:active, .btn:active {
     .card {
         padding: 15px;
     }
+    .quick-access {
+        padding: 10px 6px;
+    }
 }
 </style>
 </head>
 
 <body>
-
-<!-- Overlay para fechar o menu -->
-<div class="menu-overlay" id="menuOverlay" onclick="toggleMenu()"></div>
 
 <!-- Loading -->
 <div class="loading" id="loading">
@@ -685,26 +565,9 @@ button:active, .btn:active {
 <!-- Toast Notification -->
 <div class="toast" id="toast"></div>
 
-<!-- Menu lateral -->
-<div class="sidebar" id="menu">
-    <h2>📋 Menu</h2>
-    <ul>
-        <li onclick="openScreen('perfil')"><span>👤</span> Perfil</li>
-        <li onclick="openScreen('academico')"><span>🎓</span> Acadêmico</li>
-        <li onclick="openScreen('financeiro')"><span>💰</span> Financeiro <span class="notification-badge" id="financeNotification">2</span></li>
-        <li onclick="openScreen('protocolos')"><span>📄</span> Protocolos</li>
-        <li onclick="openScreen('disciplinas')"><span>📚</span> Disciplinas</li>
-        <li onclick="showToast('Configurações em breve!', 'info')"><span>⚙️</span> Configurações</li>
-    </ul>
-</div>
-
 <div class="container">
     <div class="header">
         <div class="header-content">
-            <div class="menu-btn" onclick="toggleMenu()" title="Abrir menu" aria-label="Menu">
-                ☰
-                <span class="notification-badge" id="menuNotification">3</span>
-            </div>
             <h1>Cruzeiro Virtual App</h1>
         </div>
     </div>
@@ -729,7 +592,7 @@ button:active, .btn:active {
             <button onclick="openImage()" id="viewBtn" style="display: none;">
                 <span>👁️</span> Visualizar Carteira
             </button>
-            <button onclick="document.getElementById('newCardInput').click()">
+            <button onclick="solicitarNovaCarteira()">
                 <span>🔄</span> Solicitar Nova Carteira
             </button>
 
@@ -937,8 +800,6 @@ const elements = {
     photoPlaceholder: document.getElementById('photoPlaceholder'),
     photoInput: document.getElementById('photoInput'),
     newCardInput: document.getElementById('newCardInput'),
-    menu: document.getElementById('menu'),
-    menuOverlay: document.getElementById('menuOverlay'),
     imageModal: document.getElementById('imageModal'),
     fullImage: document.getElementById('fullImage'),
     docModal: document.getElementById('docModal'),
@@ -1034,47 +895,42 @@ function savePreferences() {
     localStorage.setItem('appPreferences', JSON.stringify(preferences));
 }
 
-// Menu functions
-function toggleMenu() {
-    elements.menu.classList.toggle('active');
-    elements.menuOverlay.classList.toggle('active');
-    
-    // Feedback tátil (se suportado)
-    if (navigator.vibrate) {
-        navigator.vibrate(50);
-    }
-}
-
 function openScreen(id) {
-    // Animação de saída
-    const currentScreen = document.querySelector('.screen.active');
-    if (currentScreen) {
-        currentScreen.style.animation = 'fadeOut 0.3s ease-out';
-        setTimeout(() => {
-            currentScreen.classList.remove('active');
-            currentScreen.style.animation = '';
-        }, 250);
+    // Se já está na mesma tela, não faz nada
+    if (state.currentScreen === id) {
+        return;
     }
     
     // Atualizar estado
     state.currentScreen = id;
     
-    // Ativar nova tela com delay para animação
+    // Esconder todas as telas
+    document.querySelectorAll('.screen').forEach(s => {
+        s.classList.remove('active');
+        s.style.animation = 'none'; // Reset animation
+    });
+    
+    // Atualizar atalhos rápidos
+    elements.quickItems.forEach(item => item.classList.remove('active'));
+    
+    // Mostrar nova tela com animação
     setTimeout(() => {
-        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-        document.getElementById(id).classList.add('active');
+        const screen = document.getElementById(id);
+        if (screen) {
+            screen.style.animation = 'fadeIn 0.4s ease-out';
+            screen.classList.add('active');
+        }
         
-        // Atualizar atalhos rápidos
-        elements.quickItems.forEach(item => item.classList.remove('active'));
-        document.querySelector(`.quick-item:nth-child(${getQuickIndex(id)})`).classList.add('active');
-        
-        // Fechar menu se estiver aberto
-        elements.menu.classList.remove('active');
-        elements.menuOverlay.classList.remove('active');
-        
-        // Salvar preferências
-        savePreferences();
-    }, 250);
+        // Ativar item correspondente no menu inferior
+        const index = getQuickIndex(id);
+        const quickItem = elements.quickItems[index - 1];
+        if (quickItem) {
+            quickItem.classList.add('active');
+        }
+    }, 10); // Pequeno delay para garantir que a animação funcione
+    
+    // Salvar preferências
+    savePreferences();
 }
 
 function getQuickIndex(screenId) {
@@ -1084,20 +940,9 @@ function getQuickIndex(screenId) {
 
 // Sistema de Notificações
 function updateNotifications() {
-    // Atualizar badge do menu
-    const menuBadge = document.getElementById('menuNotification');
-    if (menuBadge) {
-        menuBadge.textContent = state.notifications.menu;
-        menuBadge.style.display = state.notifications.menu > 0 ? 'flex' : 'none';
-    }
-    
     // Atualizar badge do financeiro
-    const financeBadge = document.getElementById('financeNotification');
-    if (financeBadge) {
-        const pending = state.financeData.filter(item => item.status === 'aberto').length;
-        financeBadge.textContent = pending;
-        financeBadge.style.display = pending > 0 ? 'flex' : 'none';
-    }
+    const pending = state.financeData.filter(item => item.status === 'aberto').length;
+    state.notifications.finance = pending;
 }
 
 // Upload de foto com progresso
@@ -1159,26 +1004,47 @@ elements.photoInput.onchange = function(e) {
     }, 100);
 };
 
+// Função para solicitar nova carteira
+function solicitarNovaCarteira() {
+    document.getElementById('newCardInput').click();
+}
+
+// Event handler para nova carteira
 elements.newCardInput.onchange = function(e) {
     const file = e.target.files[0];
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = function(ev) {
-            localStorage.setItem('studentPhoto', ev.target.result);
-            elements.photo.src = ev.target.result;
-            elements.photo.style.display = 'block';
-            elements.photoPlaceholder.style.display = 'none';
-            elements.viewBtn.style.display = 'block';
-            
-            showToast('Nova carteira solicitada com sucesso!', 'success');
-            
-            // Simular processamento
-            setTimeout(() => {
-                showToast('Sua nova carteira será processada em até 48h', 'info');
-            }, 1500);
-        };
-        reader.readAsDataURL(file);
+    if (!file) return;
+    
+    // Validar tipo de arquivo
+    if (!file.type.startsWith('image/')) {
+        showToast('Por favor, selecione uma imagem válida', 'error');
+        return;
     }
+    
+    // Validar tamanho (max 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+        showToast('A imagem deve ter menos de 5MB', 'error');
+        return;
+    }
+    
+    const reader = new FileReader();
+    reader.onload = function(ev) {
+        // Salvar no localStorage para persistência
+        localStorage.setItem('studentPhoto', ev.target.result);
+        
+        // Atualizar a imagem exibida
+        elements.photo.src = ev.target.result;
+        elements.photo.style.display = 'block';
+        elements.photoPlaceholder.style.display = 'none';
+        elements.viewBtn.style.display = 'block';
+        
+        showToast('Nova carteira solicitada com sucesso!', 'success');
+        
+        // Simular processamento
+        setTimeout(() => {
+            showToast('Sua nova carteira será processada em até 48h', 'info');
+        }, 1500);
+    };
+    reader.readAsDataURL(file);
 };
 
 // Visualizar imagem
@@ -1334,17 +1200,6 @@ function showLoading(show) {
 
 // Configurar event listeners
 function setupEventListeners() {
-    // Fechar modais ao clicar fora
-    elements.menuOverlay.addEventListener('click', function() {
-        elements.menu.classList.remove('active');
-        this.classList.remove('active');
-    });
-    
-    // Prevenir fechamento ao clicar dentro do menu
-    elements.menu.addEventListener('click', function(e) {
-        e.stopPropagation();
-    });
-    
     // Prevenir fechamento ao clicar dentro dos modais
     document.querySelectorAll('.modal-content').forEach(modal => {
         modal.addEventListener('click', function(e) {
@@ -1357,8 +1212,6 @@ function setupEventListeners() {
         if (e.key === 'Escape') {
             closeImage();
             closeDoc();
-            elements.menu.classList.remove('active');
-            elements.menuOverlay.classList.remove('active');
         }
     });
     
