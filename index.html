@@ -598,6 +598,7 @@ button i, .btn i {
     justify-content: center;
     z-index: 5000;
     animation: fadeIn 0.3s ease-out;
+    cursor: pointer; /* Indica que é clicável */
 }
 
 .modal.active {
@@ -613,7 +614,7 @@ button i, .btn i {
     overflow: auto;
     animation: slideUp 0.4s ease-out;
     box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
-    position: relative;
+    cursor: default; /* Dentro do conteúdo não é clicável */
 }
 
 /* MODAL DA IMAGEM - OCUPA MAIS ESPAÇO */
@@ -641,7 +642,7 @@ button i, .btn i {
     margin: 0 auto;
 }
 
-/* MODAL DO DOCUMENTO - CORRIGIDO PARA NÃO BAGUNÇAR */
+/* MODAL DO DOCUMENTO - ORGANIZADO */
 #docModal .modal-content {
     width: 90%;
     max-width: 800px;
@@ -650,30 +651,7 @@ button i, .btn i {
     border-radius: 20px;
 }
 
-/* BOTÃO DE FECHAR MODAL */
-.close-modal {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    background: rgba(0, 0, 0, 0.7);
-    color: white;
-    border: none;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    font-size: 24px;
-    cursor: pointer;
-    z-index: 10;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s ease;
-}
-
-.close-modal:hover {
-    background: rgba(0, 0, 0, 0.9);
-    transform: scale(1.1);
-}
+/* REMOVIDO: Botão de fechar modal que estava aqui */
 
 /* LOADING */
 .loading {
@@ -1038,18 +1016,16 @@ button i, .btn i {
     </div>
 </div>
 
-<!-- Modal para visualizar imagem COM BOTÃO DE FECHAR -->
+<!-- Modal para visualizar imagem (SEM BOTÃO DE FECHAR) -->
 <div class="modal" id="imageModal" onclick="closeImage()">
     <div class="modal-content">
-        <button class="close-modal" onclick="closeImage()">×</button>
         <img id="fullImage" alt="Imagem Ampliada">
     </div>
 </div>
 
-<!-- Modal para visualizar documento COM BOTÃO DE FECHAR -->
+<!-- Modal para visualizar documento (SEM BOTÃO DE FECHAR) -->
 <div class="modal" id="docModal" onclick="closeDoc()">
     <div class="modal-content">
-        <button class="close-modal" onclick="closeDoc()">×</button>
         <h2 style="text-align:center; color: var(--primary-color); margin-bottom: 20px;">
             <i class="fas fa-file-alt"></i> COMPROVANTE DE MATRÍCULA
         </h2>
@@ -1381,7 +1357,7 @@ elements.newCardInput.onchange = function(e) {
     reader.readAsDataURL(file);
 };
 
-// Visualizar imagem - CORRIGIDO PARA FECHAR AO CLICAR FORA
+// Visualizar imagem - FECHA AO CLICAR FORA
 function openImage() {
     if (!elements.photo.src || elements.photo.src.includes('undefined')) {
         showToast('Por favor, faça upload de uma imagem primeiro', 'warning');
@@ -1390,33 +1366,19 @@ function openImage() {
     
     elements.fullImage.src = elements.photo.src;
     elements.imageModal.classList.add('active');
-    
-    // Adicionar evento para fechar com ESC
-    document.addEventListener('keydown', handleEscKey);
 }
 
 function closeImage() {
     elements.imageModal.classList.remove('active');
-    document.removeEventListener('keydown', handleEscKey);
 }
 
-// Visualizar documento - CORRIGIDO PARA FECHAR AO CLICAR FORA
+// Visualizar documento - FECHA AO CLICAR FORA
 function openPDF() {
     elements.docModal.classList.add('active');
-    document.addEventListener('keydown', handleEscKey);
 }
 
 function closeDoc() {
     elements.docModal.classList.remove('active');
-    document.removeEventListener('keydown', handleEscKey);
-}
-
-// Função para lidar com tecla ESC
-function handleEscKey(e) {
-    if (e.key === 'Escape') {
-        closeImage();
-        closeDoc();
-    }
 }
 
 // Sistema de Paginação para Financeiro
@@ -1551,14 +1513,14 @@ function setupEventListeners() {
         e.stopPropagation();
     });
     
-    // Prevenir que o clique dentro do modal feche ele
+    // Prevenir que o clique dentro do modal-content feche o modal
     document.querySelectorAll('.modal-content').forEach(modal => {
         modal.addEventListener('click', function(e) {
             e.stopPropagation();
         });
     });
     
-    // Fechar modal ao clicar no overlay (fora do modal-content)
+    // Fechar modais ao clicar no overlay (área escura)
     elements.imageModal.addEventListener('click', function(e) {
         if (e.target === this) {
             closeImage();
@@ -1571,13 +1533,11 @@ function setupEventListeners() {
         }
     });
     
+    // Tecla ESC para fechar modais
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') {
             closeImage();
             closeDoc();
-            elements.sidebar.classList.remove('active');
-            elements.menuOverlay.classList.remove('active');
-            elements.menuBtn.classList.remove('hidden');
         }
     });
     
