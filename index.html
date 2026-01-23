@@ -1,0 +1,1386 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Carteira De Identificação do Estudante</title>
+<meta name="theme-color" content="#0f2a44">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Carteira Estudante">
+
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="manifest" href="manifest.json">
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary-color: #0f2a44;
+    --secondary-color: #1f4d7a;
+    --accent-color: #4db8ff;
+    --success-color: #2e7d32;
+    --warning-color: #f57c00;
+    --danger-color: #c62828;
+    --text-dark: #333333;
+    --text-light: #666666;
+    --bg-light: #ffffff;
+    --bg-card: #f4f7fb;
+    --bg-hover: #eaf1f8;
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Modo Escuro */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --primary-color: #4db8ff;
+        --secondary-color: #2a5d8a;
+        --accent-color: #6ac4ff;
+        --bg-light: #1a1a1a;
+        --bg-card: #2d2d2d;
+        --bg-hover: #3d3d3d;
+        --text-dark: #f0f0f0;
+        --text-light: #b0b0b0;
+        --shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+}
+
+body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    min-height: 100vh;
+    padding: 0 10px;
+    color: var(--text-dark);
+    -webkit-tap-highlight-color: transparent;
+    transition: var(--transition);
+}
+
+/* NOTIFICAÇÃO */
+.notification-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: var(--danger-color);
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: pulse 2s infinite;
+}
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+/* MENU */
+.menu-btn{
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    color: var(--accent-color);
+    cursor: pointer;
+    padding: 10px 14px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    margin-right: 12px;
+    transition: var(--transition);
+    min-width: 44px;
+    min-height: 44px;
+}
+.menu-btn:hover, .menu-btn:active {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+.sidebar{
+    position: fixed;
+    top: 0;
+    left: -100%;
+    width: 85%;
+    max-width: 280px;
+    height: 100%;
+    background: var(--bg-light);
+    padding-top: 20px;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 3100;
+    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.3);
+    overflow-y: auto;
+    will-change: transform;
+}
+.sidebar.active{ 
+    transform: translateX(100%);
+    left: 0;
+}
+.sidebar h2{
+    text-align: center;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid var(--bg-hover);
+    font-size: 1.4rem;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0 15px;
+}
+.sidebar li{
+    padding: 16px;
+    border-radius: 12px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    font-weight: 500;
+    color: var(--text-dark);
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 1rem;
+}
+.sidebar li:hover{
+    background: var(--bg-hover);
+    color: var(--primary-color);
+    transform: translateX(8px);
+    box-shadow: var(--shadow);
+}
+.sidebar li:active {
+    transform: translateX(8px) scale(0.98);
+}
+.sidebar li i {
+    font-size: 1.2rem;
+    width: 24px;
+    text-align: center;
+}
+
+.menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 3050;
+    display: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+.menu-overlay.active {
+    display: block;
+    opacity: 1;
+}
+
+/* HEADER */
+.header {
+    background: var(--bg-light);
+    padding: 20px 22px;
+    border-radius: 20px 20px 0 0;
+    border-bottom: 4px solid var(--secondary-color);
+    position: relative;
+    margin-top: 10px;
+    box-shadow: var(--shadow);
+}
+.header-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+.header h1 {
+    color: var(--primary-color);
+    font-size: 1.5rem;
+    font-weight: 700;
+    text-align: center;
+    flex: 1;
+}
+
+/* CONTAINER */
+.container{
+    width: 100%;
+    max-width: 520px;
+    margin: 15px auto;
+    animation: slideUp 0.5s ease-out;
+}
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.content{
+    background: var(--bg-light);
+    padding: 25px;
+    border-radius: 0 0 20px 20px;
+    box-shadow: var(--shadow);
+}
+
+/* TITULO */
+.title{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid var(--bg-hover);
+}
+
+/* SCREENS COM ANIMAÇÃO */
+.screen{
+    display: none;
+    animation: fadeIn 0.4s ease-out;
+}
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+.screen.active{
+    display: block;
+}
+
+/* CARD */
+.card{
+    background: var(--bg-card);
+    padding: 18px;
+    border-radius: 14px;
+    margin-bottom: 15px;
+    word-wrap: break-word;
+    transition: var(--transition);
+    border: 1px solid transparent;
+}
+.card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow);
+    border-color: var(--accent-color);
+}
+.card strong{
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+/* STATUS */
+.status{
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    display: inline-block;
+}
+.aprovado{ background: rgba(46, 125, 50, 0.15); color: #2e7d32; }
+.cursando{ background: rgba(44, 77, 204, 0.15); color: #2c4dcc; }
+.analise{ background: rgba(245, 124, 0, 0.15); color: #f57c00; }
+
+/* PROTOCOLOS */
+.protocol{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+.actions{
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+.icon-btn{
+    cursor: pointer;
+    color: var(--secondary-color);
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: 8px;
+    background: rgba(31, 77, 122, 0.1);
+    transition: var(--transition);
+    border: none;
+    font-size: 0.9rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 36px;
+}
+.icon-btn:hover, .icon-btn:active {
+    background: rgba(31, 77, 122, 0.2);
+    transform: translateY(-2px);
+}
+
+/* FINANCEIRO COM PAGINAÇÃO */
+.financeiro-container {
+    position: relative;
+}
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+}
+.page-btn {
+    padding: 8px 16px;
+    border-radius: 8px;
+    background: var(--bg-card);
+    border: 1px solid var(--bg-hover);
+    cursor: pointer;
+    transition: var(--transition);
+    min-width: 40px;
+    text-align: center;
+}
+.page-btn.active {
+    background: var(--secondary-color);
+    color: white;
+}
+.page-btn:hover:not(.active) {
+    background: var(--bg-hover);
+    transform: translateY(-2px);
+}
+
+.pago{ border-left: 6px solid var(--success-color); }
+.aberto{ border-left: 6px solid var(--danger-color); }
+.pago span{ color: var(--success-color); font-weight: 600; }
+.aberto span{ color: var(--danger-color); font-weight: 600; }
+
+/* FOTO COM CARREGAMENTO */
+.photo-container {
+    position: relative;
+    margin: 20px auto;
+    max-width: 300px;
+}
+.photo {
+    width: 100%;
+    height: auto;
+    border-radius: 16px;
+    object-fit: cover;
+    border: 6px solid var(--secondary-color);
+    display: block;
+    cursor: pointer;
+    transition: var(--transition);
+    aspect-ratio: 3/4;
+    background: var(--bg-card);
+}
+.photo:hover {
+    transform: scale(1.02);
+    border-color: var(--accent-color);
+}
+.photo-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-card);
+    border: 3px dashed var(--accent-color);
+    border-radius: 16px;
+    color: var(--text-light);
+    padding: 30px;
+    text-align: center;
+    cursor: pointer;
+    transition: var(--transition);
+    aspect-ratio: 3/4;
+}
+.photo-placeholder:hover {
+    background: var(--bg-hover);
+    border-color: var(--primary-color);
+}
+.upload-progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: var(--bg-hover);
+    border-radius: 0 0 16px 16px;
+    overflow: hidden;
+}
+.upload-progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent-color), var(--primary-color));
+    transition: width 0.3s ease;
+    width: 0%;
+}
+
+/* BARRA DE BUSCA */
+.search-container {
+    margin: 20px 0;
+    position: relative;
+}
+.search-input {
+    width: 100%;
+    padding: 14px 20px 14px 45px;
+    border-radius: 12px;
+    border: 2px solid var(--bg-hover);
+    background: var(--bg-card);
+    color: var(--text-dark);
+    font-size: 1rem;
+    transition: var(--transition);
+}
+.search-input:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(77, 184, 255, 0.2);
+}
+.search-icon {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-light);
+    font-size: 1.2rem;
+}
+
+/* BOTÕES */
+button, .btn {
+    width: 100%;
+    padding: 16px;
+    border: none;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    background: var(--secondary-color);
+    color: white;
+    margin-top: 10px;
+    font-size: 1rem;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+button:hover, .btn:hover {
+    background: var(--primary-color);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow);
+}
+button:active, .btn:active {
+    transform: translateY(-1px);
+}
+.btn-secondary {
+    background: var(--bg-card);
+    color: var(--primary-color);
+    border: 2px solid var(--bg-hover);
+}
+.btn-secondary:hover {
+    background: var(--bg-hover);
+    border-color: var(--accent-color);
+}
+
+/* ATALHOS INFERIORES */
+.quick-access {
+    display: flex;
+    justify-content: space-around;
+    background: var(--bg-light);
+    padding: 15px 10px;
+    border-radius: 20px 20px 0 0;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    max-width: 520px;
+    margin: 0 auto;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    border-top: 3px solid var(--secondary-color);
+}
+.quick-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: var(--transition);
+    min-width: 60px;
+    text-align: center;
+}
+.quick-item:hover {
+    background: var(--bg-hover);
+    transform: translateY(-3px);
+}
+.quick-item.active {
+    background: var(--secondary-color);
+    color: white;
+}
+.quick-icon {
+    font-size: 1.4rem;
+}
+.quick-label {
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+/* MODAIS */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 5000;
+    animation: fadeIn 0.3s ease-out;
+}
+.modal.active {
+    display: flex;
+}
+.modal-content {
+    background: var(--bg-light);
+    padding: 25px;
+    border-radius: 20px;
+    max-width: 90%;
+    max-height: 85%;
+    overflow: auto;
+    animation: slideUp 0.4s ease-out;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+.modal-content img {
+    max-width: 100%;
+    max-height: 70vh;
+    border-radius: 12px;
+    border: 4px solid white;
+}
+
+/* LOADING */
+.loading {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 6000;
+    align-items: center;
+    justify-content: center;
+}
+.loading.active {
+    display: flex;
+}
+.spinner {
+    width: 60px;
+    height: 60px;
+    border: 5px solid rgba(255, 255, 255, 0.3);
+    border-top-color: var(--accent-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* TOAST NOTIFICATION */
+.toast {
+    position: fixed;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: var(--bg-light);
+    color: var(--text-dark);
+    padding: 16px 24px;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    z-index: 4000;
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    max-width: 90%;
+    text-align: center;
+    border-left: 5px solid var(--accent-color);
+}
+.toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+.toast.success { border-left-color: var(--success-color); }
+.toast.error { border-left-color: var(--danger-color); }
+.toast.warning { border-left-color: var(--warning-color); }
+
+/* RESPONSIVIDADE */
+@media (max-width: 480px) {
+    .header {
+        padding: 18px 15px;
+    }
+    .header h1 {
+        font-size: 1.3rem;
+    }
+    .menu-btn {
+        font-size: 20px;
+        padding: 8px 12px;
+    }
+    .content {
+        padding: 20px;
+    }
+    .title {
+        font-size: 1.2rem;
+    }
+    .quick-access {
+        padding: 12px 8px;
+    }
+    .quick-item {
+        padding: 6px 8px;
+        min-width: 50px;
+    }
+    .quick-icon {
+        font-size: 1.2rem;
+    }
+    .quick-label {
+        font-size: 0.7rem;
+    }
+}
+
+@media (max-width: 360px) {
+    .header h1 {
+        font-size: 1.1rem;
+    }
+    .menu-btn {
+        margin-right: 8px;
+        padding: 6px 10px;
+    }
+    .title {
+        font-size: 1.1rem;
+    }
+    .card {
+        padding: 15px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- Overlay para fechar o menu -->
+<div class="menu-overlay" id="menuOverlay" onclick="toggleMenu()"></div>
+
+<!-- Loading -->
+<div class="loading" id="loading">
+    <div class="spinner"></div>
+</div>
+
+<!-- Toast Notification -->
+<div class="toast" id="toast"></div>
+
+<!-- Menu lateral -->
+<div class="sidebar" id="menu">
+    <h2>📋 Menu</h2>
+    <ul>
+        <li onclick="openScreen('perfil')"><span>👤</span> Perfil</li>
+        <li onclick="openScreen('academico')"><span>🎓</span> Acadêmico</li>
+        <li onclick="openScreen('financeiro')"><span>💰</span> Financeiro <span class="notification-badge" id="financeNotification">2</span></li>
+        <li onclick="openScreen('protocolos')"><span>📄</span> Protocolos</li>
+        <li onclick="openScreen('disciplinas')"><span>📚</span> Disciplinas</li>
+        <li onclick="showToast('Configurações em breve!', 'info')"><span>⚙️</span> Configurações</li>
+    </ul>
+</div>
+
+<div class="container">
+    <div class="header">
+        <div class="header-content">
+            <div class="menu-btn" onclick="toggleMenu()" title="Abrir menu" aria-label="Menu">
+                ☰
+                <span class="notification-badge" id="menuNotification">3</span>
+            </div>
+            <h1>Cruzeiro Virtual App</h1>
+        </div>
+    </div>
+
+    <div class="content">
+        <!-- PERFIL -->
+        <div class="screen active" id="perfil">
+            <div class="title">🎫 Carteira de Identificação</div>
+
+            <div class="photo-container">
+                <div id="photoPlaceholder" class="photo-placeholder" onclick="document.getElementById('photoInput').click()">
+                    <span style="font-size: 3rem;">📷</span>
+                    <p style="margin-top: 10px; font-size: 0.9rem;">Clique para adicionar foto da carteira</p>
+                    <p style="font-size: 0.8rem; color: var(--text-light); margin-top: 5px;">Recomendado: 3x4, fundo branco</p>
+                </div>
+                <img id="photo" class="photo" style="display: none;" alt="Carteira do Estudante" onclick="openImage()">
+                <div class="upload-progress" id="uploadProgress" style="display: none;">
+                    <div class="upload-progress-bar" id="uploadBar"></div>
+                </div>
+            </div>
+
+            <button onclick="openImage()" id="viewBtn" style="display: none;">
+                <span>👁️</span> Visualizar Carteira
+            </button>
+            <button onclick="document.getElementById('newCardInput').click()">
+                <span>🔄</span> Solicitar Nova Carteira
+            </button>
+
+            <input type="file" id="photoInput" accept="image/*" hidden>
+            <input type="file" id="newCardInput" accept="image/*" hidden>
+
+            <div class="card">
+                <strong>👤 Nome:</strong> Claudio Filho Rodrigues dos Santos<br>
+                <strong>🎓 Curso:</strong> Análise de Sistemas<br>
+                <strong>📋 Matrícula:</strong> 202312345<br>
+                <strong>⏰ Turno:</strong> Noturno<br>
+                <strong>📅 Validade:</strong> Jan/2026 até Dez/2026
+            </div>
+            
+            <div class="card">
+                <strong>📱 Contato:</strong><br>
+                <strong>Email:</strong> claudio.estudante@email.com<br>
+                <strong>Telefone:</strong> (62) 98529-8782<br>
+                <strong>Campus:</strong> Cruzeiro do Sul Virtual - EAD
+            </div>
+        </div>
+
+        <!-- ACADÊMICO -->
+        <div class="screen" id="academico">
+            <div class="title">🎓 Informações Acadêmicas</div>
+            <div class="card"><strong>📚 Curso:</strong> Análise de Sistemas</div>
+            <div class="card"><strong>📅 Período:</strong> 2º Semestre</div>
+            <div class="card"><strong>📊 Situação:</strong> <span class="status cursando">Cursando</span></div>
+            <div class="card"><strong>⏰ Turno:</strong> Noturno</div>
+            <div class="card"><strong>📈 Progresso:</strong> 25% completo</div>
+            <div class="progress-bar" style="height: 8px; background: var(--bg-card); border-radius: 4px; margin-top: 5px; overflow: hidden;">
+                <div style="width: 25%; height: 100%; background: linear-gradient(90deg, var(--accent-color), var(--primary-color));"></div>
+            </div>
+        </div>
+
+        <!-- FINANCEIRO -->
+        <div class="screen" id="financeiro">
+            <div class="title">💰 Situação Financeira</div>
+            
+            <div class="search-container">
+                <span class="search-icon">🔍</span>
+                <input type="text" class="search-input" id="financeSearch" placeholder="Buscar mês..." onkeyup="filterFinance()">
+            </div>
+            
+            <div class="financeiro-container" id="financeContainer">
+                <!-- As mensalidades serão carregadas aqui -->
+            </div>
+            
+            <div class="pagination" id="pagination">
+                <!-- Paginação será gerada aqui -->
+            </div>
+            
+            <div class="card" style="background: rgba(77, 184, 255, 0.1); border-left-color: var(--accent-color);">
+                <strong>💡 Informação:</strong> 
+                Vencimento sempre no dia 05 de cada mês. Pagamentos após o vencimento terão acréscimo de 2% ao mês.
+            </div>
+        </div>
+
+        <!-- PROTOCOLOS -->
+        <div class="screen" id="protocolos">
+            <div class="title">📄 Protocolos e Documentos</div>
+            
+            <div class="search-container">
+                <span class="search-icon">🔍</span>
+                <input type="text" class="search-input" id="protocolSearch" placeholder="Buscar protocolo..." onkeyup="filterProtocols()">
+            </div>
+
+            <div class="card protocol">
+                <div>
+                    <strong>📋 Declaração de Matrícula</strong><br>
+                    <small style="color: var(--text-light);">Solicitado em: 05/01/2026</small>
+                </div>
+                <div class="actions">
+                    <span class="icon-btn" onclick="document.getElementById('pdfInput').click()">
+                        <span>✅</span> Aprovado
+                    </span>
+                    <span class="icon-btn" onclick="openPDF()">
+                        <span>👁️</span> Visualizar
+                    </span>
+                </div>
+            </div>
+
+            <div class="card protocol">
+                <div>
+                    <strong>📜 Histórico Escolar</strong><br>
+                    <small style="color: var(--text-light);">Solicitado em: 10/01/2026</small>
+                </div>
+                <div class="actions">
+                    <span class="icon-btn">
+                        <span>⏳</span> Em Análise
+                    </span>
+                </div>
+            </div>
+            
+            <div class="card protocol">
+                <div>
+                    <strong>💳 Comprovante de Pagamento</strong><br>
+                    <small style="color: var(--text-light);">Solicitado em: 12/01/2026</small>
+                </div>
+                <div class="actions">
+                    <span class="icon-btn">
+                        <span>⏳</span> Em Análise
+                    </span>
+                </div>
+            </div>
+            
+            <button class="btn-secondary" onclick="showToast('Novo protocolo em desenvolvimento!', 'info')">
+                <span>➕</span> Novo Protocolo
+            </button>
+        </div>
+
+        <!-- DISCIPLINAS -->
+        <div class="screen" id="disciplinas">
+            <div class="title">📚 Disciplinas do Semestre</div>
+            
+            <div class="search-container">
+                <span class="search-icon">🔍</span>
+                <input type="text" class="search-input" id="subjectSearch" placeholder="Buscar disciplina..." onkeyup="filterSubjects()">
+            </div>
+
+            <div id="subjectsContainer">
+                <!-- Disciplinas serão carregadas aqui -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Atalhos Rápidos -->
+<div class="quick-access">
+    <div class="quick-item active" onclick="openScreen('perfil')">
+        <span class="quick-icon">👤</span>
+        <span class="quick-label">Perfil</span>
+    </div>
+    <div class="quick-item" onclick="openScreen('academico')">
+        <span class="quick-icon">🎓</span>
+        <span class="quick-label">Acadêmico</span>
+    </div>
+    <div class="quick-item" onclick="openScreen('financeiro')">
+        <span class="quick-icon">💰</span>
+        <span class="quick-label">Financeiro</span>
+    </div>
+    <div class="quick-item" onclick="openScreen('protocolos')">
+        <span class="quick-icon">📄</span>
+        <span class="quick-label">Protocolos</span>
+    </div>
+    <div class="quick-item" onclick="openScreen('disciplinas')">
+        <span class="quick-icon">📚</span>
+        <span class="quick-label">Disciplinas</span>
+    </div>
+</div>
+
+<!-- Modal para visualizar imagem -->
+<div class="modal" id="imageModal" onclick="closeImage()">
+    <div class="modal-content">
+        <img id="fullImage" alt="Imagem Ampliada">
+    </div>
+</div>
+
+<!-- Modal para visualizar documento -->
+<div class="modal" id="docModal" onclick="closeDoc()">
+    <div class="modal-content">
+        <h2 style="text-align:center; color: var(--primary-color);">📋 COMPROVANTE DE MATRÍCULA</h2>
+        <hr style="margin: 15px 0; border-color: var(--bg-hover);">
+        <p style="text-align:center;font-weight:bold; color: var(--secondary-color);">
+            CRUZEIRO DO SUL VIRTUAL – EDUCAÇÃO A DISTÂNCIA<br>
+            Instituição de Ensino Superior – EAD
+        </p>
+
+        <div style="margin: 25px 0;">
+            <p>Declaramos, para os devidos fins, que o(a) aluno(a):</p>
+            <div class="card" style="margin: 15px 0;">
+                <strong>👤 Nome:</strong> Claudio Filho Rodrigues dos Santos<br>
+                <strong>🔢 CPF:</strong> 701.915.551-00<br>
+                <strong>📱 Telefone:</strong> (62) 98529-8782<br>
+                <strong>📧 Email:</strong> claudio.estudante@email.com
+            </div>
+            
+            <p>Encontra-se regularmente matriculado(a) nesta Instituição de Ensino Superior, <strong>CRUZEIRO DO SUL VIRTUAL</strong>, na modalidade Educação a Distância (EAD), no curso de:</p>
+            <div class="card" style="text-align: center; margin: 15px 0;">
+                <strong style="font-size: 1.1rem;">🎓 Análise de Sistemas</strong><br>
+                <small>Matrícula: 202312345 | Turno: Noturno</small>
+            </div>
+            
+            <p>O referido aluno está matriculado no ano letivo de <strong>2026</strong>, encontrando-se em situação acadêmica regular, conforme registros institucionais vigentes nesta data.</p>
+            <p>Este comprovante é emitido a pedido do interessado para fins de comprovação junto a quem possa interessar.</p>
+        </div>
+        
+        <div style="text-align: right; margin-top: 30px; padding-top: 15px; border-top: 2px solid var(--bg-hover);">
+            <p style="color: var(--text-light);">Goiânia, 05 de Janeiro de 2026</p>
+            <div style="margin-top: 20px;">
+                <div style="border-top: 1px solid var(--text-dark); width: 200px; margin-left: auto; padding-top: 5px;">
+                    <small style="color: var(--text-light);">Assinatura Digital</small><br>
+                    <strong>CRUZEIRO DO SUL VIRTUAL</strong>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Elementos DOM
+const elements = {
+    pdfInput: document.getElementById('pdfInput'),
+    photo: document.getElementById('photo'),
+    photoPlaceholder: document.getElementById('photoPlaceholder'),
+    photoInput: document.getElementById('photoInput'),
+    newCardInput: document.getElementById('newCardInput'),
+    menu: document.getElementById('menu'),
+    menuOverlay: document.getElementById('menuOverlay'),
+    imageModal: document.getElementById('imageModal'),
+    fullImage: document.getElementById('fullImage'),
+    docModal: document.getElementById('docModal'),
+    loading: document.getElementById('loading'),
+    toast: document.getElementById('toast'),
+    viewBtn: document.getElementById('viewBtn'),
+    uploadProgress: document.getElementById('uploadProgress'),
+    uploadBar: document.getElementById('uploadBar'),
+    financeContainer: document.getElementById('financeContainer'),
+    pagination: document.getElementById('pagination'),
+    subjectsContainer: document.getElementById('subjectsContainer'),
+    quickItems: document.querySelectorAll('.quick-item')
+};
+
+// Estado da aplicação
+const state = {
+    currentScreen: 'perfil',
+    financeData: [
+        { month: 'Janeiro', date: '05/01/2026', status: 'pago' },
+        { month: 'Fevereiro', date: '05/02/2026', status: 'pago' },
+        { month: 'Março', date: '05/03/2026', status: 'aberto' },
+        { month: 'Abril', date: '05/04/2026', status: 'aberto' },
+        { month: 'Maio', date: '05/05/2026', status: 'aberto' },
+        { month: 'Junho', date: '05/06/2026', status: 'aberto' },
+        { month: 'Julho', date: '05/07/2026', status: 'aberto' },
+        { month: 'Agosto', date: '05/08/2026', status: 'aberto' },
+        { month: 'Setembro', date: '05/09/2026', status: 'aberto' },
+        { month: 'Outubro', date: '05/10/2026', status: 'aberto' },
+        { month: 'Novembro', date: '05/11/2026', status: 'aberto' },
+        { month: 'Dezembro', date: '05/12/2026', status: 'aberto' }
+    ],
+    subjectsData: [
+        { name: 'Estrutura de Dados', status: 'aprovado' },
+        { name: 'Programação II', status: 'aprovado' },
+        { name: 'Banco de Dados I', status: 'cursando' },
+        { name: 'Engenharia de Softwares', status: 'cursando' },
+        { name: 'Arquitetura de Computadores', status: 'cursando' },
+        { name: 'Redes de Computadores', status: 'cursando' },
+        { name: 'Desenvolvimento Web', status: 'cursando' },
+        { name: 'Análise de Sistemas', status: 'cursando' },
+        { name: 'Matemática Discreta', status: 'cursando' },
+        { name: 'Interface Humano-Computador', status: 'cursando' }
+    ],
+    currentFinancePage: 1,
+    itemsPerPage: 6,
+    notifications: {
+        finance: 2,
+        menu: 3
+    }
+};
+
+// Inicialização
+document.addEventListener('DOMContentLoaded', function() {
+    loadSavedData();
+    initFinancePagination();
+    initSubjects();
+    setupEventListeners();
+    updateNotifications();
+    
+    // Simular algumas notificações
+    setTimeout(() => {
+        showToast('Bem-vindo ao Cruzeiro Virtual App!', 'success');
+    }, 1000);
+    
+    setTimeout(() => {
+        showToast('Você tem 2 pendências financeiras', 'warning');
+    }, 3000);
+});
+
+// Carregar dados salvos
+function loadSavedData() {
+    const savedPhoto = localStorage.getItem('studentPhoto');
+    if (savedPhoto) {
+        elements.photo.src = savedPhoto;
+        elements.photo.style.display = 'block';
+        elements.photoPlaceholder.style.display = 'none';
+        elements.viewBtn.style.display = 'block';
+    }
+    
+    // Carregar outras preferências
+    const preferences = JSON.parse(localStorage.getItem('appPreferences') || '{}');
+    if (preferences.lastScreen) {
+        openScreen(preferences.lastScreen);
+    }
+}
+
+// Salvar preferências
+function savePreferences() {
+    const preferences = {
+        lastScreen: state.currentScreen,
+        lastVisit: new Date().toISOString()
+    };
+    localStorage.setItem('appPreferences', JSON.stringify(preferences));
+}
+
+// Menu functions
+function toggleMenu() {
+    elements.menu.classList.toggle('active');
+    elements.menuOverlay.classList.toggle('active');
+    
+    // Feedback tátil (se suportado)
+    if (navigator.vibrate) {
+        navigator.vibrate(50);
+    }
+}
+
+function openScreen(id) {
+    // Animação de saída
+    const currentScreen = document.querySelector('.screen.active');
+    if (currentScreen) {
+        currentScreen.style.animation = 'fadeOut 0.3s ease-out';
+        setTimeout(() => {
+            currentScreen.classList.remove('active');
+            currentScreen.style.animation = '';
+        }, 250);
+    }
+    
+    // Atualizar estado
+    state.currentScreen = id;
+    
+    // Ativar nova tela com delay para animação
+    setTimeout(() => {
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+        
+        // Atualizar atalhos rápidos
+        elements.quickItems.forEach(item => item.classList.remove('active'));
+        document.querySelector(`.quick-item:nth-child(${getQuickIndex(id)})`).classList.add('active');
+        
+        // Fechar menu se estiver aberto
+        elements.menu.classList.remove('active');
+        elements.menuOverlay.classList.remove('active');
+        
+        // Salvar preferências
+        savePreferences();
+    }, 250);
+}
+
+function getQuickIndex(screenId) {
+    const screens = ['perfil', 'academico', 'financeiro', 'protocolos', 'disciplinas'];
+    return screens.indexOf(screenId) + 1;
+}
+
+// Sistema de Notificações
+function updateNotifications() {
+    // Atualizar badge do menu
+    const menuBadge = document.getElementById('menuNotification');
+    if (menuBadge) {
+        menuBadge.textContent = state.notifications.menu;
+        menuBadge.style.display = state.notifications.menu > 0 ? 'flex' : 'none';
+    }
+    
+    // Atualizar badge do financeiro
+    const financeBadge = document.getElementById('financeNotification');
+    if (financeBadge) {
+        const pending = state.financeData.filter(item => item.status === 'aberto').length;
+        financeBadge.textContent = pending;
+        financeBadge.style.display = pending > 0 ? 'flex' : 'none';
+    }
+}
+
+// Upload de foto com progresso
+elements.photoInput.onchange = function(e) {
+    showLoading(true);
+    
+    const file = e.target.files[0];
+    if (!file) {
+        showLoading(false);
+        return;
+    }
+    
+    // Validar tipo de arquivo
+    if (!file.type.startsWith('image/')) {
+        showToast('Por favor, selecione uma imagem válida', 'error');
+        showLoading(false);
+        return;
+    }
+    
+    // Validar tamanho (max 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+        showToast('A imagem deve ter menos de 5MB', 'error');
+        showLoading(false);
+        return;
+    }
+    
+    // Mostrar barra de progresso
+    elements.uploadProgress.style.display = 'block';
+    
+    // Simular upload progressivo
+    let progress = 0;
+    const interval = setInterval(() => {
+        progress += 10;
+        elements.uploadBar.style.width = progress + '%';
+        
+        if (progress >= 100) {
+            clearInterval(interval);
+            
+            // Processar imagem
+            const reader = new FileReader();
+            reader.onload = function(ev) {
+                localStorage.setItem('studentPhoto', ev.target.result);
+                elements.photo.src = ev.target.result;
+                elements.photo.style.display = 'block';
+                elements.photoPlaceholder.style.display = 'none';
+                elements.viewBtn.style.display = 'block';
+                elements.uploadProgress.style.display = 'none';
+                
+                showLoading(false);
+                showToast('Foto carregada com sucesso!', 'success');
+                
+                // Feedback tátil
+                if (navigator.vibrate) {
+                    navigator.vibrate([50, 50, 50]);
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+    }, 100);
+};
+
+elements.newCardInput.onchange = function(e) {
+    const file = e.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(ev) {
+            localStorage.setItem('studentPhoto', ev.target.result);
+            elements.photo.src = ev.target.result;
+            elements.photo.style.display = 'block';
+            elements.photoPlaceholder.style.display = 'none';
+            elements.viewBtn.style.display = 'block';
+            
+            showToast('Nova carteira solicitada com sucesso!', 'success');
+            
+            // Simular processamento
+            setTimeout(() => {
+                showToast('Sua nova carteira será processada em até 48h', 'info');
+            }, 1500);
+        };
+        reader.readAsDataURL(file);
+    }
+};
+
+// Visualizar imagem
+function openImage() {
+    if (!elements.photo.src || elements.photo.src.includes('undefined')) {
+        showToast('Por favor, faça upload de uma imagem primeiro', 'warning');
+        return;
+    }
+    
+    elements.fullImage.src = elements.photo.src;
+    elements.imageModal.classList.add('active');
+}
+
+function closeImage() {
+    elements.imageModal.classList.remove('active');
+}
+
+// Visualizar documento
+function openPDF() {
+    elements.docModal.classList.add('active');
+}
+
+function closeDoc() {
+    elements.docModal.classList.remove('active');
+}
+
+// Sistema de Paginação para Financeiro
+function initFinancePagination() {
+    renderFinancePage(1);
+}
+
+function renderFinancePage(page) {
+    state.currentFinancePage = page;
+    const start = (page - 1) * state.itemsPerPage;
+    const end = start + state.itemsPerPage;
+    const pageItems = state.financeData.slice(start, end);
+    
+    // Renderizar itens
+    elements.financeContainer.innerHTML = '';
+    pageItems.forEach(item => {
+        const card = document.createElement('div');
+        card.className = `card ${item.status}`;
+        card.innerHTML = `
+            <strong>${item.month}</strong><br>
+            ${item.date}<br>
+            <span>${item.status === 'pago' ? '✅ Pago' : '⏳ Em aberto'}</span>
+        `;
+        elements.financeContainer.appendChild(card);
+    });
+    
+    // Renderizar paginação
+    const totalPages = Math.ceil(state.financeData.length / state.itemsPerPage);
+    elements.pagination.innerHTML = '';
+    
+    for (let i = 1; i <= totalPages; i++) {
+        const button = document.createElement('button');
+        button.className = `page-btn ${i === page ? 'active' : ''}`;
+        button.textContent = i;
+        button.onclick = () => renderFinancePage(i);
+        elements.pagination.appendChild(button);
+    }
+}
+
+// Sistema de Disciplinas
+function initSubjects() {
+    renderSubjects();
+}
+
+function renderSubjects() {
+    elements.subjectsContainer.innerHTML = '';
+    state.subjectsData.forEach(subject => {
+        const card = document.createElement('div');
+        card.className = 'card protocol';
+        card.innerHTML = `
+            ${subject.name}
+            <span class="status ${subject.status}">
+                ${subject.status === 'aprovado' ? '✅ Aprovado' : 
+                  subject.status === 'cursando' ? '📚 Cursando' : '⏳ Pendente'}
+            </span>
+        `;
+        elements.subjectsContainer.appendChild(card);
+    });
+}
+
+// Sistema de Busca/Filtro
+function filterFinance() {
+    const search = document.getElementById('financeSearch').value.toLowerCase();
+    const filtered = state.financeData.filter(item => 
+        item.month.toLowerCase().includes(search) ||
+        item.status.toLowerCase().includes(search)
+    );
+    
+    elements.financeContainer.innerHTML = '';
+    filtered.forEach(item => {
+        const card = document.createElement('div');
+        card.className = `card ${item.status}`;
+        card.innerHTML = `
+            <strong>${item.month}</strong><br>
+            ${item.date}<br>
+            <span>${item.status === 'pago' ? '✅ Pago' : '⏳ Em aberto'}</span>
+        `;
+        elements.financeContainer.appendChild(card);
+    });
+}
+
+function filterProtocols() {
+    const search = document.getElementById('protocolSearch').value.toLowerCase();
+    const protocols = document.querySelectorAll('#protocolos .protocol');
+    
+    protocols.forEach(protocol => {
+        const text = protocol.textContent.toLowerCase();
+        protocol.style.display = text.includes(search) ? 'flex' : 'none';
+    });
+}
+
+function filterSubjects() {
+    const search = document.getElementById('subjectSearch').value.toLowerCase();
+    const subjects = document.querySelectorAll('#subjectsContainer .protocol');
+    
+    subjects.forEach(subject => {
+        const text = subject.textContent.toLowerCase();
+        subject.style.display = text.includes(search) ? '' : 'none';
+    });
+}
+
+// Sistema de Toast Notifications
+function showToast(message, type = 'info') {
+    elements.toast.textContent = message;
+    elements.toast.className = `toast ${type}`;
+    elements.toast.classList.add('show');
+    
+    // Feedback tátil baseado no tipo
+    if (navigator.vibrate) {
+        const pattern = type === 'error' ? [100, 50, 100] : 
+                       type === 'warning' ? [200] : 
+                       type === 'success' ? [50, 50, 50] : [100];
+        navigator.vibrate(pattern);
+    }
+    
+    setTimeout(() => {
+        elements.toast.classList.remove('show');
+    }, 3000);
+}
+
+// Loading overlay
+function showLoading(show) {
+    if (show) {
+        elements.loading.classList.add('active');
+    } else {
+        elements.loading.classList.remove('active');
+    }
+}
+
+// Configurar event listeners
+function setupEventListeners() {
+    // Fechar modais ao clicar fora
+    elements.menuOverlay.addEventListener('click', function() {
+        elements.menu.classList.remove('active');
+        this.classList.remove('active');
+    });
+    
+    // Prevenir fechamento ao clicar dentro do menu
+    elements.menu.addEventListener('click', function(e) {
+        e.stopPropagation();
+    });
+    
+    // Prevenir fechamento ao clicar dentro dos modais
+    document.querySelectorAll('.modal-content').forEach(modal => {
+        modal.addEventListener('click', function(e) {
+            e.stopPropagation();
+        });
+    });
+    
+    // Tecla ESC para fechar modais
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            closeImage();
+            closeDoc();
+            elements.menu.classList.remove('active');
+            elements.menuOverlay.classList.remove('active');
+        }
+    });
+    
+    // Salvar preferências ao sair
+    window.addEventListener('beforeunload', savePreferences);
+}
+
+// Adicionar CSS para animação de saída
+const style = document.createElement('style');
+style.textContent = `
+@keyframes fadeOut {
+    from { opacity: 1; transform: translateX(0); }
+    to { opacity: 0; transform: translateX(-20px); }
+}
+`;
+document.head.appendChild(style);
+</script>
+
+<script>
+if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("sw.js");
+}
+</script>
+</body>
+</html>
