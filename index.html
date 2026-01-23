@@ -60,16 +60,17 @@ body {
     padding: 0 10px;
 }
 
-/* MENU SANDUÍCHE - MODIFICADO */
+/* MENU SANDUÍCHE - MODIFICADO PARA FICAR DENTRO DO HEADER */
 .menu-btn {
     position: absolute;
-    top: -80px;
-    left: 15px;
+    top: 50%;
+    right: 15px;
+    transform: translateY(-50%);
     z-index: 1000;
     background: rgba(255, 255, 255, 0.95);
     border-radius: 50%;
-    width: 46px;
-    height: 46px;
+    width: 40px;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -81,11 +82,11 @@ body {
 
 .menu-btn:hover {
     background: white;
-    transform: scale(1.1);
+    transform: translateY(-50%) scale(1.1);
 }
 
 .menu-btn span {
-    font-size: 22px;
+    font-size: 20px;
     color: var(--primary-color);
 }
 
@@ -152,16 +153,17 @@ body {
     display: block;
 }
 
-/* HEADER - MODIFICADO */
+/* HEADER - MODIFICADO PARA ACOMODAR O BOTÃO */
 .header {
     background: var(--bg-light);
-    padding: 20px 22px 15px 22px;
+    padding: 15px 60px 15px 22px; /* Mais padding à direita para o botão */
     border-radius: 20px 20px 0 0;
     border-bottom: 4px solid var(--secondary-color);
     position: relative;
     margin-top: 10px;
     box-shadow: var(--shadow);
     transition: var(--transition);
+    min-height: 60px;
 }
 
 .header-content {
@@ -169,7 +171,7 @@ body {
     align-items: center;
     justify-content: center;
     position: relative;
-    padding-top: 5px;
+    height: 100%;
 }
 
 .header h1 {
@@ -178,7 +180,8 @@ body {
     font-weight: 700;
     text-align: center;
     width: 100%;
-    margin-top: 5px;
+    margin: 0;
+    line-height: 1.3;
 }
 
 /* CONTAINER */
@@ -558,11 +561,11 @@ button:active, .btn:active {
 /* RESPONSIVIDADE */
 @media (max-width: 480px) {
     .header {
-        padding: 18px 15px 13px 15px;
+        padding: 12px 50px 12px 15px;
+        min-height: 55px;
     }
     .header h1 {
         font-size: 1.3rem;
-        margin-top: 3px;
     }
     .content {
         padding: 20px;
@@ -575,13 +578,12 @@ button:active, .btn:active {
         width: 250px;
     }
     .menu-btn {
-        top: -18px;
-        left: 12px;
-        width: 42px;
-        height: 42px;
+        right: 12px;
+        width: 36px;
+        height: 36px;
     }
     .menu-btn span {
-        font-size: 20px;
+        font-size: 18px;
     }
 }
 
@@ -599,10 +601,9 @@ button:active, .btn:active {
         width: 220px;
     }
     .menu-btn {
-        top: -16px;
-        left: 10px;
-        width: 40px;
-        height: 40px;
+        right: 10px;
+        width: 34px;
+        height: 34px;
     }
 }
 </style>
@@ -623,12 +624,12 @@ button:active, .btn:active {
 
 <!-- Container principal -->
 <div class="container">
-    <!-- Botão do menu sanduíche - AGORA DENTRO DO CONTAINER -->
-    <div class="menu-btn" onclick="toggleMenu()">
-        <span>☰</span>
-    </div>
-    
     <div class="header">
+        <!-- Botão do menu sanduíche DENTRO do header -->
+        <div class="menu-btn" onclick="toggleMenu()">
+            <span>☰</span>
+        </div>
+        
         <div class="header-content">
             <h1>Cruzeiro Virtual App</h1>
         </div>
@@ -1372,5 +1373,3 @@ if ("serviceWorker" in navigator) {
 </script>
 </body>
 </html>
-
-
