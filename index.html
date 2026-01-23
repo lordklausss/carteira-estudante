@@ -85,6 +85,12 @@ body {
     transform: translateY(-50%) scale(1.1);
 }
 
+.menu-btn.hidden {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-50%) scale(0.8);
+}
+
 .menu-btn span {
     font-size: 20px;
     color: var(--primary-color);
@@ -878,6 +884,7 @@ const elements = {
     subjectsContainer: document.getElementById('subjectsContainer'),
     sidebar: document.getElementById('sidebar'),
     menuOverlay: document.getElementById('menuOverlay'),
+    menuBtn: document.querySelector('.menu-btn'), // Adicionado
     menuItems: document.querySelectorAll('.sidebar li')
 };
 
@@ -983,8 +990,15 @@ function savePreferences() {
 
 // Menu functions
 function toggleMenu() {
-    elements.sidebar.classList.toggle('active');
+    const isActive = elements.sidebar.classList.toggle('active');
     elements.menuOverlay.classList.toggle('active');
+    
+    // Mostrar ou esconder o botão do menu
+    if (isActive) {
+        elements.menuBtn.classList.add('hidden');
+    } else {
+        elements.menuBtn.classList.remove('hidden');
+    }
     
     // Feedback tátil (se suportado)
     if (navigator.vibrate) {
@@ -996,6 +1010,7 @@ function openScreen(id) {
     // Fechar menu se estiver aberto
     elements.sidebar.classList.remove('active');
     elements.menuOverlay.classList.remove('active');
+    elements.menuBtn.classList.remove('hidden'); // Mostrar o botão novamente
     
     // Atualizar estado
     state.currentScreen = id;
@@ -1341,6 +1356,7 @@ function setupEventListeners() {
             closeDoc();
             elements.sidebar.classList.remove('active');
             elements.menuOverlay.classList.remove('active');
+            elements.menuBtn.classList.remove('hidden');
         }
     });
     
@@ -1373,4 +1389,3 @@ if ("serviceWorker" in navigator) {
 </script>
 </body>
 </html>
-
