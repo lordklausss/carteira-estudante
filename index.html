@@ -48,6 +48,11 @@
         --text-light: #b0b0b0;
         --shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     }
+    
+    .modal-content img {
+        border-color: var(--primary-color);
+        box-shadow: 0 8px 32px rgba(77, 184, 255, 0.3);
+    }
 }
 
 body {
@@ -351,11 +356,14 @@ body {
 .pago span{ color: var(--success-color); font-weight: 600; }
 .aberto span{ color: var(--danger-color); font-weight: 600; }
 
-/* FOTO COM CARREGAMENTO */
+/* FOTO COM CARREGAMENTO - CORRIGIDO PARA CENTRALIZAR */
 .photo-container {
     position: relative;
     margin: 20px auto;
     max-width: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .photo {
     width: 100%;
@@ -366,7 +374,7 @@ body {
     display: block;
     cursor: pointer;
     transition: var(--transition);
-    aspect-ratio: 3/4;
+    aspect-ratio: 7/4;
     background: var(--bg-card);
 }
 .photo:hover {
@@ -476,7 +484,7 @@ button:active, .btn:active {
     border-color: var(--accent-color);
 }
 
-/* MODAIS */
+/* MODAIS - CORRIGIDO PARA BORDA AZUL ESCURO */
 .modal {
     position: fixed;
     top: 0;
@@ -506,8 +514,9 @@ button:active, .btn:active {
 .modal-content img {
     max-width: 100%;
     max-height: 70vh;
-    border-radius: 12px;
-    border: 4px solid white;
+    border-radius: 8px;
+    border: 2px solid #0f2a44;
+    box-shadow: 0 8px 32px rgba(15, 42, 68, 0.3);
 }
 
 /* LOADING */
@@ -590,6 +599,10 @@ button:active, .btn:active {
     }
     .menu-btn span {
         font-size: 18px;
+    }
+    .modal-content img {
+        border: 2px solid #0f2a44;
+        border-radius: 6px;
     }
 }
 
