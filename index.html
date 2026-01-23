@@ -57,7 +57,99 @@ body {
     color: var(--text-dark);
     -webkit-tap-highlight-color: transparent;
     transition: var(--transition);
-    padding: 0 10px 80px; /* ADICIONADO PADDING INFERIOR PARA O MENU */
+    padding: 0 10px;
+}
+
+/* MENU SANDUÍCHE */
+.menu-btn {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 1000;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+    border: 2px solid var(--accent-color);
+}
+
+.menu-btn:hover {
+    background: white;
+    transform: scale(1.1);
+}
+
+.menu-btn span {
+    font-size: 24px;
+    color: var(--primary-color);
+}
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: -280px;
+    width: 280px;
+    height: 100%;
+    background: var(--bg-light);
+    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.2);
+    z-index: 999;
+    transition: var(--transition);
+    overflow-y: auto;
+    padding-top: 80px;
+}
+
+.sidebar.active {
+    left: 0;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar li {
+    padding: 15px 25px;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    border-bottom: 1px solid var(--bg-hover);
+}
+
+.sidebar li:hover {
+    background: var(--bg-hover);
+    padding-left: 30px;
+}
+
+.sidebar li.active {
+    background: var(--secondary-color);
+    color: white;
+}
+
+.sidebar li span:first-child {
+    font-size: 20px;
+    width: 30px;
+}
+
+.menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 998;
+    display: none;
+}
+
+.menu-overlay.active {
+    display: block;
 }
 
 /* HEADER */
@@ -69,12 +161,16 @@ body {
     position: relative;
     margin-top: 10px;
     box-shadow: var(--shadow);
+    margin-left: 0;
+    transition: var(--transition);
 }
+
 .header-content {
     display: flex;
     align-items: center;
     justify-content: center;
 }
+
 .header h1 {
     color: var(--primary-color);
     font-size: 1.5rem;
@@ -89,6 +185,7 @@ body {
     max-width: 520px;
     margin: 15px auto;
     animation: slideUp 0.5s ease-out;
+    transition: var(--transition);
 }
 @keyframes slideUp {
     from {
@@ -106,7 +203,7 @@ body {
     padding: 25px;
     border-radius: 0 0 20px 20px;
     box-shadow: var(--shadow);
-    margin-bottom: 20px; /* ESPAÇO PARA O MENU INFERIOR */
+    margin-bottom: 20px;
 }
 
 /* TITULO */
@@ -367,51 +464,6 @@ button:active, .btn:active {
     border-color: var(--accent-color);
 }
 
-/* ATALHOS INFERIORES */
-.quick-access {
-    display: flex;
-    justify-content: space-around;
-    background: var(--bg-light);
-    padding: 15px 10px;
-    border-radius: 20px 20px 0 0;
-    position: fixed;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: calc(100% - 20px);
-    max-width: 520px;
-    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-    border-top: 3px solid var(--secondary-color);
-}
-.quick-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 6px;
-    padding: 8px 12px;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: var(--transition);
-    min-width: 60px;
-    text-align: center;
-}
-.quick-item:hover {
-    background: var(--bg-hover);
-    transform: translateY(-3px);
-}
-.quick-item.active {
-    background: var(--secondary-color);
-    color: white;
-}
-.quick-icon {
-    font-size: 1.4rem;
-}
-.quick-label {
-    font-size: 0.75rem;
-    font-weight: 500;
-}
-
 /* MODAIS */
 .modal {
     position: fixed;
@@ -477,7 +529,7 @@ button:active, .btn:active {
 /* TOAST NOTIFICATION */
 .toast {
     position: fixed;
-    bottom: 100px; /* AJUSTADO PARA FICAR ACIMA DO MENU */
+    bottom: 30px;
     left: 50%;
     transform: translateX(-50%) translateY(100px);
     background: var(--bg-light);
@@ -502,10 +554,6 @@ button:active, .btn:active {
 
 /* RESPONSIVIDADE */
 @media (max-width: 480px) {
-    body {
-        padding: 0 10px 70px; /* AJUSTE DO PADDING INFERIOR */
-    }
-    
     .header {
         padding: 18px 15px;
     }
@@ -519,22 +567,14 @@ button:active, .btn:active {
     .title {
         font-size: 1.2rem;
     }
-    .quick-access {
-        padding: 12px 8px;
-        width: calc(100% - 20px);
+    .sidebar {
+        width: 250px;
     }
-    .quick-item {
-        padding: 6px 8px;
-        min-width: 50px;
-    }
-    .quick-icon {
-        font-size: 1.2rem;
-    }
-    .quick-label {
-        font-size: 0.7rem;
-    }
-    .toast {
-        bottom: 90px; /* AJUSTADO PARA MOBILE */
+    .menu-btn {
+        top: 15px;
+        left: 15px;
+        width: 45px;
+        height: 45px;
     }
 }
 
@@ -548,14 +588,17 @@ button:active, .btn:active {
     .card {
         padding: 15px;
     }
-    .quick-access {
-        padding: 10px 6px;
+    .sidebar {
+        width: 220px;
     }
 }
 </style>
 </head>
 
 <body>
+
+<!-- Overlay para fechar o menu -->
+<div class="menu-overlay" id="menuOverlay" onclick="toggleMenu()"></div>
 
 <!-- Loading -->
 <div class="loading" id="loading">
@@ -564,6 +607,37 @@ button:active, .btn:active {
 
 <!-- Toast Notification -->
 <div class="toast" id="toast"></div>
+
+<!-- Botão do menu sanduíche -->
+<div class="menu-btn" onclick="toggleMenu()">
+    <span>☰</span>
+</div>
+
+<!-- Menu lateral -->
+<div class="sidebar" id="sidebar">
+    <ul>
+        <li class="active" onclick="openScreen('perfil')">
+            <span>👤</span>
+            <span>Perfil</span>
+        </li>
+        <li onclick="openScreen('academico')">
+            <span>🎓</span>
+            <span>Acadêmico</span>
+        </li>
+        <li onclick="openScreen('financeiro')">
+            <span>💰</span>
+            <span>Financeiro</span>
+        </li>
+        <li onclick="openScreen('protocolos')">
+            <span>📄</span>
+            <span>Protocolos</span>
+        </li>
+        <li onclick="openScreen('disciplinas')">
+            <span>📚</span>
+            <span>Disciplinas</span>
+        </li>
+    </ul>
+</div>
 
 <div class="container">
     <div class="header">
@@ -720,30 +794,6 @@ button:active, .btn:active {
     </div>
 </div>
 
-<!-- Atalhos Rápidos -->
-<div class="quick-access">
-    <div class="quick-item active" onclick="openScreen('perfil')">
-        <span class="quick-icon">👤</span>
-        <span class="quick-label">Perfil</span>
-    </div>
-    <div class="quick-item" onclick="openScreen('academico')">
-        <span class="quick-icon">🎓</span>
-        <span class="quick-label">Acadêmico</span>
-    </div>
-    <div class="quick-item" onclick="openScreen('financeiro')">
-        <span class="quick-icon">💰</span>
-        <span class="quick-label">Financeiro</span>
-    </div>
-    <div class="quick-item" onclick="openScreen('protocolos')">
-        <span class="quick-icon">📄</span>
-        <span class="quick-label">Protocolos</span>
-    </div>
-    <div class="quick-item" onclick="openScreen('disciplinas')">
-        <span class="quick-icon">📚</span>
-        <span class="quick-label">Disciplinas</span>
-    </div>
-</div>
-
 <!-- Modal para visualizar imagem -->
 <div class="modal" id="imageModal" onclick="closeImage()">
     <div class="modal-content">
@@ -811,7 +861,9 @@ const elements = {
     financeContainer: document.getElementById('financeContainer'),
     pagination: document.getElementById('pagination'),
     subjectsContainer: document.getElementById('subjectsContainer'),
-    quickItems: document.querySelectorAll('.quick-item')
+    sidebar: document.getElementById('sidebar'),
+    menuOverlay: document.getElementById('menuOverlay'),
+    menuItems: document.querySelectorAll('.sidebar li')
 };
 
 // Estado da aplicação
@@ -869,37 +921,66 @@ document.addEventListener('DOMContentLoaded', function() {
     }, 3000);
 });
 
-// Carregar dados salvos
+// Carregar dados salvos - AGORA SALVANDO E CARREGANDO CORRETAMENTE
 function loadSavedData() {
+    // Carregar a imagem do localStorage
     const savedPhoto = localStorage.getItem('studentPhoto');
+    console.log('Carregando imagem do localStorage:', savedPhoto ? 'Encontrada' : 'Não encontrada');
+    
     if (savedPhoto) {
-        elements.photo.src = savedPhoto;
-        elements.photo.style.display = 'block';
-        elements.photoPlaceholder.style.display = 'none';
-        elements.viewBtn.style.display = 'block';
+        // Verificar se a imagem é válida (não está vazia ou corrompida)
+        if (savedPhoto.startsWith('data:image/')) {
+            elements.photo.src = savedPhoto;
+            elements.photo.style.display = 'block';
+            elements.photoPlaceholder.style.display = 'none';
+            elements.viewBtn.style.display = 'block';
+            console.log('Imagem carregada com sucesso');
+        } else {
+            console.log('Imagem inválida no localStorage');
+            localStorage.removeItem('studentPhoto'); // Remover dado inválido
+        }
     }
     
     // Carregar outras preferências
-    const preferences = JSON.parse(localStorage.getItem('appPreferences') || '{}');
-    if (preferences.lastScreen) {
-        openScreen(preferences.lastScreen);
+    try {
+        const preferences = JSON.parse(localStorage.getItem('appPreferences') || '{}');
+        if (preferences.lastScreen) {
+            openScreen(preferences.lastScreen);
+        }
+    } catch (e) {
+        console.error('Erro ao carregar preferências:', e);
     }
 }
 
 // Salvar preferências
 function savePreferences() {
-    const preferences = {
-        lastScreen: state.currentScreen,
-        lastVisit: new Date().toISOString()
-    };
-    localStorage.setItem('appPreferences', JSON.stringify(preferences));
+    try {
+        const preferences = {
+            lastScreen: state.currentScreen,
+            lastVisit: new Date().toISOString()
+        };
+        localStorage.setItem('appPreferences', JSON.stringify(preferences));
+        console.log('Preferências salvas');
+    } catch (e) {
+        console.error('Erro ao salvar preferências:', e);
+    }
+}
+
+// Menu functions
+function toggleMenu() {
+    elements.sidebar.classList.toggle('active');
+    elements.menuOverlay.classList.toggle('active');
+    
+    // Feedback tátil (se suportado)
+    if (navigator.vibrate) {
+        navigator.vibrate(50);
+    }
 }
 
 function openScreen(id) {
-    // Se já está na mesma tela, não faz nada
-    if (state.currentScreen === id) {
-        return;
-    }
+    // Fechar menu se estiver aberto
+    elements.sidebar.classList.remove('active');
+    elements.menuOverlay.classList.remove('active');
     
     // Atualizar estado
     state.currentScreen = id;
@@ -910,8 +991,8 @@ function openScreen(id) {
         s.style.animation = 'none'; // Reset animation
     });
     
-    // Atualizar atalhos rápidos
-    elements.quickItems.forEach(item => item.classList.remove('active'));
+    // Atualizar itens do menu
+    elements.menuItems.forEach(item => item.classList.remove('active'));
     
     // Mostrar nova tela com animação
     setTimeout(() => {
@@ -921,11 +1002,10 @@ function openScreen(id) {
             screen.classList.add('active');
         }
         
-        // Ativar item correspondente no menu inferior
-        const index = getQuickIndex(id);
-        const quickItem = elements.quickItems[index - 1];
-        if (quickItem) {
-            quickItem.classList.add('active');
+        // Ativar item correspondente no menu
+        const menuIndex = getMenuIndex(id);
+        if (menuIndex !== -1 && elements.menuItems[menuIndex]) {
+            elements.menuItems[menuIndex].classList.add('active');
         }
     }, 10); // Pequeno delay para garantir que a animação funcione
     
@@ -933,9 +1013,9 @@ function openScreen(id) {
     savePreferences();
 }
 
-function getQuickIndex(screenId) {
+function getMenuIndex(screenId) {
     const screens = ['perfil', 'academico', 'financeiro', 'protocolos', 'disciplinas'];
-    return screens.indexOf(screenId) + 1;
+    return screens.indexOf(screenId);
 }
 
 // Sistema de Notificações
@@ -945,7 +1025,7 @@ function updateNotifications() {
     state.notifications.finance = pending;
 }
 
-// Upload de foto com progresso
+// Upload de foto com progresso - AGORA SALVANDO CORRETAMENTE
 elements.photoInput.onchange = function(e) {
     showLoading(true);
     
@@ -984,20 +1064,35 @@ elements.photoInput.onchange = function(e) {
             // Processar imagem
             const reader = new FileReader();
             reader.onload = function(ev) {
-                localStorage.setItem('studentPhoto', ev.target.result);
-                elements.photo.src = ev.target.result;
-                elements.photo.style.display = 'block';
-                elements.photoPlaceholder.style.display = 'none';
-                elements.viewBtn.style.display = 'block';
-                elements.uploadProgress.style.display = 'none';
-                
-                showLoading(false);
-                showToast('Foto carregada com sucesso!', 'success');
-                
-                // Feedback tátil
-                if (navigator.vibrate) {
-                    navigator.vibrate([50, 50, 50]);
+                try {
+                    // Salvar no localStorage
+                    localStorage.setItem('studentPhoto', ev.target.result);
+                    console.log('Imagem salva no localStorage');
+                    
+                    // Atualizar exibição
+                    elements.photo.src = ev.target.result;
+                    elements.photo.style.display = 'block';
+                    elements.photoPlaceholder.style.display = 'none';
+                    elements.viewBtn.style.display = 'block';
+                    elements.uploadProgress.style.display = 'none';
+                    
+                    showLoading(false);
+                    showToast('Foto carregada com sucesso!', 'success');
+                    
+                    // Feedback tátil
+                    if (navigator.vibrate) {
+                        navigator.vibrate([50, 50, 50]);
+                    }
+                } catch (error) {
+                    console.error('Erro ao salvar imagem:', error);
+                    showLoading(false);
+                    showToast('Erro ao salvar imagem. Tente novamente.', 'error');
                 }
+            };
+            reader.onerror = function() {
+                clearInterval(interval);
+                showLoading(false);
+                showToast('Erro ao ler o arquivo', 'error');
             };
             reader.readAsDataURL(file);
         }
@@ -1009,7 +1104,7 @@ function solicitarNovaCarteira() {
     document.getElementById('newCardInput').click();
 }
 
-// Event handler para nova carteira
+// Event handler para nova carteira - AGORA SALVANDO CORRETAMENTE
 elements.newCardInput.onchange = function(e) {
     const file = e.target.files[0];
     if (!file) return;
@@ -1028,21 +1123,30 @@ elements.newCardInput.onchange = function(e) {
     
     const reader = new FileReader();
     reader.onload = function(ev) {
-        // Salvar no localStorage para persistência
-        localStorage.setItem('studentPhoto', ev.target.result);
-        
-        // Atualizar a imagem exibida
-        elements.photo.src = ev.target.result;
-        elements.photo.style.display = 'block';
-        elements.photoPlaceholder.style.display = 'none';
-        elements.viewBtn.style.display = 'block';
-        
-        showToast('Nova carteira solicitada com sucesso!', 'success');
-        
-        // Simular processamento
-        setTimeout(() => {
-            showToast('Sua nova carteira será processada em até 48h', 'info');
-        }, 1500);
+        try {
+            // Salvar no localStorage para persistência
+            localStorage.setItem('studentPhoto', ev.target.result);
+            console.log('Nova imagem de carteira salva no localStorage');
+            
+            // Atualizar a imagem exibida
+            elements.photo.src = ev.target.result;
+            elements.photo.style.display = 'block';
+            elements.photoPlaceholder.style.display = 'none';
+            elements.viewBtn.style.display = 'block';
+            
+            showToast('Nova carteira solicitada com sucesso!', 'success');
+            
+            // Simular processamento
+            setTimeout(() => {
+                showToast('Sua nova carteira será processada em até 48h', 'info');
+            }, 1500);
+        } catch (error) {
+            console.error('Erro ao salvar nova imagem:', error);
+            showToast('Erro ao salvar a nova imagem. Tente novamente.', 'error');
+        }
+    };
+    reader.onerror = function() {
+        showToast('Erro ao ler o arquivo', 'error');
     };
     reader.readAsDataURL(file);
 };
@@ -1200,6 +1304,14 @@ function showLoading(show) {
 
 // Configurar event listeners
 function setupEventListeners() {
+    // Fechar menu ao clicar no overlay
+    elements.menuOverlay.addEventListener('click', toggleMenu);
+    
+    // Prevenir fechamento ao clicar dentro do menu
+    elements.sidebar.addEventListener('click', function(e) {
+        e.stopPropagation();
+    });
+    
     // Prevenir fechamento ao clicar dentro dos modais
     document.querySelectorAll('.modal-content').forEach(modal => {
         modal.addEventListener('click', function(e) {
@@ -1207,16 +1319,25 @@ function setupEventListeners() {
         });
     });
     
-    // Tecla ESC para fechar modais
+    // Tecla ESC para fechar modais e menu
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') {
             closeImage();
             closeDoc();
+            elements.sidebar.classList.remove('active');
+            elements.menuOverlay.classList.remove('active');
         }
     });
     
     // Salvar preferências ao sair
     window.addEventListener('beforeunload', savePreferences);
+    
+    // Também salvar quando a página for ocultada
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            savePreferences();
+        }
+    });
 }
 
 // Adicionar CSS para animação de saída
