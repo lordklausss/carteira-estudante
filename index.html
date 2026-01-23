@@ -60,16 +60,16 @@ body {
     padding: 0 10px;
 }
 
-/* MENU SANDUÍCHE */
+/* MENU SANDUÍCHE - MODIFICADO */
 .menu-btn {
-    position: fixed;
-    top: 40px;
-    left: 20px;
+    position: absolute;
+    top: 30px;
+    left: 15px;
     z-index: 1000;
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.95);
     border-radius: 50%;
-    width: 50px;
-    height: 50px;
+    width: 46px;
+    height: 46px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -85,7 +85,7 @@ body {
 }
 
 .menu-btn span {
-    font-size: 24px;
+    font-size: 22px;
     color: var(--primary-color);
 }
 
@@ -152,16 +152,15 @@ body {
     display: block;
 }
 
-/* HEADER */
+/* HEADER - MODIFICADO */
 .header {
     background: var(--bg-light);
-    padding: 20px 22px;
+    padding: 20px 22px 15px 22px;
     border-radius: 20px 20px 0 0;
     border-bottom: 4px solid var(--secondary-color);
     position: relative;
     margin-top: 10px;
     box-shadow: var(--shadow);
-    margin-left: 0;
     transition: var(--transition);
 }
 
@@ -169,6 +168,8 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
+    padding-top: 5px;
 }
 
 .header h1 {
@@ -177,6 +178,7 @@ body {
     font-weight: 700;
     text-align: center;
     width: 100%;
+    margin-top: 5px;
 }
 
 /* CONTAINER */
@@ -186,6 +188,7 @@ body {
     margin: 15px auto;
     animation: slideUp 0.5s ease-out;
     transition: var(--transition);
+    position: relative;
 }
 @keyframes slideUp {
     from {
@@ -555,10 +558,11 @@ button:active, .btn:active {
 /* RESPONSIVIDADE */
 @media (max-width: 480px) {
     .header {
-        padding: 18px 15px;
+        padding: 18px 15px 13px 15px;
     }
     .header h1 {
         font-size: 1.3rem;
+        margin-top: 3px;
     }
     .content {
         padding: 20px;
@@ -571,10 +575,13 @@ button:active, .btn:active {
         width: 250px;
     }
     .menu-btn {
-        top: 15px;
-        left: 15px;
-        width: 45px;
-        height: 45px;
+        top: -18px;
+        left: 12px;
+        width: 42px;
+        height: 42px;
+    }
+    .menu-btn span {
+        font-size: 20px;
     }
 }
 
@@ -590,6 +597,12 @@ button:active, .btn:active {
     }
     .sidebar {
         width: 220px;
+    }
+    .menu-btn {
+        top: -16px;
+        left: 10px;
+        width: 40px;
+        height: 40px;
     }
 }
 </style>
@@ -608,42 +621,43 @@ button:active, .btn:active {
 <!-- Toast Notification -->
 <div class="toast" id="toast"></div>
 
-<!-- Botão do menu sanduíche -->
-<div class="menu-btn" onclick="toggleMenu()">
-    <span>☰</span>
-</div>
-
-<!-- Menu lateral -->
-<div class="sidebar" id="sidebar">
-    <ul>
-        <li class="active" onclick="openScreen('perfil')">
-            <span>👤</span>
-            <span>Perfil</span>
-        </li>
-        <li onclick="openScreen('academico')">
-            <span>🎓</span>
-            <span>Acadêmico</span>
-        </li>
-        <li onclick="openScreen('financeiro')">
-            <span>💰</span>
-            <span>Financeiro</span>
-        </li>
-        <li onclick="openScreen('protocolos')">
-            <span>📄</span>
-            <span>Protocolos</span>
-        </li>
-        <li onclick="openScreen('disciplinas')">
-            <span>📚</span>
-            <span>Disciplinas</span>
-        </li>
-    </ul>
-</div>
-
+<!-- Container principal -->
 <div class="container">
+    <!-- Botão do menu sanduíche - AGORA DENTRO DO CONTAINER -->
+    <div class="menu-btn" onclick="toggleMenu()">
+        <span>☰</span>
+    </div>
+    
     <div class="header">
         <div class="header-content">
             <h1>Cruzeiro Virtual App</h1>
         </div>
+    </div>
+
+    <!-- Menu lateral -->
+    <div class="sidebar" id="sidebar">
+        <ul>
+            <li class="active" onclick="openScreen('perfil')">
+                <span>👤</span>
+                <span>Perfil</span>
+            </li>
+            <li onclick="openScreen('academico')">
+                <span>🎓</span>
+                <span>Acadêmico</span>
+            </li>
+            <li onclick="openScreen('financeiro')">
+                <span>💰</span>
+                <span>Financeiro</span>
+            </li>
+            <li onclick="openScreen('protocolos')">
+                <span>📄</span>
+                <span>Protocolos</span>
+            </li>
+            <li onclick="openScreen('disciplinas')">
+                <span>📚</span>
+                <span>Disciplinas</span>
+            </li>
+        </ul>
     </div>
 
     <div class="content">
@@ -1358,4 +1372,3 @@ if ("serviceWorker" in navigator) {
 </script>
 </body>
 </html>
-
