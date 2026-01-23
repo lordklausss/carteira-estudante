@@ -9,6 +9,9 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Carteira Estudante">
 
+<!-- Font Awesome Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
 <link rel="apple-touch-icon" href="icon-192.png">
 <link rel="manifest" href="manifest.json">
 
@@ -65,7 +68,7 @@ body {
     padding: 0 10px;
 }
 
-/* MENU SANDUÍCHE - MODIFICADO PARA FICAR DENTRO DO HEADER */
+/* MENU SANDUÍCHE */
 .menu-btn {
     position: absolute;
     top: 50%;
@@ -144,9 +147,15 @@ body {
     color: white;
 }
 
-.sidebar li span:first-child {
-    font-size: 20px;
-    width: 30px;
+.sidebar li i {
+    font-size: 18px;
+    width: 24px;
+    text-align: center;
+    color: var(--primary-color);
+}
+
+.sidebar li.active i {
+    color: white;
 }
 
 .menu-overlay {
@@ -164,10 +173,10 @@ body {
     display: block;
 }
 
-/* HEADER - MODIFICADO PARA ACOMODAR O BOTÃO */
+/* HEADER */
 .header {
     background: var(--bg-light);
-    padding: 15px 60px 15px 22px; /* Mais padding à direita para o botão */
+    padding: 15px 60px 15px 70px;
     border-radius: 20px 20px 0 0;
     border-bottom: 4px solid var(--secondary-color);
     position: relative;
@@ -196,7 +205,7 @@ body {
 }
 
 /* CONTAINER */
-.container{
+.container {
     width: 100%;
     max-width: 520px;
     margin: 50px auto;
@@ -204,6 +213,7 @@ body {
     transition: var(--transition);
     position: relative;
 }
+
 @keyframes slideUp {
     from {
         opacity: 0;
@@ -215,7 +225,7 @@ body {
     }
 }
 
-.content{
+.content {
     background: var(--bg-light);
     padding: 25px;
     border-radius: 0 0 20px 20px;
@@ -224,9 +234,9 @@ body {
 }
 
 /* TITULO */
-.title{
+.title {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     gap: 10px;
     font-size: 1.3rem;
@@ -237,11 +247,18 @@ body {
     border-bottom: 2px solid var(--bg-hover);
 }
 
+.title i {
+    font-size: 1.4rem;
+    width: 30px;
+    text-align: center;
+}
+
 /* SCREENS COM ANIMAÇÃO */
-.screen{
+.screen {
     display: none;
     animation: fadeIn 0.4s ease-out;
 }
+
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -252,12 +269,13 @@ body {
         transform: translateX(0);
     }
 }
-.screen.active{
+
+.screen.active {
     display: block;
 }
 
 /* CARD */
-.card{
+.card {
     background: var(--bg-card);
     padding: 18px;
     border-radius: 14px;
@@ -266,42 +284,71 @@ body {
     transition: var(--transition);
     border: 1px solid transparent;
 }
+
 .card:hover {
     transform: translateY(-3px);
     box-shadow: var(--shadow);
     border-color: var(--accent-color);
 }
-.card strong{
+
+.card strong {
     color: var(--primary-color);
     font-weight: 600;
 }
 
+.card i {
+    width: 20px;
+    margin-right: 8px;
+    color: var(--primary-color);
+}
+
 /* STATUS */
-.status{
+.status {
     padding: 6px 14px;
     border-radius: 20px;
     font-size: 0.85rem;
     font-weight: 600;
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
 }
-.aprovado{ background: rgba(46, 125, 50, 0.15); color: #2e7d32; }
-.cursando{ background: rgba(44, 77, 204, 0.15); color: #2c4dcc; }
-.analise{ background: rgba(245, 124, 0, 0.15); color: #f57c00; }
+
+.status i {
+    margin: 0 !important;
+    width: auto !important;
+}
+
+.aprovado { 
+    background: rgba(46, 125, 50, 0.15); 
+    color: #2e7d32; 
+}
+
+.cursando { 
+    background: rgba(44, 77, 204, 0.15); 
+    color: #2c4dcc; 
+}
+
+.analise { 
+    background: rgba(245, 124, 0, 0.15); 
+    color: #f57c00; 
+}
 
 /* PROTOCOLOS */
-.protocol{
+.protocol {
     display: flex;
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
     gap: 10px;
 }
-.actions{
+
+.actions {
     display: flex;
     gap: 10px;
     flex-wrap: wrap;
 }
-.icon-btn{
+
+.icon-btn {
     cursor: pointer;
     color: var(--secondary-color);
     font-weight: 600;
@@ -313,9 +360,16 @@ body {
     font-size: 0.9rem;
     display: inline-flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
     min-height: 36px;
 }
+
+.icon-btn i {
+    margin: 0 !important;
+    width: auto !important;
+    font-size: 14px;
+}
+
 .icon-btn:hover, .icon-btn:active {
     background: rgba(31, 77, 122, 0.2);
     transform: translateY(-2px);
@@ -325,6 +379,7 @@ body {
 .financeiro-container {
     position: relative;
 }
+
 .pagination {
     display: flex;
     justify-content: center;
@@ -332,6 +387,7 @@ body {
     margin-top: 20px;
     flex-wrap: wrap;
 }
+
 .page-btn {
     padding: 8px 16px;
     border-radius: 8px;
@@ -342,21 +398,36 @@ body {
     min-width: 40px;
     text-align: center;
 }
+
 .page-btn.active {
     background: var(--secondary-color);
     color: white;
 }
+
 .page-btn:hover:not(.active) {
     background: var(--bg-hover);
     transform: translateY(-2px);
 }
 
-.pago{ border-left: 6px solid var(--success-color); }
-.aberto{ border-left: 6px solid var(--danger-color); }
-.pago span{ color: var(--success-color); font-weight: 600; }
-.aberto span{ color: var(--danger-color); font-weight: 600; }
+.pago { 
+    border-left: 6px solid var(--success-color); 
+}
 
-/* FOTO COM CARREGAMENTO - CORRIGIDO PARA CENTRALIZAR */
+.aberto { 
+    border-left: 6px solid var(--danger-color); 
+}
+
+.pago span { 
+    color: var(--success-color); 
+    font-weight: 600; 
+}
+
+.aberto span { 
+    color: var(--danger-color); 
+    font-weight: 600; 
+}
+
+/* FOTO COM CARREGAMENTO */
 .photo-container {
     position: relative;
     margin: 20px auto;
@@ -365,6 +436,7 @@ body {
     justify-content: center;
     align-items: center;
 }
+
 .photo {
     width: 100%;
     height: auto;
@@ -377,10 +449,12 @@ body {
     aspect-ratio: 7/4;
     background: var(--bg-card);
 }
+
 .photo:hover {
     transform: scale(1.02);
     border-color: var(--accent-color);
 }
+
 .photo-placeholder {
     width: 100%;
     height: 100%;
@@ -398,10 +472,18 @@ body {
     transition: var(--transition);
     aspect-ratio: 3/4;
 }
+
 .photo-placeholder:hover {
     background: var(--bg-hover);
     border-color: var(--primary-color);
 }
+
+.photo-placeholder i {
+    font-size: 3rem;
+    margin-bottom: 10px;
+    color: var(--text-light);
+}
+
 .upload-progress {
     position: absolute;
     bottom: 0;
@@ -412,6 +494,7 @@ body {
     border-radius: 0 0 16px 16px;
     overflow: hidden;
 }
+
 .upload-progress-bar {
     height: 100%;
     background: linear-gradient(90deg, var(--accent-color), var(--primary-color));
@@ -424,6 +507,7 @@ body {
     margin: 20px 0;
     position: relative;
 }
+
 .search-input {
     width: 100%;
     padding: 14px 20px 14px 45px;
@@ -434,11 +518,13 @@ body {
     font-size: 1rem;
     transition: var(--transition);
 }
+
 .search-input:focus {
     outline: none;
     border-color: var(--accent-color);
     box-shadow: 0 0 0 3px rgba(77, 184, 255, 0.2);
 }
+
 .search-icon {
     position: absolute;
     left: 15px;
@@ -466,25 +552,40 @@ button, .btn {
     justify-content: center;
     gap: 10px;
 }
+
 button:hover, .btn:hover {
     background: var(--primary-color);
     transform: translateY(-3px);
     box-shadow: var(--shadow);
 }
+
 button:active, .btn:active {
     transform: translateY(-1px);
 }
+
 .btn-secondary {
     background: var(--bg-card);
     color: var(--primary-color);
     border: 2px solid var(--bg-hover);
 }
+
 .btn-secondary:hover {
     background: var(--bg-hover);
     border-color: var(--accent-color);
 }
 
-/* MODAIS - CORRIGIDO PARA BORDA AZUL ESCURO */
+button i, .btn i {
+    font-size: 16px;
+    color: white;
+    width: auto;
+    margin: 0;
+}
+
+.btn-secondary i {
+    color: var(--primary-color);
+}
+
+/* MODAIS - CORRIGIDO PARA FECHAR AO CLICAR FORA */
 .modal {
     position: fixed;
     top: 0;
@@ -498,25 +599,80 @@ button:active, .btn:active {
     z-index: 5000;
     animation: fadeIn 0.3s ease-out;
 }
+
 .modal.active {
     display: flex;
 }
+
 .modal-content {
     background: var(--bg-light);
-    padding: 25px;
+    padding: 20px;
     border-radius: 20px;
-    max-width: 90%;
-    max-height: 85%;
+    max-width: 95%;
+    max-height: 90%;
     overflow: auto;
     animation: slideUp 0.4s ease-out;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+    position: relative;
 }
-.modal-content img {
+
+/* MODAL DA IMAGEM - OCUPA MAIS ESPAÇO */
+#imageModal .modal-content {
+    background: transparent;
+    padding: 10px;
     max-width: 100%;
-    max-height: 70vh;
-    border-radius: 8px;
-    border: 2px solid #0f2a44;
-    box-shadow: 0 8px 32px rgba(15, 42, 68, 0.3);
+    max-height: 100%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content img {
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 85vh;
+    object-fit: contain;
+    border-radius: 12px;
+    border: 3px solid #0f2a44;
+    box-shadow: 0 10px 40px rgba(15, 42, 68, 0.4);
+    display: block;
+    margin: 0 auto;
+}
+
+/* MODAL DO DOCUMENTO - CORRIGIDO PARA NÃO BAGUNÇAR */
+#docModal .modal-content {
+    width: 90%;
+    max-width: 800px;
+    background: var(--bg-light);
+    padding: 30px;
+    border-radius: 20px;
+}
+
+/* BOTÃO DE FECHAR MODAL */
+.close-modal {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 24px;
+    cursor: pointer;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.close-modal:hover {
+    background: rgba(0, 0, 0, 0.9);
+    transform: scale(1.1);
 }
 
 /* LOADING */
@@ -532,9 +688,11 @@ button:active, .btn:active {
     align-items: center;
     justify-content: center;
 }
+
 .loading.active {
     display: flex;
 }
+
 .spinner {
     width: 60px;
     height: 60px;
@@ -543,8 +701,11 @@ button:active, .btn:active {
     border-radius: 50%;
     animation: spin 1s linear infinite;
 }
+
 @keyframes spin {
-    to { transform: rotate(360deg); }
+    to { 
+        transform: rotate(360deg); 
+    }
 }
 
 /* TOAST NOTIFICATION */
@@ -565,44 +726,61 @@ button:active, .btn:active {
     text-align: center;
     border-left: 5px solid var(--accent-color);
 }
+
 .toast.show {
     opacity: 1;
     transform: translateX(-50%) translateY(0);
 }
-.toast.success { border-left-color: var(--success-color); }
-.toast.error { border-left-color: var(--danger-color); }
-.toast.warning { border-left-color: var(--warning-color); }
+
+.toast.success { 
+    border-left-color: var(--success-color); 
+}
+
+.toast.error { 
+    border-left-color: var(--danger-color); 
+}
+
+.toast.warning { 
+    border-left-color: var(--warning-color); 
+}
 
 /* RESPONSIVIDADE */
 @media (max-width: 480px) {
     .header {
-        padding: 12px 50px 12px 15px;
+        padding: 12px 50px 12px 60px;
         min-height: 55px;
     }
+    
     .header h1 {
         font-size: 1.3rem;
     }
+    
     .content {
         padding: 20px;
         margin-bottom: 15px;
     }
+    
     .title {
         font-size: 1.2rem;
     }
+    
     .sidebar {
         width: 250px;
     }
+    
     .menu-btn {
-        right: 12px;
         width: 36px;
         height: 36px;
     }
-    .menu-btn span {
-        font-size: 18px;
-    }
+    
     .modal-content img {
-        border: 2px solid #0f2a44;
+        border: 2px solid var(--primary-color);
         border-radius: 6px;
+    }
+    
+    #docModal .modal-content {
+        padding: 20px;
+        width: 95%;
     }
 }
 
@@ -610,17 +788,20 @@ button:active, .btn:active {
     .header h1 {
         font-size: 1.1rem;
     }
+    
     .title {
         font-size: 1.1rem;
     }
+    
     .card {
         padding: 15px;
     }
+    
     .sidebar {
         width: 220px;
     }
+    
     .menu-btn {
-        right: 10px;
         width: 34px;
         height: 34px;
     }
@@ -644,7 +825,7 @@ button:active, .btn:active {
 <!-- Container principal -->
 <div class="container">
     <div class="header">
-        <!-- Botão do menu sanduíche DENTRO do header -->
+        <!-- Botão do menu sanduíche -->
         <div class="menu-btn" onclick="toggleMenu()">
             <span>☰</span>
         </div>
@@ -658,23 +839,23 @@ button:active, .btn:active {
     <div class="sidebar" id="sidebar">
         <ul>
             <li class="active" onclick="openScreen('perfil')">
-                <span>👤</span>
+                <i class="fas fa-user"></i>
                 <span>Perfil</span>
             </li>
             <li onclick="openScreen('academico')">
-                <span>🎓</span>
+                <i class="fas fa-graduation-cap"></i>
                 <span>Acadêmico</span>
             </li>
             <li onclick="openScreen('financeiro')">
-                <span>💰</span>
+                <i class="fas fa-money-bill-wave"></i>
                 <span>Financeiro</span>
             </li>
             <li onclick="openScreen('protocolos')">
-                <span>📄</span>
+                <i class="fas fa-file-alt"></i>
                 <span>Protocolos</span>
             </li>
             <li onclick="openScreen('disciplinas')">
-                <span>📚</span>
+                <i class="fas fa-book"></i>
                 <span>Disciplinas</span>
             </li>
         </ul>
@@ -683,11 +864,13 @@ button:active, .btn:active {
     <div class="content">
         <!-- PERFIL -->
         <div class="screen active" id="perfil">
-            <div class="title">🎫 Carteira de Identificação</div>
+            <div class="title">
+                <i class="fas fa-id-card"></i> Carteira de Identificação
+            </div>
 
             <div class="photo-container">
                 <div id="photoPlaceholder" class="photo-placeholder" onclick="document.getElementById('photoInput').click()">
-                    <span style="font-size: 3rem;">📷</span>
+                    <i class="fas fa-camera"></i>
                     <p style="margin-top: 10px; font-size: 0.9rem;">Clique para adicionar foto da carteira</p>
                     <p style="font-size: 0.8rem; color: var(--text-light); margin-top: 5px;">Recomendado: 3x4, fundo branco</p>
                 </div>
@@ -698,39 +881,54 @@ button:active, .btn:active {
             </div>
 
             <button onclick="openImage()" id="viewBtn" style="display: none;">
-                <span>👁️</span> Visualizar Carteira
+                <i class="fas fa-eye"></i> Visualizar Carteira
             </button>
             <button onclick="solicitarNovaCarteira()">
-                <span>🔄</span> Solicitar Nova Carteira
+                <i class="fas fa-sync-alt"></i> Solicitar Nova Carteira
             </button>
 
             <input type="file" id="photoInput" accept="image/*" hidden>
             <input type="file" id="newCardInput" accept="image/*" hidden>
 
             <div class="card">
-                <strong>👤 Nome:</strong> Claudio Filho Rodrigues dos Santos<br>
-                <strong>🎓 Curso:</strong> Análise de Sistemas<br>
-                <strong>📋 Matrícula:</strong> 202312345<br>
-                <strong>⏰ Turno:</strong> Noturno<br>
-                <strong>📅 Validade:</strong> Jan/2026 até Dez/2026
+                <strong><i class="fas fa-user"></i> Nome:</strong> Claudio Filho Rodrigues dos Santos<br>
+                <strong><i class="fas fa-graduation-cap"></i> Curso:</strong> Análise de Sistemas<br>
+                <strong><i class="fas fa-id-badge"></i> Matrícula:</strong> 202312345<br>
+                <strong><i class="fas fa-clock"></i> Turno:</strong> Noturno<br>
+                <strong><i class="fas fa-calendar-alt"></i> Validade:</strong> Jan/2026 até Dez/2026
             </div>
             
             <div class="card">
-                <strong>📱 Contato:</strong><br>
-                <strong>Email:</strong> claudio.estudante@email.com<br>
-                <strong>Telefone:</strong> (62) 98529-8782<br>
-                <strong>Campus:</strong> Cruzeiro do Sul Virtual - EAD
+                <strong><i class="fas fa-address-book"></i> Contato:</strong><br>
+                <strong><i class="fas fa-envelope"></i> Email:</strong> claudio.estudante@email.com<br>
+                <strong><i class="fas fa-phone"></i> Telefone:</strong> (62) 98529-8782<br>
+                <strong><i class="fas fa-university"></i> Campus:</strong> Cruzeiro do Sul Virtual - EAD
             </div>
         </div>
 
         <!-- ACADÊMICO -->
         <div class="screen" id="academico">
-            <div class="title">🎓 Informações Acadêmicas</div>
-            <div class="card"><strong>📚 Curso:</strong> Análise de Sistemas</div>
-            <div class="card"><strong>📅 Período:</strong> 2º Semestre</div>
-            <div class="card"><strong>📊 Situação:</strong> <span class="status cursando">Cursando</span></div>
-            <div class="card"><strong>⏰ Turno:</strong> Noturno</div>
-            <div class="card"><strong>📈 Progresso:</strong> 25% completo</div>
+            <div class="title">
+                <i class="fas fa-graduation-cap"></i> Informações Acadêmicas
+            </div>
+            <div class="card">
+                <strong><i class="fas fa-book"></i> Curso:</strong> Análise de Sistemas
+            </div>
+            <div class="card">
+                <strong><i class="fas fa-calendar"></i> Período:</strong> 2º Semestre
+            </div>
+            <div class="card">
+                <strong><i class="fas fa-chart-line"></i> Situação:</strong> 
+                <span class="status cursando">
+                    <i class="fas fa-spinner"></i> Cursando
+                </span>
+            </div>
+            <div class="card">
+                <strong><i class="fas fa-clock"></i> Turno:</strong> Noturno
+            </div>
+            <div class="card">
+                <strong><i class="fas fa-chart-bar"></i> Progresso:</strong> 25% completo
+            </div>
             <div class="progress-bar" style="height: 8px; background: var(--bg-card); border-radius: 4px; margin-top: 5px; overflow: hidden;">
                 <div style="width: 25%; height: 100%; background: linear-gradient(90deg, var(--accent-color), var(--primary-color));"></div>
             </div>
@@ -738,10 +936,12 @@ button:active, .btn:active {
 
         <!-- FINANCEIRO -->
         <div class="screen" id="financeiro">
-            <div class="title">💰 Situação Financeira</div>
+            <div class="title">
+                <i class="fas fa-money-bill-wave"></i> Situação Financeira
+            </div>
             
             <div class="search-container">
-                <span class="search-icon">🔍</span>
+                <span class="search-icon"><i class="fas fa-search"></i></span>
                 <input type="text" class="search-input" id="financeSearch" placeholder="Buscar mês..." onkeyup="filterFinance()">
             </div>
             
@@ -754,70 +954,80 @@ button:active, .btn:active {
             </div>
             
             <div class="card" style="background: rgba(77, 184, 255, 0.1); border-left-color: var(--accent-color);">
-                <strong>💡 Informação:</strong> 
+                <strong><i class="fas fa-info-circle"></i> Informação:</strong> 
                 Vencimento sempre no dia 05 de cada mês. Pagamentos após o vencimento terão acréscimo de 2% ao mês.
             </div>
         </div>
 
         <!-- PROTOCOLOS -->
         <div class="screen" id="protocolos">
-            <div class="title">📄 Protocolos e Documentos</div>
+            <div class="title">
+                <i class="fas fa-file-alt"></i> Protocolos e Documentos
+            </div>
             
             <div class="search-container">
-                <span class="search-icon">🔍</span>
+                <span class="search-icon"><i class="fas fa-search"></i></span>
                 <input type="text" class="search-input" id="protocolSearch" placeholder="Buscar protocolo..." onkeyup="filterProtocols()">
             </div>
 
             <div class="card protocol">
                 <div>
-                    <strong>📋 Declaração de Matrícula</strong><br>
-                    <small style="color: var(--text-light);">Solicitado em: 05/01/2026</small>
+                    <strong><i class="fas fa-file-signature"></i> Declaração de Matrícula</strong><br>
+                    <small style="color: var(--text-light);">
+                        <i class="far fa-calendar"></i> Solicitado em: 05/01/2026
+                    </small>
                 </div>
                 <div class="actions">
                     <span class="icon-btn" onclick="document.getElementById('pdfInput').click()">
-                        <span>✅</span> Aprovado
+                        <i class="fas fa-check"></i> Aprovado
                     </span>
                     <span class="icon-btn" onclick="openPDF()">
-                        <span>👁️</span> Visualizar
+                        <i class="fas fa-eye"></i> Visualizar
                     </span>
                 </div>
             </div>
 
             <div class="card protocol">
                 <div>
-                    <strong>📜 Histórico Escolar</strong><br>
-                    <small style="color: var(--text-light);">Solicitado em: 10/01/2026</small>
+                    <strong><i class="fas fa-history"></i> Histórico Escolar</strong><br>
+                    <small style="color: var(--text-light);">
+                        <i class="far fa-calendar"></i> Solicitado em: 10/01/2026
+                    </small>
                 </div>
                 <div class="actions">
                     <span class="icon-btn">
-                        <span>⏳</span> Em Análise
+                        <i class="fas fa-hourglass-half"></i> Em Análise
                     </span>
                 </div>
             </div>
             
             <div class="card protocol">
                 <div>
-                    <strong>💳 Comprovante de Pagamento</strong><br>
-                    <small style="color: var(--text-light);">Solicitado em: 12/01/2026</small>
+                    <strong><i class="fas fa-credit-card"></i> Comprovante de Pagamento</strong><br>
+                    <small style="color: var(--text-light);">
+                        <i class="far fa-calendar"></i> Solicitado em: 12/01/2026
+                    </small>
                 </div>
                 <div class="actions">
                     <span class="icon-btn">
-                        <span>⏳</span> Em Análise
+                        <i class="fas fa-hourglass-half"></i> Em Análise
                     </span>
                 </div>
             </div>
             
             <button class="btn-secondary" onclick="showToast('Novo protocolo em desenvolvimento!', 'info')">
-                <span>➕</span> Novo Protocolo
+                <i class="fas fa-plus"></i> Novo Protocolo
             </button>
         </div>
 
         <!-- DISCIPLINAS -->
         <div class="screen" id="disciplinas">
-            <div class="title">📚 Disciplinas do Semestre</div>
+            <div class="title">
+                <i class="fas fa-book"></i> Disciplinas do Semestre
+            </div>
             
             <div class="search-container">
-                <span class="search-icon">🔍</span>
+                <span class="search-icon"><i class="fas fa-search"></i></span>
                 <input type="text" class="search-input" id="subjectSearch" placeholder="Buscar disciplina..." onkeyup="filterSubjects()">
             </div>
 
@@ -828,48 +1038,59 @@ button:active, .btn:active {
     </div>
 </div>
 
-<!-- Modal para visualizar imagem -->
+<!-- Modal para visualizar imagem COM BOTÃO DE FECHAR -->
 <div class="modal" id="imageModal" onclick="closeImage()">
     <div class="modal-content">
+        <button class="close-modal" onclick="closeImage()">×</button>
         <img id="fullImage" alt="Imagem Ampliada">
     </div>
 </div>
 
-<!-- Modal para visualizar documento -->
+<!-- Modal para visualizar documento COM BOTÃO DE FECHAR -->
 <div class="modal" id="docModal" onclick="closeDoc()">
     <div class="modal-content">
-        <h2 style="text-align:center; color: var(--primary-color);">📋 COMPROVANTE DE MATRÍCULA</h2>
-        <hr style="margin: 15px 0; border-color: var(--bg-hover);">
-        <p style="text-align:center;font-weight:bold; color: var(--secondary-color);">
+        <button class="close-modal" onclick="closeDoc()">×</button>
+        <h2 style="text-align:center; color: var(--primary-color); margin-bottom: 20px;">
+            <i class="fas fa-file-alt"></i> COMPROVANTE DE MATRÍCULA
+        </h2>
+        <hr style="margin: 0 0 20px 0; border-color: var(--bg-hover);">
+        
+        <div style="text-align:center;font-weight:bold; color: var(--secondary-color); margin-bottom: 25px; font-size: 0.9rem;">
             CRUZEIRO DO SUL VIRTUAL – EDUCAÇÃO A DISTÂNCIA<br>
             Instituição de Ensino Superior – EAD
-        </p>
+        </div>
 
-        <div style="margin: 25px 0;">
-            <p>Declaramos, para os devidos fins, que o(a) aluno(a):</p>
-            <div class="card" style="margin: 15px 0;">
-                <strong>👤 Nome:</strong> Claudio Filho Rodrigues dos Santos<br>
-                <strong>🔢 CPF:</strong> 701.915.551-00<br>
-                <strong>📱 Telefone:</strong> (62) 98529-8782<br>
-                <strong>📧 Email:</strong> claudio.estudante@email.com
+        <div style="margin-bottom: 25px;">
+            <p style="margin-bottom: 15px;">Declaramos, para os devidos fins, que o(a) aluno(a):</p>
+            
+            <div class="card" style="margin: 15px 0; padding: 15px;">
+                <strong><i class="fas fa-user"></i> Nome:</strong> Claudio Filho Rodrigues dos Santos<br>
+                <strong><i class="fas fa-id-card"></i> CPF:</strong> 701.915.551-00<br>
+                <strong><i class="fas fa-phone"></i> Telefone:</strong> (62) 98529-8782<br>
+                <strong><i class="fas fa-envelope"></i> Email:</strong> claudio.estudante@email.com
             </div>
             
-            <p>Encontra-se regularmente matriculado(a) nesta Instituição de Ensino Superior, <strong>CRUZEIRO DO SUL VIRTUAL</strong>, na modalidade Educação a Distância (EAD), no curso de:</p>
-            <div class="card" style="text-align: center; margin: 15px 0;">
-                <strong style="font-size: 1.1rem;">🎓 Análise de Sistemas</strong><br>
-                <small>Matrícula: 202312345 | Turno: Noturno</small>
+            <p style="margin: 15px 0;">Encontra-se regularmente matriculado(a) nesta Instituição de Ensino Superior, <strong>CRUZEIRO DO SUL VIRTUAL</strong>, na modalidade Educação a Distância (EAD), no curso de:</p>
+            
+            <div class="card" style="text-align: center; margin: 15px 0; padding: 15px; background: rgba(77, 184, 255, 0.1);">
+                <strong style="font-size: 1.1rem; color: var(--primary-color);">
+                    <i class="fas fa-graduation-cap"></i> Análise de Sistemas
+                </strong><br>
+                <small style="color: var(--text-light);">Matrícula: 202312345 | Turno: Noturno</small>
             </div>
             
-            <p>O referido aluno está matriculado no ano letivo de <strong>2026</strong>, encontrando-se em situação acadêmica regular, conforme registros institucionais vigentes nesta data.</p>
-            <p>Este comprovante é emitido a pedido do interessado para fins de comprovação junto a quem possa interessar.</p>
+            <p style="margin: 15px 0;">O referido aluno está matriculado no ano letivo de <strong>2026</strong>, encontrando-se em situação acadêmica regular, conforme registros institucionais vigentes nesta data.</p>
+            <p style="margin: 15px 0;">Este comprovante é emitido a pedido do interessado para fins de comprovação junto a quem possa interessar.</p>
         </div>
         
         <div style="text-align: right; margin-top: 30px; padding-top: 15px; border-top: 2px solid var(--bg-hover);">
-            <p style="color: var(--text-light);">Goiânia, 05 de Janeiro de 2026</p>
-            <div style="margin-top: 20px;">
+            <p style="color: var(--text-light); margin-bottom: 20px;">
+                <i class="far fa-calendar"></i> Goiânia, 05 de Janeiro de 2026
+            </p>
+            <div>
                 <div style="border-top: 1px solid var(--text-dark); width: 200px; margin-left: auto; padding-top: 5px;">
                     <small style="color: var(--text-light);">Assinatura Digital</small><br>
-                    <strong>CRUZEIRO DO SUL VIRTUAL</strong>
+                    <strong style="color: var(--primary-color);">CRUZEIRO DO SUL VIRTUAL</strong>
                 </div>
             </div>
         </div>
@@ -897,7 +1118,7 @@ const elements = {
     subjectsContainer: document.getElementById('subjectsContainer'),
     sidebar: document.getElementById('sidebar'),
     menuOverlay: document.getElementById('menuOverlay'),
-    menuBtn: document.querySelector('.menu-btn'), // Adicionado
+    menuBtn: document.querySelector('.menu-btn'),
     menuItems: document.querySelectorAll('.sidebar li')
 };
 
@@ -956,27 +1177,19 @@ document.addEventListener('DOMContentLoaded', function() {
     }, 3000);
 });
 
-// Carregar dados salvos - AGORA SALVANDO E CARREGANDO CORRETAMENTE
+// Carregar dados salvos
 function loadSavedData() {
-    // Carregar a imagem do localStorage
     const savedPhoto = localStorage.getItem('studentPhoto');
-    console.log('Carregando imagem do localStorage:', savedPhoto ? 'Encontrada' : 'Não encontrada');
     
-    if (savedPhoto) {
-        // Verificar se a imagem é válida (não está vazia ou corrompida)
-        if (savedPhoto.startsWith('data:image/')) {
-            elements.photo.src = savedPhoto;
-            elements.photo.style.display = 'block';
-            elements.photoPlaceholder.style.display = 'none';
-            elements.viewBtn.style.display = 'block';
-            console.log('Imagem carregada com sucesso');
-        } else {
-            console.log('Imagem inválida no localStorage');
-            localStorage.removeItem('studentPhoto'); // Remover dado inválido
-        }
+    if (savedPhoto && savedPhoto.startsWith('data:image/')) {
+        elements.photo.src = savedPhoto;
+        elements.photo.style.display = 'block';
+        elements.photoPlaceholder.style.display = 'none';
+        elements.viewBtn.style.display = 'block';
+    } else if (savedPhoto) {
+        localStorage.removeItem('studentPhoto');
     }
     
-    // Carregar outras preferências
     try {
         const preferences = JSON.parse(localStorage.getItem('appPreferences') || '{}');
         if (preferences.lastScreen) {
@@ -995,7 +1208,6 @@ function savePreferences() {
             lastVisit: new Date().toISOString()
         };
         localStorage.setItem('appPreferences', JSON.stringify(preferences));
-        console.log('Preferências salvas');
     } catch (e) {
         console.error('Erro ao salvar preferências:', e);
     }
@@ -1006,38 +1218,31 @@ function toggleMenu() {
     const isActive = elements.sidebar.classList.toggle('active');
     elements.menuOverlay.classList.toggle('active');
     
-    // Mostrar ou esconder o botão do menu
     if (isActive) {
         elements.menuBtn.classList.add('hidden');
     } else {
         elements.menuBtn.classList.remove('hidden');
     }
     
-    // Feedback tátil (se suportado)
     if (navigator.vibrate) {
         navigator.vibrate(50);
     }
 }
 
 function openScreen(id) {
-    // Fechar menu se estiver aberto
     elements.sidebar.classList.remove('active');
     elements.menuOverlay.classList.remove('active');
-    elements.menuBtn.classList.remove('hidden'); // Mostrar o botão novamente
+    elements.menuBtn.classList.remove('hidden');
     
-    // Atualizar estado
     state.currentScreen = id;
     
-    // Esconder todas as telas
     document.querySelectorAll('.screen').forEach(s => {
         s.classList.remove('active');
-        s.style.animation = 'none'; // Reset animation
+        s.style.animation = 'none';
     });
     
-    // Atualizar itens do menu
     elements.menuItems.forEach(item => item.classList.remove('active'));
     
-    // Mostrar nova tela com animação
     setTimeout(() => {
         const screen = document.getElementById(id);
         if (screen) {
@@ -1045,14 +1250,12 @@ function openScreen(id) {
             screen.classList.add('active');
         }
         
-        // Ativar item correspondente no menu
         const menuIndex = getMenuIndex(id);
         if (menuIndex !== -1 && elements.menuItems[menuIndex]) {
             elements.menuItems[menuIndex].classList.add('active');
         }
-    }, 10); // Pequeno delay para garantir que a animação funcione
+    }, 10);
     
-    // Salvar preferências
     savePreferences();
 }
 
@@ -1063,12 +1266,11 @@ function getMenuIndex(screenId) {
 
 // Sistema de Notificações
 function updateNotifications() {
-    // Atualizar badge do financeiro
     const pending = state.financeData.filter(item => item.status === 'aberto').length;
     state.notifications.finance = pending;
 }
 
-// Upload de foto com progresso - AGORA SALVANDO CORRETAMENTE
+// Upload de foto
 elements.photoInput.onchange = function(e) {
     showLoading(true);
     
@@ -1078,24 +1280,20 @@ elements.photoInput.onchange = function(e) {
         return;
     }
     
-    // Validar tipo de arquivo
     if (!file.type.startsWith('image/')) {
         showToast('Por favor, selecione uma imagem válida', 'error');
         showLoading(false);
         return;
     }
     
-    // Validar tamanho (max 5MB)
     if (file.size > 5 * 1024 * 1024) {
         showToast('A imagem deve ter menos de 5MB', 'error');
         showLoading(false);
         return;
     }
     
-    // Mostrar barra de progresso
     elements.uploadProgress.style.display = 'block';
     
-    // Simular upload progressivo
     let progress = 0;
     const interval = setInterval(() => {
         progress += 10;
@@ -1104,15 +1302,11 @@ elements.photoInput.onchange = function(e) {
         if (progress >= 100) {
             clearInterval(interval);
             
-            // Processar imagem
             const reader = new FileReader();
             reader.onload = function(ev) {
                 try {
-                    // Salvar no localStorage
                     localStorage.setItem('studentPhoto', ev.target.result);
-                    console.log('Imagem salva no localStorage');
                     
-                    // Atualizar exibição
                     elements.photo.src = ev.target.result;
                     elements.photo.style.display = 'block';
                     elements.photoPlaceholder.style.display = 'none';
@@ -1122,7 +1316,6 @@ elements.photoInput.onchange = function(e) {
                     showLoading(false);
                     showToast('Foto carregada com sucesso!', 'success');
                     
-                    // Feedback tátil
                     if (navigator.vibrate) {
                         navigator.vibrate([50, 50, 50]);
                     }
@@ -1147,18 +1340,16 @@ function solicitarNovaCarteira() {
     document.getElementById('newCardInput').click();
 }
 
-// Event handler para nova carteira - AGORA SALVANDO CORRETAMENTE
+// Event handler para nova carteira
 elements.newCardInput.onchange = function(e) {
     const file = e.target.files[0];
     if (!file) return;
     
-    // Validar tipo de arquivo
     if (!file.type.startsWith('image/')) {
         showToast('Por favor, selecione uma imagem válida', 'error');
         return;
     }
     
-    // Validar tamanho (max 5MB)
     if (file.size > 5 * 1024 * 1024) {
         showToast('A imagem deve ter menos de 5MB', 'error');
         return;
@@ -1167,11 +1358,8 @@ elements.newCardInput.onchange = function(e) {
     const reader = new FileReader();
     reader.onload = function(ev) {
         try {
-            // Salvar no localStorage para persistência
             localStorage.setItem('studentPhoto', ev.target.result);
-            console.log('Nova imagem de carteira salva no localStorage');
             
-            // Atualizar a imagem exibida
             elements.photo.src = ev.target.result;
             elements.photo.style.display = 'block';
             elements.photoPlaceholder.style.display = 'none';
@@ -1179,7 +1367,6 @@ elements.newCardInput.onchange = function(e) {
             
             showToast('Nova carteira solicitada com sucesso!', 'success');
             
-            // Simular processamento
             setTimeout(() => {
                 showToast('Sua nova carteira será processada em até 48h', 'info');
             }, 1500);
@@ -1194,7 +1381,7 @@ elements.newCardInput.onchange = function(e) {
     reader.readAsDataURL(file);
 };
 
-// Visualizar imagem
+// Visualizar imagem - CORRIGIDO PARA FECHAR AO CLICAR FORA
 function openImage() {
     if (!elements.photo.src || elements.photo.src.includes('undefined')) {
         showToast('Por favor, faça upload de uma imagem primeiro', 'warning');
@@ -1203,19 +1390,33 @@ function openImage() {
     
     elements.fullImage.src = elements.photo.src;
     elements.imageModal.classList.add('active');
+    
+    // Adicionar evento para fechar com ESC
+    document.addEventListener('keydown', handleEscKey);
 }
 
 function closeImage() {
     elements.imageModal.classList.remove('active');
+    document.removeEventListener('keydown', handleEscKey);
 }
 
-// Visualizar documento
+// Visualizar documento - CORRIGIDO PARA FECHAR AO CLICAR FORA
 function openPDF() {
     elements.docModal.classList.add('active');
+    document.addEventListener('keydown', handleEscKey);
 }
 
 function closeDoc() {
     elements.docModal.classList.remove('active');
+    document.removeEventListener('keydown', handleEscKey);
+}
+
+// Função para lidar com tecla ESC
+function handleEscKey(e) {
+    if (e.key === 'Escape') {
+        closeImage();
+        closeDoc();
+    }
 }
 
 // Sistema de Paginação para Financeiro
@@ -1229,20 +1430,18 @@ function renderFinancePage(page) {
     const end = start + state.itemsPerPage;
     const pageItems = state.financeData.slice(start, end);
     
-    // Renderizar itens
     elements.financeContainer.innerHTML = '';
     pageItems.forEach(item => {
         const card = document.createElement('div');
         card.className = `card ${item.status}`;
         card.innerHTML = `
-            <strong>${item.month}</strong><br>
-            ${item.date}<br>
-            <span>${item.status === 'pago' ? '✅ Pago' : '⏳ Em aberto'}</span>
+            <strong><i class="fas fa-calendar"></i> ${item.month}</strong><br>
+            <i class="far fa-calendar-alt"></i> ${item.date}<br>
+            <span>${item.status === 'pago' ? '<i class="fas fa-check-circle"></i> Pago' : '<i class="fas fa-clock"></i> Em aberto'}</span>
         `;
         elements.financeContainer.appendChild(card);
     });
     
-    // Renderizar paginação
     const totalPages = Math.ceil(state.financeData.length / state.itemsPerPage);
     elements.pagination.innerHTML = '';
     
@@ -1266,10 +1465,10 @@ function renderSubjects() {
         const card = document.createElement('div');
         card.className = 'card protocol';
         card.innerHTML = `
-            ${subject.name}
+            <i class="fas fa-book"></i> ${subject.name}
             <span class="status ${subject.status}">
-                ${subject.status === 'aprovado' ? '✅ Aprovado' : 
-                  subject.status === 'cursando' ? '📚 Cursando' : '⏳ Pendente'}
+                ${subject.status === 'aprovado' ? '<i class="fas fa-check-circle"></i> Aprovado' : 
+                  subject.status === 'cursando' ? '<i class="fas fa-spinner"></i> Cursando' : '<i class="fas fa-clock"></i> Pendente'}
             </span>
         `;
         elements.subjectsContainer.appendChild(card);
@@ -1289,9 +1488,9 @@ function filterFinance() {
         const card = document.createElement('div');
         card.className = `card ${item.status}`;
         card.innerHTML = `
-            <strong>${item.month}</strong><br>
-            ${item.date}<br>
-            <span>${item.status === 'pago' ? '✅ Pago' : '⏳ Em aberto'}</span>
+            <strong><i class="fas fa-calendar"></i> ${item.month}</strong><br>
+            <i class="far fa-calendar-alt"></i> ${item.date}<br>
+            <span>${item.status === 'pago' ? '<i class="fas fa-check-circle"></i> Pago' : '<i class="fas fa-clock"></i> Em aberto'}</span>
         `;
         elements.financeContainer.appendChild(card);
     });
@@ -1323,7 +1522,6 @@ function showToast(message, type = 'info') {
     elements.toast.className = `toast ${type}`;
     elements.toast.classList.add('show');
     
-    // Feedback tátil baseado no tipo
     if (navigator.vibrate) {
         const pattern = type === 'error' ? [100, 50, 100] : 
                        type === 'warning' ? [200] : 
@@ -1347,22 +1545,32 @@ function showLoading(show) {
 
 // Configurar event listeners
 function setupEventListeners() {
-    // Fechar menu ao clicar no overlay
     elements.menuOverlay.addEventListener('click', toggleMenu);
     
-    // Prevenir fechamento ao clicar dentro do menu
     elements.sidebar.addEventListener('click', function(e) {
         e.stopPropagation();
     });
     
-    // Prevenir fechamento ao clicar dentro dos modais
+    // Prevenir que o clique dentro do modal feche ele
     document.querySelectorAll('.modal-content').forEach(modal => {
         modal.addEventListener('click', function(e) {
             e.stopPropagation();
         });
     });
     
-    // Tecla ESC para fechar modais e menu
+    // Fechar modal ao clicar no overlay (fora do modal-content)
+    elements.imageModal.addEventListener('click', function(e) {
+        if (e.target === this) {
+            closeImage();
+        }
+    });
+    
+    elements.docModal.addEventListener('click', function(e) {
+        if (e.target === this) {
+            closeDoc();
+        }
+    });
+    
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') {
             closeImage();
@@ -1373,26 +1581,14 @@ function setupEventListeners() {
         }
     });
     
-    // Salvar preferências ao sair
     window.addEventListener('beforeunload', savePreferences);
     
-    // Também salvar quando a página for ocultada
     document.addEventListener('visibilitychange', function() {
         if (document.hidden) {
             savePreferences();
         }
     });
 }
-
-// Adicionar CSS para animação de saída
-const style = document.createElement('style');
-style.textContent = `
-@keyframes fadeOut {
-    from { opacity: 1; transform: translateX(0); }
-    to { opacity: 0; transform: translateX(-20px); }
-}
-`;
-document.head.appendChild(style);
 </script>
 
 <script>
@@ -1402,4 +1598,3 @@ if ("serviceWorker" in navigator) {
 </script>
 </body>
 </html>
-
