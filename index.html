@@ -302,6 +302,64 @@ body {
     color: var(--primary-color);
 }
 
+/* FORMULÁRIO DE LOGIN */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--primary-color);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 14px 16px;
+    border: 2px solid var(--bg-hover);
+    border-radius: 10px;
+    background: var(--bg-light);
+    color: var(--text-dark);
+    font-size: 1rem;
+    transition: var(--transition);
+    font-family: inherit;
+}
+
+.form-group textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(77, 184, 255, 0.2);
+}
+
+.form-section {
+    background: var(--bg-card);
+    padding: 20px;
+    border-radius: 14px;
+    margin-bottom: 25px;
+    border-left: 4px solid var(--accent-color);
+}
+
+.form-section h3 {
+    color: var(--primary-color);
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
 /* STATUS */
 .status {
     padding: 6px 14px;
@@ -311,8 +369,8 @@ body {
     display: inline-flex;
     align-items: center;
     gap: 5px;
-    white-space: nowrap; /* Impede que o texto do status quebre */
-    flex-shrink: 0; /* Impede que o status encolha */
+    white-space: nowrap;
+    flex-shrink: 0;
 }
 
 .status i {
@@ -379,7 +437,7 @@ body {
     transform: translateY(-2px);
 }
 
-/* DISCIPLINAS - CORRIGIDO PARA NÃO QUEBRAR */
+/* DISCIPLINAS */
 .subject-card {
     background: var(--bg-card);
     padding: 18px;
@@ -405,7 +463,7 @@ body {
     align-items: center;
     gap: 12px;
     flex: 1;
-    min-width: 0; /* Permite que o texto quebre corretamente */
+    min-width: 0;
 }
 
 .subject-info i {
@@ -419,10 +477,10 @@ body {
 .subject-name {
     font-weight: 600;
     color: var(--text-dark);
-    word-break: break-word; /* Quebra palavras longas */
-    overflow-wrap: break-word; /* Quebra palavras muito longas */
+    word-break: break-word;
+    overflow-wrap: break-word;
     flex: 1;
-    min-width: 0; /* Importante para funcionar com flexbox */
+    min-width: 0;
 }
 
 /* FINANCEIRO COM PAGINAÇÃO */
@@ -624,6 +682,15 @@ button:active, .btn:active {
     border-color: var(--accent-color);
 }
 
+.btn-success {
+    background: var(--success-color);
+    color: white;
+}
+
+.btn-success:hover {
+    background: #1b5e20;
+}
+
 button i, .btn i {
     font-size: 16px;
     color: white;
@@ -635,7 +702,7 @@ button i, .btn i {
     color: var(--primary-color);
 }
 
-/* MODAIS - VOLTANDO AO ESTADO ANTERIOR */
+/* MODAIS */
 .modal {
     position: fixed;
     top: 0;
@@ -665,17 +732,17 @@ button i, .btn i {
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
 }
 
-/* MODAL DA IMAGEM - COMO ESTAVA ANTES (IMAGEM GRANDE NO QUADRADO BRANCO) */
+/* MODAL DA IMAGEM */
 .modal-content img {
-    width: 100%; /* Ocupa toda a largura disponível */
-    height: auto; /* Mantém proporção */
-    max-height: 70vh; /* Altura máxima */
-    object-fit: contain; /* Garante que toda imagem seja visível */
+    width: 100%;
+    height: auto;
+    max-height: 70vh;
+    object-fit: contain;
     border-radius: 8px;
-    border: 2px solid #0f2a44; /* Borda azul escuro como antes */
-    box-shadow: 0 8px 32px rgba(15, 42, 68, 0.3); /* Sombra como antes */
+    border: 2px solid #0f2a44;
+    box-shadow: 0 8px 32px rgba(15, 42, 68, 0.3);
     display: block;
-    margin: 0 auto; /* Centraliza a imagem */
+    margin: 0 auto;
 }
 
 /* MODAL DO DOCUMENTO */
@@ -802,7 +869,6 @@ button i, .btn i {
         width: 95%;
     }
     
-    /* Ajustes para disciplinas em mobile */
     .subject-card {
         padding: 15px;
         gap: 10px;
@@ -878,7 +944,7 @@ button i, .btn i {
         </div>
         
         <div class="header-content">
-            <h1>Cruzeiro Virtual App</h1>
+            <h1 id="headerTitle">Cruzeiro Virtual App</h1>
         </div>
     </div>
 
@@ -888,6 +954,10 @@ button i, .btn i {
             <li class="active" onclick="openScreen('perfil')">
                 <i class="fas fa-user"></i>
                 <span>Perfil</span>
+            </li>
+            <li onclick="openScreen('login')">
+                <i class="fas fa-user-edit"></i>
+                <span>Editar Dados do Perfil</span>
             </li>
             <li onclick="openScreen('academico')">
                 <i class="fas fa-graduation-cap"></i>
@@ -937,20 +1007,111 @@ button i, .btn i {
             <input type="file" id="photoInput" accept="image/*" hidden>
             <input type="file" id="newCardInput" accept="image/*" hidden>
 
-            <div class="card">
-                <strong><i class="fas fa-user"></i> Nome:</strong> Claudio Filho Rodrigues<br>
-                <strong><i class="fas fa-graduation-cap"></i> Curso:</strong> Análise de Sistemas<br>
-                <strong><i class="fas fa-id-badge"></i> Matrícula:</strong> 202312345<br>
-                <strong><i class="fas fa-clock"></i> Turno:</strong> Noturno<br>
-                <strong><i class="fas fa-calendar-alt"></i> Validade:</strong> Jan/2026 até Dez/2026
+            <div class="card" id="profileInfoCard">
+                <!-- Conteúdo carregado dinamicamente -->
             </div>
             
-            <div class="card">
-                <strong>Contatos</strong><br>
-                <strong><i class="fas fa-envelope"></i> Email:</strong> claudio_frds@live.com<br>
-                <strong><i class="fas fa-phone"></i> Telefone:</strong> (62) 98529-8782<br>
-                <strong><i class="fas fa-university"></i> Local:</strong> Cruzeiro do Sul - EAD
+            <div class="card" id="profileContactsCard">
+                <!-- Conteúdo carregado dinamicamente -->
             </div>
+            
+            <!-- REMOVIDO O BOTÃO "Editar Meus Dados" DA TELA INICIAL -->
+        </div>
+
+        <!-- EDITAR PERFIL -->
+        <div class="screen" id="login">
+            <div class="title">
+                <i class="fas fa-user-edit"></i> Editar Dados do Perfil
+            </div>
+            
+            <div class="card" style="margin-bottom: 25px; background: rgba(77, 184, 255, 0.1);">
+                <strong><i class="fas fa-info-circle"></i> Informação:</strong> 
+                Os dados editados aqui serão atualizados automaticamente na tela de perfil e no comprovante de matrícula.
+            </div>
+            
+            <div class="form-section">
+                <h3><i class="fas fa-user"></i> Dados Pessoais</h3>
+                
+                <div class="form-group">
+                    <label><i class="fas fa-user"></i> Nome Completo:</label>
+                    <input type="text" id="editNome" placeholder="Digite seu nome completo">
+                </div>
+                
+                <div class="form-group">
+                    <label><i class="fas fa-id-card"></i> CPF:</label>
+                    <input type="text" id="editCPF" placeholder="Digite seu CPF (somente números)" maxlength="11">
+                </div>
+                
+                <div class="form-group">
+                    <label><i class="fas fa-envelope"></i> Email:</label>
+                    <input type="email" id="editEmail" placeholder="Digite seu email">
+                </div>
+                
+                <div class="form-group">
+                    <label><i class="fas fa-phone"></i> Telefone:</label>
+                    <input type="text" id="editTelefone" placeholder="Digite seu telefone">
+                </div>
+            </div>
+            
+            <div class="form-section">
+                <h3><i class="fas fa-graduation-cap"></i> Dados Acadêmicos</h3>
+                
+                <div class="form-group">
+                    <label><i class="fas fa-graduation-cap"></i> Curso:</label>
+                    <input type="text" id="editCurso" placeholder="Digite seu curso">
+                </div>
+                
+                <div class="form-group">
+                    <label><i class="fas fa-id-badge"></i> Matrícula:</label>
+                    <input type="text" id="editMatricula" placeholder="Digite sua matrícula">
+                </div>
+                
+                <div class="form-group">
+                    <label><i class="fas fa-clock"></i> Turno:</label>
+                    <select id="editTurno">
+                        <option value="Matutino">Matutino</option>
+                        <option value="Vespertino">Vespertino</option>
+                        <option value="Noturno">Noturno</option>
+                        <option value="Integral">Integral</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label><i class="fas fa-calendar-alt"></i> Validade:</label>
+                    <input type="text" id="editValidade" placeholder="Ex: Jan/2026 até Dez/2026">
+                </div>
+                
+                <div class="form-group">
+                    <label><i class="fas fa-university"></i> Local:</label>
+                    <input type="text" id="editLocal" placeholder="Digite o local">
+                </div>
+            </div>
+            
+            <div class="form-section">
+                <h3><i class="fas fa-book"></i> Disciplinas do Semestre</h3>
+                <div class="card" style="margin-bottom: 15px; background: rgba(77, 184, 255, 0.05);">
+                    <strong><i class="fas fa-info-circle"></i> Instruções:</strong> 
+                    Digite cada disciplina em uma linha separada. Exemplo:<br>
+                    <small style="color: var(--text-light);">
+                        Estrutura de Dados<br>
+                        Programação Orientada a Objetos<br>
+                        Banco de Dados
+                    </small>
+                </div>
+                
+                <div class="form-group">
+                    <label><i class="fas fa-book"></i> Lista de Disciplinas:</label>
+                    <textarea id="editDisciplinas" placeholder="Digite as disciplinas, uma por linha"></textarea>
+                </div>
+            </div>
+            
+            <button onclick="salvarDados()" class="btn-success">
+                <i class="fas fa-save"></i> Salvar Todas as Alterações
+            </button>
+            
+            <button onclick="openScreen('perfil')" class="btn-secondary">
+                <i class="fas fa-arrow-left"></i> Voltar para o Perfil
+            </button>
         </div>
 
         <!-- ACADÊMICO -->
@@ -959,7 +1120,7 @@ button i, .btn i {
                 <i class="fas fa-graduation-cap"></i> Informações Acadêmicas
             </div>
             <div class="card">
-                <strong><i class="fas fa-book"></i> Curso:</strong> Análise de Sistemas
+                <strong><i class="fas fa-book"></i> Curso:</strong> <span id="academicCurso">Análise de Sistemas</span>
             </div>
             <div class="card">
                 <strong><i class="fas fa-calendar"></i> Período:</strong> 2º Semestre
@@ -971,7 +1132,7 @@ button i, .btn i {
                 </span>
             </div>
             <div class="card">
-                <strong><i class="fas fa-clock"></i> Turno:</strong> Noturno
+                <strong><i class="fas fa-clock"></i> Turno:</strong> <span id="academicTurno">Noturno</span>
             </div>
             <div class="card">
                 <strong><i class="fas fa-chart-bar"></i> Progresso:</strong> 25% completo
@@ -1085,7 +1246,7 @@ button i, .btn i {
     </div>
 </div>
 
-<!-- Modal para visualizar imagem COM QUADRADO BRANCO (COMO ANTES) -->
+<!-- Modal para visualizar imagem -->
 <div class="modal" id="imageModal" onclick="closeImage()">
     <div class="modal-content">
         <img id="fullImage" alt="Imagem Ampliada">
@@ -1108,20 +1269,14 @@ button i, .btn i {
         <div style="margin-bottom: 25px;">
             <p style="margin-bottom: 15px;">Declaramos, para os devidos fins, que o(a) aluno(a):</p>
             
-            <div class="card" style="margin: 15px 0; padding: 15px;">
-                <strong><i class="fas fa-user"></i> Nome:</strong> Claudio Filho Rodrigues dos Santos<br>
-                <strong><i class="fas fa-id-card"></i> CPF:</strong> 701.915.551-00<br>
-                <strong><i class="fas fa-phone"></i> Telefone:</strong> (62) 98529-8782<br>
-                <strong><i class="fas fa-envelope"></i> Email:</strong>claudio_frds@live.com
+            <div class="card" style="margin: 15px 0; padding: 15px;" id="docInfoCard">
+                <!-- Dados carregados dinamicamente -->
             </div>
             
             <p style="margin: 15px 0;">Encontra-se regularmente matriculado(a) nesta Instituição de Ensino Superior, <strong>CRUZEIRO DO SUL VIRTUAL</strong>, na modalidade Educação a Distância (EAD), no curso de:</p>
             
-            <div class="card" style="text-align: center; margin: 15px 0; padding: 15px; background: rgba(77, 184, 255, 0.1);">
-                <strong style="font-size: 1.1rem; color: var(--primary-color);">
-                    <i class="fas fa-graduation-cap"></i> Análise de Sistemas
-                </strong><br>
-                <small style="color: var(--text-light);">Matrícula: 202312345 | Turno: Noturno</small>
+            <div class="card" style="text-align: center; margin: 15px 0; padding: 15px; background: rgba(77, 184, 255, 0.1);" id="docCourseCard">
+                <!-- Curso carregado dinamicamente -->
             </div>
             
             <p style="margin: 15px 0;">O referido aluno está matriculado no ano letivo de <strong>2026</strong>, encontrando-se em situação acadêmica regular, conforme registros institucionais vigentes nesta data.</p>
@@ -1164,7 +1319,35 @@ const elements = {
     sidebar: document.getElementById('sidebar'),
     menuOverlay: document.getElementById('menuOverlay'),
     menuBtn: document.querySelector('.menu-btn'),
-    menuItems: document.querySelectorAll('.sidebar li')
+    menuItems: document.querySelectorAll('.sidebar li'),
+    profileInfoCard: document.getElementById('profileInfoCard'),
+    profileContactsCard: document.getElementById('profileContactsCard'),
+    docInfoCard: document.getElementById('docInfoCard'),
+    docCourseCard: document.getElementById('docCourseCard'),
+    headerTitle: document.getElementById('headerTitle')
+};
+
+// Dados do usuário
+const userData = {
+    nome: 'Claudio Filho Rodrigues',
+    cpf: '70191555100',
+    curso: 'Análise de Sistemas',
+    matricula: '202312345',
+    validade: 'Jan/2026 até Dez/2026',
+    turno: 'Noturno',
+    email: 'claudio_frds@live.com',
+    telefone: '(62) 98529-8782',
+    local: 'Cruzeiro do Sul - EAD',
+    disciplinas: `Estrutura de Dados e Algoritmos Avançados
+Programação Orientada a Objetos II
+Banco de Dados Relacionais e Não-Relacionais
+Engenharia de Software: Métodos Ágeis
+Arquitetura e Organização de Computadores
+Redes de Computadores e Comunicação de Dados
+Desenvolvimento Web com Frameworks Modernos
+Análise e Projeto de Sistemas de Informação
+Matemática Discreta para Computação
+Interface Humano-Computador e UX/UI Design`
 };
 
 // Estado da aplicação
@@ -1184,18 +1367,6 @@ const state = {
         { month: 'Novembro', date: '05/11/2026', status: 'aberto' },
         { month: 'Dezembro', date: '05/12/2026', status: 'aberto' }
     ],
-    subjectsData: [
-        { name: 'Estrutura de Dados e Algoritmos Avançados', status: 'aprovado' },
-        { name: 'Programação Orientada a Objetos II', status: 'aprovado' },
-        { name: 'Banco de Dados Relacionais e Não-Relacionais', status: 'cursando' },
-        { name: 'Engenharia de Software: Métodos Ágeis', status: 'cursando' },
-        { name: 'Arquitetura e Organização de Computadores', status: 'cursando' },
-        { name: 'Redes de Computadores e Comunicação de Dados', status: 'cursando' },
-        { name: 'Desenvolvimento Web com Frameworks Modernos', status: 'cursando' },
-        { name: 'Análise e Projeto de Sistemas de Informação', status: 'cursando' },
-        { name: 'Matemática Discreta para Computação', status: 'cursando' },
-        { name: 'Interface Humano-Computador e UX/UI Design', status: 'cursando' }
-    ],
     currentFinancePage: 1,
     itemsPerPage: 6,
     notifications: {
@@ -1210,22 +1381,19 @@ document.addEventListener('DOMContentLoaded', function() {
     initFinancePagination();
     initSubjects();
     setupEventListeners();
+    updateUserProfile();
     updateNotifications();
     
     // Simular algumas notificações
     setTimeout(() => {
         showToast('Bem-vindo ao Cruzeiro Virtual App!', 'success');
     }, 1000);
-    
-    setTimeout(() => {
-        showToast('Você tem 2 pendências financeiras', 'warning');
-    }, 3000);
 });
 
 // Carregar dados salvos
 function loadSavedData() {
+    // Carregar foto
     const savedPhoto = localStorage.getItem('studentPhoto');
-    
     if (savedPhoto && savedPhoto.startsWith('data:image/')) {
         elements.photo.src = savedPhoto;
         elements.photo.style.display = 'block';
@@ -1235,6 +1403,17 @@ function loadSavedData() {
         localStorage.removeItem('studentPhoto');
     }
     
+    // Carregar dados do usuário
+    const savedUserData = localStorage.getItem('userData');
+    if (savedUserData) {
+        try {
+            Object.assign(userData, JSON.parse(savedUserData));
+            updateFormFields();
+        } catch (e) {
+            console.error('Erro ao carregar dados do usuário:', e);
+        }
+    }
+    
     try {
         const preferences = JSON.parse(localStorage.getItem('appPreferences') || '{}');
         if (preferences.lastScreen) {
@@ -1242,6 +1421,82 @@ function loadSavedData() {
         }
     } catch (e) {
         console.error('Erro ao carregar preferências:', e);
+    }
+}
+
+// Atualizar campos do formulário
+function updateFormFields() {
+    document.getElementById('editNome').value = userData.nome;
+    document.getElementById('editCPF').value = userData.cpf;
+    document.getElementById('editCurso').value = userData.curso;
+    document.getElementById('editMatricula').value = userData.matricula;
+    document.getElementById('editValidade').value = userData.validade;
+    document.getElementById('editEmail').value = userData.email;
+    document.getElementById('editTelefone').value = userData.telefone;
+    document.getElementById('editTurno').value = userData.turno;
+    document.getElementById('editLocal').value = userData.local;
+    document.getElementById('editDisciplinas').value = userData.disciplinas;
+    
+    // Atualizar também na tela acadêmica
+    document.getElementById('academicCurso').textContent = userData.curso;
+    document.getElementById('academicTurno').textContent = userData.turno;
+}
+
+// Atualizar perfil do usuário
+function updateUserProfile() {
+    // Format CPF
+    const formattedCPF = userData.cpf ? 
+        userData.cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4') : 
+        '701.915.551-00';
+    
+    // Atualizar tela de perfil
+    elements.profileInfoCard.innerHTML = `
+        <strong><i class="fas fa-user"></i> Nome:</strong> ${userData.nome}<br>
+        <strong><i class="fas fa-graduation-cap"></i> Curso:</strong> ${userData.curso}<br>
+        <strong><i class="fas fa-id-badge"></i> Matrícula:</strong> ${userData.matricula}<br>
+        <strong><i class="fas fa-clock"></i> Turno:</strong> ${userData.turno}<br>
+        <strong><i class="fas fa-calendar-alt"></i> Validade:</strong> ${userData.validade}
+    `;
+    
+    elements.profileContactsCard.innerHTML = `
+        <strong>Contatos</strong><br>
+        <strong><i class="fas fa-envelope"></i> Email:</strong> ${userData.email}<br>
+        <strong><i class="fas fa-phone"></i> Telefone:</strong> ${userData.telefone}<br>
+        <strong><i class="fas fa-university"></i> Local:</strong> ${userData.local}
+    `;
+    
+    // Atualizar tela acadêmica
+    document.getElementById('academicCurso').textContent = userData.curso;
+    document.getElementById('academicTurno').textContent = userData.turno;
+    
+    // Atualizar comprovante de matrícula
+    updateDocumentModal();
+}
+
+// Atualizar modal do documento
+function updateDocumentModal() {
+    // Format CPF for document
+    const formattedCPF = userData.cpf ? 
+        userData.cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4') : 
+        '701.915.551-00';
+    
+    elements.docInfoCard.innerHTML = `
+        <strong><i class="fas fa-user"></i> Nome:</strong> ${userData.nome}<br>
+        <strong><i class="fas fa-id-card"></i> CPF:</strong> ${formattedCPF}<br>
+        <strong><i class="fas fa-phone"></i> Telefone:</strong> ${userData.telefone}<br>
+        <strong><i class="fas fa-envelope"></i> Email:</strong> ${userData.email}
+    `;
+    
+    elements.docCourseCard.innerHTML = `
+        <strong style="font-size: 1.1rem; color: var(--primary-color);">
+            <i class="fas fa-graduation-cap"></i> ${userData.curso}
+        </strong><br>
+        <small style="color: var(--text-light);">Matrícula: ${userData.matricula} | Turno: ${userData.turno}</small>
+    `;
+    
+    // Atualizar título do header se tiver nome
+    if (userData.nome && userData.nome.trim() !== '') {
+        elements.headerTitle.textContent = `Cruzeiro Virtual - ${userData.nome.split(' ')[0]}`;
     }
 }
 
@@ -1299,14 +1554,79 @@ function openScreen(id) {
         if (menuIndex !== -1 && elements.menuItems[menuIndex]) {
             elements.menuItems[menuIndex].classList.add('active');
         }
+        
+        // Se abrir a tela de disciplinas, atualiza a lista
+        if (id === 'disciplinas') {
+            initSubjects();
+        }
     }, 10);
     
     savePreferences();
 }
 
 function getMenuIndex(screenId) {
-    const screens = ['perfil', 'academico', 'financeiro', 'protocolos', 'disciplinas'];
+    const screens = ['perfil', 'login', 'academico', 'financeiro', 'protocolos', 'disciplinas'];
     return screens.indexOf(screenId);
+}
+
+// Salvar dados do usuário
+function salvarDados() {
+    showLoading(true);
+    
+    try {
+        // Coletar dados do formulário
+        userData.nome = document.getElementById('editNome').value.trim();
+        userData.cpf = document.getElementById('editCPF').value.replace(/\D/g, '').trim(); // Remove não-números
+        userData.curso = document.getElementById('editCurso').value.trim();
+        userData.matricula = document.getElementById('editMatricula').value.trim();
+        userData.validade = document.getElementById('editValidade').value.trim();
+        userData.email = document.getElementById('editEmail').value.trim();
+        userData.telefone = document.getElementById('editTelefone').value.trim();
+        userData.turno = document.getElementById('editTurno').value;
+        userData.local = document.getElementById('editLocal').value.trim();
+        userData.disciplinas = document.getElementById('editDisciplinas').value.trim();
+        
+        // Validar campos obrigatórios
+        if (!userData.nome || !userData.curso || !userData.matricula) {
+            showToast('Preencha os campos obrigatórios (Nome, Curso e Matrícula)', 'error');
+            showLoading(false);
+            return;
+        }
+        
+        // Validar CPF (opcional, mas se preenchido, deve ter 11 dígitos)
+        if (userData.cpf && userData.cpf.length !== 11) {
+            showToast('CPF deve conter 11 dígitos (somente números)', 'error');
+            showLoading(false);
+            return;
+        }
+        
+        // Salvar no localStorage
+        localStorage.setItem('userData', JSON.stringify(userData));
+        
+        // Atualizar interface
+        updateUserProfile();
+        initSubjects(); // Atualiza as disciplinas na tela
+        
+        // Feedback ao usuário
+        setTimeout(() => {
+            showLoading(false);
+            showToast('Dados salvos com sucesso!', 'success');
+            
+            if (navigator.vibrate) {
+                navigator.vibrate([50, 50, 50]);
+            }
+            
+            // Voltar para a tela de perfil após 1 segundo
+            setTimeout(() => {
+                openScreen('perfil');
+            }, 1000);
+        }, 800);
+        
+    } catch (error) {
+        showLoading(false);
+        console.error('Erro ao salvar dados:', error);
+        showToast('Erro ao salvar dados. Tente novamente.', 'error');
+    }
 }
 
 // Sistema de Notificações
@@ -1485,24 +1805,45 @@ function renderFinancePage(page) {
     }
 }
 
-// Sistema de Disciplinas - ATUALIZADO COM NOVA ESTRUTURA
+// Sistema de Disciplinas
 function initSubjects() {
     renderSubjects();
 }
 
 function renderSubjects() {
     elements.subjectsContainer.innerHTML = '';
-    state.subjectsData.forEach(subject => {
+    
+    if (!userData.disciplinas || userData.disciplinas.trim() === '') {
+        elements.subjectsContainer.innerHTML = `
+            <div class="card" style="text-align: center; padding: 30px;">
+                <i class="fas fa-book" style="font-size: 2rem; color: var(--text-light); margin-bottom: 15px;"></i>
+                <p style="color: var(--text-light);">Nenhuma disciplina cadastrada.</p>
+                <p style="color: var(--text-light); font-size: 0.9rem; margin-top: 10px;">
+                    Vá em "Editar Dados do Perfil" para adicionar disciplinas.
+                </p>
+            </div>
+        `;
+        return;
+    }
+    
+    // Divide as disciplinas por linha
+    const disciplinasArray = userData.disciplinas.split('\n').filter(d => d.trim() !== '');
+    
+    disciplinasArray.forEach((disciplina, index) => {
         const card = document.createElement('div');
         card.className = 'subject-card';
+        
+        // Alterna status entre "cursando" e "aprovado" para visualização
+        const status = index % 3 === 0 ? 'aprovado' : 'cursando';
+        
         card.innerHTML = `
             <div class="subject-info">
                 <i class="fas fa-book"></i>
-                <div class="subject-name">${subject.name}</div>
+                <div class="subject-name">${disciplina.trim()}</div>
             </div>
-            <span class="status ${subject.status}">
-                ${subject.status === 'aprovado' ? '<i class="fas fa-check-circle"></i> Aprovado' : 
-                  subject.status === 'cursando' ? '<i class="fas fa-spinner"></i> Cursando' : '<i class="fas fa-clock"></i> Pendente'}
+            <span class="status ${status}">
+                ${status === 'aprovado' ? '<i class="fas fa-check-circle"></i> Aprovado' : 
+                  '<i class="fas fa-spinner"></i> Cursando'}
             </span>
         `;
         elements.subjectsContainer.appendChild(card);
@@ -1630,4 +1971,3 @@ if ("serviceWorker" in navigator) {
 </script>
 </body>
 </html>
-
