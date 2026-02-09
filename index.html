@@ -919,6 +919,45 @@ button i, .btn i {
         font-size: 0.9rem;
     }
 }
+
+/* Estilos para a tela de Aparência */
+.color-option {
+    cursor: pointer;
+    transition: var(--transition);
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.color-option:hover {
+    background: var(--bg-hover);
+    transform: translateY(-5px);
+}
+
+.color-option.active .color-preview {
+    border: 3px solid var(--accent-color) !important;
+}
+
+.color-mode-btn {
+    background: var(--bg-card);
+    border: 2px solid var(--bg-hover);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: var(--transition);
+    color: var(--text-dark);
+    font-size: 0.9rem;
+}
+
+.color-mode-btn:hover {
+    background: var(--bg-hover);
+    border-color: var(--accent-color);
+    transform: translateY(-2px);
+}
+
+.color-mode-btn.active {
+    background: var(--secondary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
 </style>
 </head>
 
@@ -944,7 +983,7 @@ button i, .btn i {
         </div>
         
         <div class="header-content">
-            <h1 id="headerTitle">Cruzeiro Virtual App</h1>
+            <h1 id="headerTitle">DNE - Documento Nacional do Estudante</h1>
         </div>
     </div>
 
@@ -975,6 +1014,10 @@ button i, .btn i {
                 <i class="fas fa-book"></i>
                 <span>Disciplinas</span>
             </li>
+            <li onclick="openScreen('aparencia')">
+                <i class="fas fa-palette"></i>
+                <span>Aparência</span>
+            </li>
         </ul>
     </div>
 
@@ -1001,7 +1044,7 @@ button i, .btn i {
                 <i class="fas fa-eye"></i> Visualizar Carteira
             </button>
             <button onclick="solicitarNovaCarteira()">
-                <i class="fas fa-sync-alt"></i> Solicitar Nova Carteira
+                <i class="fas fa-sync-alt"></i> Solicitar Carteira Fisica
             </button>
 
             <input type="file" id="photoInput" accept="image/*" hidden>
@@ -1243,6 +1286,84 @@ button i, .btn i {
                 <!-- Disciplinas serão carregadas aqui com a nova estrutura -->
             </div>
         </div>
+
+        <!-- APARÊNCIA/TEMA -->
+        <div class="screen" id="aparencia">
+            <div class="title">
+                <i class="fas fa-palette"></i> Personalizar Aparência
+            </div>
+            
+            <div class="card" style="margin-bottom: 25px; background: rgba(77, 184, 255, 0.1);">
+                <strong><i class="fas fa-info-circle"></i> Informação:</strong> 
+                Escolha um tema de cores para personalizar a aparência do aplicativo.
+            </div>
+            
+            <div class="form-section">
+                <h3><i class="fas fa-fill-drip"></i> Cores do Tema</h3>
+                
+                <div class="color-picker-container" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 15px; margin-top: 20px;">
+                    <!-- Tema Azul Original (Padrão) -->
+                    <div class="color-option" onclick="changeTheme('blue')" data-color="blue">
+                        <div class="color-preview" style="background: linear-gradient(135deg, #0f2a44, #1f4d7a); height: 60px; border-radius: 10px; margin-bottom: 10px; border: 2px solid transparent;"></div>
+                        <div style="text-align: center; font-weight: 600; color: var(--text-dark);">Azul Original</div>
+                    </div>
+                    
+                    <!-- Tema Verde -->
+                    <div class="color-option" onclick="changeTheme('green')" data-color="green">
+                        <div class="color-preview" style="background: linear-gradient(135deg, #1b5e20, #2e7d32); height: 60px; border-radius: 10px; margin-bottom: 10px; border: 2px solid transparent;"></div>
+                        <div style="text-align: center; font-weight: 600; color: var(--text-dark);">Verde</div>
+                    </div>
+                    
+                    <!-- Tema Roxo -->
+                    <div class="color-option" onclick="changeTheme('purple')" data-color="purple">
+                        <div class="color-preview" style="background: linear-gradient(135deg, #4a148c, #6a1b9a); height: 60px; border-radius: 10px; margin-bottom: 10px; border: 2px solid transparent;"></div>
+                        <div style="text-align: center; font-weight: 600; color: var(--text-dark);">Roxo</div>
+                    </div>
+                    
+                    <!-- Tema Vermelho -->
+                    <div class="color-option" onclick="changeTheme('red')" data-color="red">
+                        <div class="color-preview" style="background: linear-gradient(135deg, #b71c1c, #d32f2f); height: 60px; border-radius: 10px; margin-bottom: 10px; border: 2px solid transparent;"></div>
+                        <div style="text-align: center; font-weight: 600; color: var(--text-dark);">Vermelho</div>
+                    </div>
+                    
+                    <!-- Tema Laranja -->
+                    <div class="color-option" onclick="changeTheme('orange')" data-color="orange">
+                        <div class="color-preview" style="background: linear-gradient(135deg, #e65100, #f57c00); height: 60px; border-radius: 10px; margin-bottom: 10px; border: 2px solid transparent;"></div>
+                        <div style="text-align: center; font-weight: 600; color: var(--text-dark);">Laranja</div>
+                    </div>
+                    
+                    <!-- Tema Escuro Cinza -->
+                    <div class="color-option" onclick="changeTheme('dark-gray')" data-color="dark-gray">
+                        <div class="color-preview" style="background: linear-gradient(135deg, #212121, #424242); height: 60px; border-radius: 10px; margin-bottom: 10px; border: 2px solid transparent;"></div>
+                        <div style="text-align: center; font-weight: 600; color: var(--text-dark);">Cinza Escuro</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-section">
+                <h3><i class="fas fa-adjust"></i> Modo de Cores</h3>
+                
+                <div style="display: flex; gap: 15px; margin-top: 15px;">
+                    <button onclick="setColorMode('auto')" class="color-mode-btn" style="flex: 1; padding: 12px;">
+                        <i class="fas fa-desktop"></i> Automático
+                    </button>
+                    <button onclick="setColorMode('light')" class="color-mode-btn" style="flex: 1; padding: 12px;">
+                        <i class="fas fa-sun"></i> Claro
+                    </button>
+                    <button onclick="setColorMode('dark')" class="color-mode-btn" style="flex: 1; padding: 12px;">
+                        <i class="fas fa-moon"></i> Escuro
+                    </button>
+                </div>
+            </div>
+            
+            <button onclick="resetTheme()" class="btn-secondary" style="margin-top: 20px;">
+                <i class="fas fa-undo"></i> Redefinir para Padrão
+            </button>
+            
+            <button onclick="openScreen('login')" class="btn-secondary">
+                <i class="fas fa-arrow-left"></i> Voltar para Secretaria
+            </button>
+        </div>
     </div>
 </div>
 
@@ -1262,8 +1383,8 @@ button i, .btn i {
         <hr style="margin: 0 0 20px 0; border-color: var(--bg-hover);">
         
         <div style="text-align:center;font-weight:bold; color: var(--secondary-color); margin-bottom: 25px; font-size: 0.9rem;">
-            CRUZEIRO DO SUL VIRTUAL – EDUCAÇÃO A DISTÂNCIA<br>
-            Instituição de Ensino Superior – EAD
+            DNE Documento Nacional do estudante<br>
+            Instituição validadora
         </div>
 
         <div style="margin-bottom: 25px;">
@@ -1273,7 +1394,7 @@ button i, .btn i {
                 <!-- Dados carregados dinamicamente -->
             </div>
             
-            <p style="margin: 15px 0;">Encontra-se regularmente matriculado(a) nesta Instituição de Ensino Superior, <strong>CRUZEIRO DO SUL VIRTUAL</strong>, na modalidade Educação a Distância (EAD), no curso de:</p>
+            <p style="margin: 15px 0;">Encontra-se regularmente matriculado(a) em uma Instituição de Ensino Superior esta validação se da por meio da, <strong>UDE União para Desenvolvimento de Estudantes</strong>, na modalidade Educação a Distância (EAD), no curso de:</p>
             
             <div class="card" style="text-align: center; margin: 15px 0; padding: 15px; background: rgba(77, 184, 255, 0.1);" id="docCourseCard">
                 <!-- Curso carregado dinamicamente -->
@@ -1290,7 +1411,7 @@ button i, .btn i {
             <div>
                 <div style="border-top: 1px solid var(--text-dark); width: 200px; margin-left: auto; padding-top: 5px;">
                     <small style="color: var(--text-light);">Assinatura Digital</small><br>
-                    <strong style="color: var(--primary-color);">CRUZEIRO DO SUL VIRTUAL</strong>
+                    <strong style="color: var(--primary-color);">UDE União para Desenvolvimento de Estudantes</strong>
                 </div>
             </div>
         </div>
@@ -1372,6 +1493,42 @@ const state = {
     notifications: {
         finance: 2,
         menu: 3
+    },
+    currentTheme: localStorage.getItem('appTheme') || 'blue',
+    colorMode: localStorage.getItem('colorMode') || 'auto'
+};
+
+// Temas de cores disponíveis
+const themes = {
+    blue: {
+        primary: '#0f2a44',
+        secondary: '#1f4d7a',
+        accent: '#4db8ff'
+    },
+    green: {
+        primary: '#1b5e20',
+        secondary: '#2e7d32',
+        accent: '#69f0ae'
+    },
+    purple: {
+        primary: '#4a148c',
+        secondary: '#6a1b9a',
+        accent: '#b388ff'
+    },
+    red: {
+        primary: '#b71c1c',
+        secondary: '#d32f2f',
+        accent: '#ff8a80'
+    },
+    orange: {
+        primary: '#e65100',
+        secondary: '#f57c00',
+        accent: '#ffb74d'
+    },
+    'dark-gray': {
+        primary: '#212121',
+        secondary: '#424242',
+        accent: '#9e9e9e'
     }
 };
 
@@ -1383,10 +1540,11 @@ document.addEventListener('DOMContentLoaded', function() {
     setupEventListeners();
     updateUserProfile();
     updateNotifications();
+    applySavedTheme();
     
     // Simular algumas notificações
     setTimeout(() => {
-        showToast('Bem-vindo ao Cruzeiro Virtual App!', 'success');
+        showToast('Bem-vindo ao UDEN Virtual App!', 'success');
     }, 1000);
 });
 
@@ -1422,6 +1580,61 @@ function loadSavedData() {
     } catch (e) {
         console.error('Erro ao carregar preferências:', e);
     }
+}
+
+// Aplicar tema salvo
+function applySavedTheme() {
+    changeTheme(state.currentTheme, true);
+    setColorMode(state.colorMode, true);
+}
+
+// Mudar tema de cores
+function changeTheme(themeName, initial = false) {
+    if (!themes[themeName]) return;
+    
+    state.currentTheme = themeName;
+    localStorage.setItem('appTheme', themeName);
+    
+    const theme = themes[themeName];
+    
+    // Atualizar variáveis CSS
+    document.documentElement.style.setProperty('--primary-color', theme.primary);
+    document.documentElement.style.setProperty('--secondary-color', theme.secondary);
+    document.documentElement.style.setProperty('--accent-color', theme.accent);
+    
+    // Atualizar meta tag theme-color
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', theme.primary);
+    
+    // Atualizar seleção visual
+    if (!initial) {
+        document.querySelectorAll('.color-option').forEach(option => {
+            option.classList.remove('active');
+        });
+        document.querySelector(`.color-option[data-color="${themeName}"]`)?.classList.add('active');
+        
+        showToast(`Tema ${themeName} aplicado!`, 'success');
+    }
+}
+
+// Definir modo de cores
+function setColorMode(mode, initial = false) {
+    state.colorMode = mode;
+    localStorage.setItem('colorMode', mode);
+    
+    // Atualizar seleção visual
+    if (!initial) {
+        document.querySelectorAll('.color-mode-btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        showToast(`Modo ${mode} ativado!`, 'success');
+    }
+}
+
+// Redefinir tema para padrão
+function resetTheme() {
+    changeTheme('blue');
+    setColorMode('auto');
+    showToast('Tema redefinido para padrão!', 'success');
 }
 
 // Atualizar campos do formulário
@@ -1493,11 +1706,6 @@ function updateDocumentModal() {
         </strong><br>
         <small style="color: var(--text-light);">Matrícula: ${userData.matricula} | Turno: ${userData.turno}</small>
     `;
-    
-    // Atualizar título do header se tiver nome
-    if (userData.nome && userData.nome.trim() !== '') {
-        elements.headerTitle.textContent = `Cruzeiro Virtual - ${userData.nome.split(' ')[0]}`;
-    }
 }
 
 // Salvar preferências
@@ -1565,7 +1773,7 @@ function openScreen(id) {
 }
 
 function getMenuIndex(screenId) {
-    const screens = ['perfil', 'login', 'academico', 'financeiro', 'protocolos', 'disciplinas'];
+    const screens = ['perfil', 'login', 'academico', 'financeiro', 'protocolos', 'disciplinas', 'aparencia'];
     return screens.indexOf(screenId);
 }
 
@@ -1730,7 +1938,7 @@ elements.newCardInput.onchange = function(e) {
             elements.photoPlaceholder.style.display = 'none';
             elements.viewBtn.style.display = 'block';
             
-            showToast('Nova carteira solicitada com sucesso!', 'success');
+            showToast('Nova carteira Fisica solicitada com sucesso!', 'success');
             
             setTimeout(() => {
                 showToast('Sua nova carteira será processada em até 48h', 'info');
@@ -1971,4 +2179,3 @@ if ("serviceWorker" in navigator) {
 </script>
 </body>
 </html>
-
