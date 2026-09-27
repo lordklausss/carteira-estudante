@@ -303,29 +303,34 @@ body {
     color: var(--primary-color);
 }
 
-/* Linhas do perfil — label + valor, permite quebra de linha no label */
+/* Linhas do perfil — label pode quebrar, valor nunca quebra */
 .profile-line {
-    display: flex;
-    align-items: baseline;
-    gap: 6px;
-    flex-wrap: wrap;
+    display: block;
     width: 100%;
     margin-bottom: 8px;
+    line-height: 1.5;
 }
 
 .profile-line strong {
-    flex-shrink: 0;
+    color: var(--primary-color);
+    font-weight: 600;
     white-space: normal;
     word-break: break-word;
+    overflow-wrap: anywhere;
 }
 
-.profile-line span {
-    flex: 1 1 auto;
-    min-width: 0;
+.profile-line strong i {
+    width: 20px;
+    margin-right: 6px;
+    color: var(--primary-color);
+}
+
+.profile-line .profile-value {
+    color: var(--text-dark);
     font-size: clamp(0.65rem, 2.4vw, 1rem);
-    overflow-wrap: anywhere;
-    word-break: break-word;
-    display: inline-block;
+    white-space: nowrap;
+    overflow-wrap: normal;
+    word-break: keep-all;
 }
 
 /* Cabeçalho de agrupador (Contatos, Validade, etc.) */
@@ -1137,8 +1142,13 @@ button i, .btn i {
                 </div>
                 
                 <div class="form-group">
-                    <label><i class="fas fa-calendar-alt"></i> Validade:</label>
+                    <label><i class="fas fa-calendar-alt"></i> Validade (valor):</label>
                     <input type="text" id="editValidade" placeholder="Ex: Jan/2026 até Dez/2026">
+                </div>
+                
+                <div class="form-group">
+                    <label><i class="fas fa-tag"></i> Título do campo de Validade:</label>
+                    <input type="text" id="editValidadeLabel" placeholder="Ex: Validade, Vigência, Válido até...">
                 </div>
                 
                 <div class="form-group">
@@ -1519,6 +1529,7 @@ const userData = {
     documento: '70191555100',
     emissor: 'SSP/GO',
     validade: 'Jan/2026 até Dez/2026',
+    validadeLabel: 'Validade',
     cpf: '70191555100',
     matricula: '202312345',
     turno: 'Noturno',
@@ -1711,6 +1722,7 @@ function updateFormFields() {
     document.getElementById('editDocumento').value = userData.documento;
     document.getElementById('editEmissor').value = userData.emissor;
     document.getElementById('editValidade').value = userData.validade;
+    document.getElementById('editValidadeLabel').value = userData.validadeLabel;
     document.getElementById('editCPF').value = userData.cpf;
     document.getElementById('editEmail').value = userData.email;
     document.getElementById('editTelefone').value = userData.telefone;
@@ -1730,19 +1742,19 @@ function updateUserProfile() {
     const linhas = [];
 
     if (userData.nome && userData.nome.trim() !== '') {
-        linhas.push(`<div class="profile-line"><strong><i class="fas fa-user"></i> Nome:</strong> <span>${userData.nome}</span></div>`);
+        linhas.push(`<div class="profile-line"><strong><i class="fas fa-user"></i> Nome:</strong> <span class="profile-value">${userData.nome}</span></div>`);
     }
     if (userData.instituicao && userData.instituicao.trim() !== '') {
-        linhas.push(`<div class="profile-line"><strong><i class="fas fa-university"></i> Instituição:</strong> <span>${userData.instituicao}</span></div>`);
+        linhas.push(`<div class="profile-line"><strong><i class="fas fa-university"></i> Instituição:</strong> <span class="profile-value">${userData.instituicao}</span></div>`);
     }
     if (userData.curso && userData.curso.trim() !== '') {
-        linhas.push(`<div class="profile-line"><strong><i class="fas fa-graduation-cap"></i> Curso:</strong> <span>${userData.curso}</span></div>`);
+        linhas.push(`<div class="profile-line"><strong><i class="fas fa-graduation-cap"></i> Curso:</strong> <span class="profile-value">${userData.curso}</span></div>`);
     }
     if (userData.documento && userData.documento.trim() !== '') {
-        linhas.push(`<div class="profile-line"><strong><i class="fas fa-id-card"></i> Documento de Identificação:</strong> <span>${userData.documento}</span></div>`);
+        linhas.push(`<div class="profile-line"><strong><i class="fas fa-id-card"></i> Documento de Identificação:</strong> <span class="profile-value">${userData.documento}</span></div>`);
     }
     if (userData.emissor && userData.emissor.trim() !== '') {
-        linhas.push(`<div class="profile-line"><strong><i class="fas fa-building"></i> Emissor:</strong> <span>${userData.emissor}</span></div>`);
+        linhas.push(`<div class="profile-line"><strong><i class="fas fa-building"></i> Emissor:</strong> <span class="profile-value">${userData.emissor}</span></div>`);
     }
 
     elements.profileInfoCard.innerHTML = linhas.join('');
@@ -1750,13 +1762,13 @@ function updateUserProfile() {
     // Contatos — também só exibe se preenchido
     const contatos = [];
     if (userData.email && userData.email.trim() !== '') {
-        contatos.push(`<div class="profile-line"><strong><i class="fas fa-envelope"></i> Email:</strong> <span>${userData.email}</span></div>`);
+        contatos.push(`<div class="profile-line"><strong><i class="fas fa-envelope"></i> Email:</strong> <span class="profile-value">${userData.email}</span></div>`);
     }
     if (userData.telefone && userData.telefone.trim() !== '') {
-        contatos.push(`<div class="profile-line"><strong><i class="fas fa-phone"></i> Telefone:</strong> <span>${userData.telefone}</span></div>`);
+        contatos.push(`<div class="profile-line"><strong><i class="fas fa-phone"></i> Telefone:</strong> <span class="profile-value">${userData.telefone}</span></div>`);
     }
     if (userData.local && userData.local.trim() !== '') {
-        contatos.push(`<div class="profile-line"><strong><i class="fas fa-university"></i> Local:</strong> <span>${userData.local}</span></div>`);
+        contatos.push(`<div class="profile-line"><strong><i class="fas fa-university"></i> Local:</strong> <span class="profile-value">${userData.local}</span></div>`);
     }
 
     elements.profileContactsCard.innerHTML = contatos.length
@@ -1766,11 +1778,15 @@ function updateUserProfile() {
     // Se o card de contatos ficar vazio, esconde ele
     elements.profileContactsCard.style.display = contatos.length ? 'block' : 'none';
 
-    // Validade — agrupador separado, só exibe se preenchido
+    // Validade — agrupador separado com título personalizável
+    const validadeLabel = (userData.validadeLabel && userData.validadeLabel.trim() !== '') 
+        ? userData.validadeLabel.trim() 
+        : 'Validade';
+
     if (userData.validade && userData.validade.trim() !== '') {
         elements.profileValidadeCard.innerHTML = `
-            <span class="group-header">Validade</span>
-            <div class="profile-line"><strong><i class="fas fa-calendar-alt"></i> Período:</strong> <span>${userData.validade}</span></div>
+            <span class="group-header">${validadeLabel}</span>
+            <div class="profile-line"><span class="profile-value">${userData.validade}</span></div>
         `;
         elements.profileValidadeCard.style.display = 'block';
     } else {
@@ -1889,6 +1905,7 @@ function salvarDados() {
         userData.documento = document.getElementById('editDocumento').value.trim();
         userData.emissor = document.getElementById('editEmissor').value.trim();
         userData.validade = document.getElementById('editValidade').value.trim();
+        userData.validadeLabel = document.getElementById('editValidadeLabel').value.trim();
         userData.cpf = document.getElementById('editCPF').value.replace(/\D/g, '').trim(); // Remove não-números
         userData.email = document.getElementById('editEmail').value.trim();
         userData.telefone = document.getElementById('editTelefone').value.trim();
