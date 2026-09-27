@@ -303,15 +303,19 @@ body {
     color: var(--primary-color);
 }
 
-/* Linhas do perfil — label pode quebrar, valor nunca quebra */
+/* Linhas do perfil — label à esquerda (pode quebrar), valor à direita (não quebra) */
 .profile-line {
-    display: block;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
     width: 100%;
     margin-bottom: 8px;
     line-height: 1.5;
 }
 
 .profile-line strong {
+    flex: 0 0 auto;
+    max-width: 55%;
     color: var(--primary-color);
     font-weight: 600;
     white-space: normal;
@@ -326,11 +330,14 @@ body {
 }
 
 .profile-line .profile-value {
+    flex: 1 1 auto;
+    min-width: 0;
     color: var(--text-dark);
     font-size: clamp(0.65rem, 2.4vw, 1rem);
     white-space: nowrap;
     overflow-wrap: normal;
     word-break: keep-all;
+    text-align: left;
 }
 
 /* Cabeçalho de agrupador (Contatos, Validade, etc.) */
@@ -1142,11 +1149,6 @@ button i, .btn i {
                 </div>
                 
                 <div class="form-group">
-                    <label><i class="fas fa-calendar-alt"></i> Validade (valor):</label>
-                    <input type="text" id="editValidade" placeholder="Ex: Jan/2026 até Dez/2026">
-                </div>
-                
-                <div class="form-group">
                     <label><i class="fas fa-tag"></i> Título do campo de Validade:</label>
                     <input type="text" id="editValidadeLabel" placeholder="Ex: Validade, Vigência, Válido até...">
                 </div>
@@ -1528,7 +1530,6 @@ const userData = {
     curso: 'Análise de Sistemas',
     documento: '70191555100',
     emissor: 'SSP/GO',
-    validade: 'Jan/2026 até Dez/2026',
     validadeLabel: 'Validade',
     cpf: '70191555100',
     matricula: '202312345',
@@ -1721,7 +1722,6 @@ function updateFormFields() {
     document.getElementById('editCurso').value = userData.curso;
     document.getElementById('editDocumento').value = userData.documento;
     document.getElementById('editEmissor').value = userData.emissor;
-    document.getElementById('editValidade').value = userData.validade;
     document.getElementById('editValidadeLabel').value = userData.validadeLabel;
     document.getElementById('editCPF').value = userData.cpf;
     document.getElementById('editEmail').value = userData.email;
@@ -1783,16 +1783,8 @@ function updateUserProfile() {
         ? userData.validadeLabel.trim() 
         : 'Validade';
 
-    if (userData.validade && userData.validade.trim() !== '') {
-        elements.profileValidadeCard.innerHTML = `
-            <span class="group-header">${validadeLabel}</span>
-            <div class="profile-line"><span class="profile-value">${userData.validade}</span></div>
-        `;
-        elements.profileValidadeCard.style.display = 'block';
-    } else {
-        elements.profileValidadeCard.innerHTML = '';
-        elements.profileValidadeCard.style.display = 'none';
-    }
+    elements.profileValidadeCard.innerHTML = `<span class="group-header">${validadeLabel}</span>`;
+    elements.profileValidadeCard.style.display = 'block';
 
     // Atualizar tela acadêmica
     document.getElementById('academicCurso').textContent = userData.curso || '';
@@ -1904,7 +1896,6 @@ function salvarDados() {
         userData.curso = document.getElementById('editCurso').value.trim();
         userData.documento = document.getElementById('editDocumento').value.trim();
         userData.emissor = document.getElementById('editEmissor').value.trim();
-        userData.validade = document.getElementById('editValidade').value.trim();
         userData.validadeLabel = document.getElementById('editValidadeLabel').value.trim();
         userData.cpf = document.getElementById('editCPF').value.replace(/\D/g, '').trim(); // Remove não-números
         userData.email = document.getElementById('editEmail').value.trim();
