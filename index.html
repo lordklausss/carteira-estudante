@@ -1081,6 +1081,31 @@ button i, .btn i {
                 </div>
                 
                 <div class="form-group">
+                    <label><i class="fas fa-university"></i> Instituição:</label>
+                    <input type="text" id="editInstituicao" placeholder="Digite o nome da instituição">
+                </div>
+                
+                <div class="form-group">
+                    <label><i class="fas fa-graduation-cap"></i> Curso:</label>
+                    <input type="text" id="editCurso" placeholder="Digite seu curso">
+                </div>
+                
+                <div class="form-group">
+                    <label><i class="fas fa-id-card"></i> Documento de Identificação:</label>
+                    <input type="text" id="editDocumento" placeholder="Digite o documento de identificação">
+                </div>
+                
+                <div class="form-group">
+                    <label><i class="fas fa-building"></i> Emissor:</label>
+                    <input type="text" id="editEmissor" placeholder="Digite o órgão emissor">
+                </div>
+                
+                <div class="form-group">
+                    <label><i class="fas fa-calendar-alt"></i> Validade:</label>
+                    <input type="text" id="editValidade" placeholder="Ex: Jan/2026 até Dez/2026">
+                </div>
+                
+                <div class="form-group">
                     <label><i class="fas fa-id-card"></i> CPF:</label>
                     <input type="text" id="editCPF" placeholder="Digite seu CPF (somente números)" maxlength="11">
                 </div>
@@ -1100,11 +1125,6 @@ button i, .btn i {
                 <h3><i class="fas fa-graduation-cap"></i> Dados Acadêmicos</h3>
                 
                 <div class="form-group">
-                    <label><i class="fas fa-graduation-cap"></i> Curso:</label>
-                    <input type="text" id="editCurso" placeholder="Digite seu curso">
-                </div>
-                
-                <div class="form-group">
                     <label><i class="fas fa-id-badge"></i> Matrícula:</label>
                     <input type="text" id="editMatricula" placeholder="Digite sua matrícula">
                 </div>
@@ -1117,11 +1137,6 @@ button i, .btn i {
                         <option value="Noturno">Noturno</option>
                         <option value="Integral">Integral</option>
                     </select>
-                </div>
-                
-                <div class="form-group">
-                    <label><i class="fas fa-calendar-alt"></i> Validade:</label>
-                    <input type="text" id="editValidade" placeholder="Ex: Jan/2026 até Dez/2026">
                 </div>
                 
                 <div class="form-group">
@@ -1451,10 +1466,13 @@ const elements = {
 // Dados do usuário
 const userData = {
     nome: 'Claudio Filho Rodrigues',
-    cpf: '70191555100',
+    instituicao: 'UDE União para Desenvolvimento de Estudantes',
     curso: 'Análise de Sistemas',
-    matricula: '202312345',
+    documento: '70191555100',
+    emissor: 'SSP/GO',
     validade: 'Jan/2026 até Dez/2026',
+    cpf: '70191555100',
+    matricula: '202312345',
     turno: 'Noturno',
     email: 'claudio_frds@live.com',
     telefone: '(62) 98529-8782',
@@ -1640,12 +1658,15 @@ function resetTheme() {
 // Atualizar campos do formulário
 function updateFormFields() {
     document.getElementById('editNome').value = userData.nome;
-    document.getElementById('editCPF').value = userData.cpf;
+    document.getElementById('editInstituicao').value = userData.instituicao;
     document.getElementById('editCurso').value = userData.curso;
-    document.getElementById('editMatricula').value = userData.matricula;
+    document.getElementById('editDocumento').value = userData.documento;
+    document.getElementById('editEmissor').value = userData.emissor;
     document.getElementById('editValidade').value = userData.validade;
+    document.getElementById('editCPF').value = userData.cpf;
     document.getElementById('editEmail').value = userData.email;
     document.getElementById('editTelefone').value = userData.telefone;
+    document.getElementById('editMatricula').value = userData.matricula;
     document.getElementById('editTurno').value = userData.turno;
     document.getElementById('editLocal').value = userData.local;
     document.getElementById('editDisciplinas').value = userData.disciplinas;
@@ -1665,9 +1686,10 @@ function updateUserProfile() {
     // Atualizar tela de perfil
     elements.profileInfoCard.innerHTML = `
         <strong><i class="fas fa-user"></i> Nome:</strong> ${userData.nome}<br>
+        <strong><i class="fas fa-university"></i> Instituição:</strong> ${userData.instituicao}<br>
         <strong><i class="fas fa-graduation-cap"></i> Curso:</strong> ${userData.curso}<br>
-        <strong><i class="fas fa-id-badge"></i> Matrícula:</strong> ${userData.matricula}<br>
-        <strong><i class="fas fa-clock"></i> Turno:</strong> ${userData.turno}<br>
+        <strong><i class="fas fa-id-card"></i> Documento de Identificação:</strong> ${userData.documento}<br>
+        <strong><i class="fas fa-building"></i> Emissor:</strong> ${userData.emissor}<br>
         <strong><i class="fas fa-calendar-alt"></i> Validade:</strong> ${userData.validade}
     `;
     
@@ -1784,12 +1806,15 @@ function salvarDados() {
     try {
         // Coletar dados do formulário
         userData.nome = document.getElementById('editNome').value.trim();
-        userData.cpf = document.getElementById('editCPF').value.replace(/\D/g, '').trim(); // Remove não-números
+        userData.instituicao = document.getElementById('editInstituicao').value.trim();
         userData.curso = document.getElementById('editCurso').value.trim();
-        userData.matricula = document.getElementById('editMatricula').value.trim();
+        userData.documento = document.getElementById('editDocumento').value.trim();
+        userData.emissor = document.getElementById('editEmissor').value.trim();
         userData.validade = document.getElementById('editValidade').value.trim();
+        userData.cpf = document.getElementById('editCPF').value.replace(/\D/g, '').trim(); // Remove não-números
         userData.email = document.getElementById('editEmail').value.trim();
         userData.telefone = document.getElementById('editTelefone').value.trim();
+        userData.matricula = document.getElementById('editMatricula').value.trim();
         userData.turno = document.getElementById('editTurno').value;
         userData.local = document.getElementById('editLocal').value.trim();
         userData.disciplinas = document.getElementById('editDisciplinas').value.trim();
