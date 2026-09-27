@@ -303,31 +303,40 @@ body {
     color: var(--primary-color);
 }
 
-/* Linhas do perfil — label + valor sempre na mesma linha, com fonte ajustável */
+/* Linhas do perfil — label + valor, permite quebra de linha no label */
 .profile-line {
     display: flex;
     align-items: baseline;
     gap: 6px;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     width: 100%;
-    margin-bottom: 6px;
-    white-space: nowrap;
-    overflow: hidden;
+    margin-bottom: 8px;
 }
 
 .profile-line strong {
     flex-shrink: 0;
-    white-space: nowrap;
+    white-space: normal;
+    word-break: break-word;
 }
 
 .profile-line span {
     flex: 1 1 auto;
     min-width: 0;
     font-size: clamp(0.65rem, 2.4vw, 1rem);
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    overflow-wrap: anywhere;
+    word-break: break-word;
     display: inline-block;
+}
+
+/* Cabeçalho de agrupador (Contatos, Validade, etc.) */
+.group-header {
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--bg-hover);
+    color: var(--primary-color);
+    font-weight: 700;
 }
 
 /* FORMULÁRIO DE LOGIN */
@@ -1071,9 +1080,6 @@ button i, .btn i {
             <button onclick="openImage()" id="viewBtn" style="display: none;">
                 <i class="fas fa-eye"></i> Visualizar Carteira
             </button>
-            <button onclick="solicitarNovaCarteira()">
-                <i class="fas fa-sync-alt"></i> Solicitar Carteira Fisica
-            </button>
 
             <input type="file" id="photoInput" accept="image/*" hidden>
             <input type="file" id="newCardInput" accept="image/*" hidden>
@@ -1085,8 +1091,10 @@ button i, .btn i {
             <div class="card" id="profileContactsCard">
                 <!-- Conteúdo carregado dinamicamente -->
             </div>
-            
-            <!-- REMOVIDO O BOTÃO "Editar Meus Dados" DA TELA INICIAL -->
+
+            <div class="card" id="profileValidadeCard">
+                <!-- Conteúdo carregado dinamicamente -->
+            </div>
         </div>
 
         <!-- EDITAR PERFIL -->
@@ -1189,6 +1197,17 @@ button i, .btn i {
                     <label><i class="fas fa-book"></i> Lista de Disciplinas:</label>
                     <textarea id="editDisciplinas" placeholder="Digite as disciplinas, uma por linha"></textarea>
                 </div>
+            </div>
+
+            <div class="form-section">
+                <h3><i class="fas fa-sync-alt"></i> Carteira Física</h3>
+                <div class="card" style="margin-bottom: 15px; background: rgba(77, 184, 255, 0.05);">
+                    <strong><i class="fas fa-info-circle"></i> Instruções:</strong> 
+                    Solicite aqui a emissão ou reemissão da sua carteira física. Você pode enviar uma nova foto ao solicitar.
+                </div>
+                <button onclick="solicitarNovaCarteira()">
+                    <i class="fas fa-sync-alt"></i> Solicitar Carteira Fisica
+                </button>
             </div>
             
             <button onclick="salvarDados()" class="btn-success">
@@ -1486,6 +1505,7 @@ const elements = {
     menuItems: document.querySelectorAll('.sidebar li'),
     profileInfoCard: document.getElementById('profileInfoCard'),
     profileContactsCard: document.getElementById('profileContactsCard'),
+    profileValidadeCard: document.getElementById('profileValidadeCard'),
     docInfoCard: document.getElementById('docInfoCard'),
     docCourseCard: document.getElementById('docCourseCard'),
     headerTitle: document.getElementById('headerTitle')
@@ -1724,9 +1744,6 @@ function updateUserProfile() {
     if (userData.emissor && userData.emissor.trim() !== '') {
         linhas.push(`<div class="profile-line"><strong><i class="fas fa-building"></i> Emissor:</strong> <span>${userData.emissor}</span></div>`);
     }
-    if (userData.validade && userData.validade.trim() !== '') {
-        linhas.push(`<div class="profile-line"><strong><i class="fas fa-calendar-alt"></i> Validade:</strong> <span>${userData.validade}</span></div>`);
-    }
 
     elements.profileInfoCard.innerHTML = linhas.join('');
 
@@ -1743,11 +1760,23 @@ function updateUserProfile() {
     }
 
     elements.profileContactsCard.innerHTML = contatos.length
-        ? `<strong>Contatos</strong>${contatos.join('')}`
+        ? `<span class="group-header">Contatos</span>${contatos.join('')}`
         : '';
 
     // Se o card de contatos ficar vazio, esconde ele
     elements.profileContactsCard.style.display = contatos.length ? 'block' : 'none';
+
+    // Validade — agrupador separado, só exibe se preenchido
+    if (userData.validade && userData.validade.trim() !== '') {
+        elements.profileValidadeCard.innerHTML = `
+            <span class="group-header">Validade</span>
+            <div class="profile-line"><strong><i class="fas fa-calendar-alt"></i> Período:</strong> <span>${userData.validade}</span></div>
+        `;
+        elements.profileValidadeCard.style.display = 'block';
+    } else {
+        elements.profileValidadeCard.innerHTML = '';
+        elements.profileValidadeCard.style.display = 'none';
+    }
 
     // Atualizar tela acadêmica
     document.getElementById('academicCurso').textContent = userData.curso || '';
